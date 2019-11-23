@@ -95,7 +95,7 @@ public class Menu extends Activity {
         MenuItemList.add(new MenuListItem(MenuTitles[7], MenuIcons.getResourceId(7, -1)));
         MenuItemList.add(new MenuListItem(MenuTitles[8], MenuIcons.getResourceId(8, -1)));
         MenuItemList.add(new MenuListItem(MenuTitles[9], MenuIcons.getResourceId(9, -1)));
-//        MenuItemList.add(new MenuListItem(MenuTitles[10], MenuIcons.getResourceId(10, -1)));
+        MenuItemList.add(new MenuListItem(MenuTitles[10], MenuIcons.getResourceId(10, -1)));
 
         MenuList = menuActivity.findViewById(R.id.me_list);
         MenuListAdapter = new MenuListAdapter(menuActivity, MenuItemList);
@@ -327,41 +327,41 @@ public class Menu extends Activity {
                 menuActivity.finish();
                 break;
 
-//            case 3:
-//
-//                Intent HomeAssistant = new Intent(menuActivity, fmt.febe.HomeAssistant.class);
-//                menuActivity.startActivity(HomeAssistant);
-//                break;
-
             case 3:
+
+                Intent HomeAssistant = new Intent(menuActivity, fmt.febe.HomeAssistant.class);
+                menuActivity.startActivity(HomeAssistant);
+                break;
+
+            case 4:
 
                 Intent Maps = new Intent(menuActivity, fmt.febe.Maps.class);
                 menuActivity.startActivity(Maps);
                 menuActivity.finish();
                 break;
 
-            case 4:
+            case 5:
 
                 Intent WeatherForecast = new Intent(menuActivity, fmt.febe.WeatherForecast.class);
                 menuActivity.startActivity(WeatherForecast);
                 menuActivity.finish();
                 break;
 
-            case 5:
+            case 6:
 
                 Intent ANR = new Intent(menuActivity, fmt.febe.ANR.class);
                 menuActivity.startActivity(ANR);
                 menuActivity.finish();
                 break;
 
-            case 6:
+            case 7:
 
                 Intent ContactUs = new Intent(menuActivity, fmt.febe.ContactUs.class);
                 menuActivity.startActivity(ContactUs);
                 menuActivity.finish();
                 break;
 
-            case 7:
+            case 8:
 
                 String appPackageName = menuActivity.getPackageName();
 
@@ -377,7 +377,7 @@ public class Menu extends Activity {
 
                 break;
 
-            case 8:
+            case 9:
 
                 String appDeveloperId = "8919005167984199925";
 
@@ -393,7 +393,7 @@ public class Menu extends Activity {
 
                 break;
 
-            case 9:
+            case 10:
 
                 logout();
                 break;

@@ -30,7 +30,7 @@
         <item>Home</item>
         <item>Messenger</item>
         <item>Social Media Tasks</item>
-        <!--<item>Home Assistant</item>-->
+        <item>Home Assistant</item>
         <item>Maps</item>
         <item>Weather Forecast</item>
         <item>Alarms, Notes and Reminders</item>
@@ -44,7 +44,7 @@
         <item>@drawable/me_home</item>
         <item>@drawable/me_messenger</item>
         <item>@drawable/me_soc_media</item>
-        <!--<item>@drawable/me_home_assistant</item>-->
+        <item>@drawable/me_home_assistant</item>
         <item>@drawable/me_maps</item>
         <item>@drawable/me_weather_forecast</item>
         <item>@drawable/me_anr</item>
