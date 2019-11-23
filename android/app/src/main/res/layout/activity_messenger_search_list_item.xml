@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@color/colorPrimaryTransparent77"
+        android:background="@color/colorSecondaryTransparent77"
         android:layout_margin="10dp">
 
         <TextView
@@ -22,17 +22,17 @@
             android:autoLink="web"
             android:textSize="15sp"
             android:textStyle="bold"
-            android:textColor="@color/colorSecondary"/>
+            android:textColor="@color/colorPrimary"/>
 
         <Button
             android:id="@+id/mes_search_list_more"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/mes_search_more"
+            android:text="SEARCH MORE"
             android:visibility="gone"
             android:textColor="@color/colorPrimary"
-            android:background="@color/colorSecondary"
+            android:background="@color/colorSecondaryTransparent77"
             android:layout_margin="5dp"
             android:padding="5dp"
             android:textStyle="bold"/>

@@ -10,7 +10,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -39,9 +38,9 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+//import com.google.android.gms.ads.AdRequest;
+//import com.google.android.gms.ads.AdView;
 import com.android.volley.toolbox.Volley;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -60,8 +59,6 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import fmt.febe.helper.BasicFunctions;
-import fmt.febe.helper.Menu;
 import fmt.febe.model.ChatRoom;
 
 
@@ -77,6 +74,7 @@ public class Messenger extends AppCompatActivity {
     ListViewAdapter SearchListAdapter;
     ArrayList<ItemList> searcharraylist = new ArrayList<>();
 
+
     private ArrayList<ChatRoom> chatRoomArrayList = new ArrayList<>();
 
     private ChatMainAdapter mAdapter;
@@ -89,9 +87,10 @@ public class Messenger extends AppCompatActivity {
 
     private int load_over = 0;
 
+
     ImageButton MENU_BUTTON, MES_CANCEL;
 
-    private fmt.febe.helper.Menu menu;
+    private fmt.febe.Menu menu;
 
     private String chat_room_id, mp_userid, mp_username;
 
@@ -108,7 +107,7 @@ public class Messenger extends AppCompatActivity {
 
         setContentView(R.layout.activity_messenger);
 
-        menu = new Menu(Messenger.this);
+        menu = new fmt.febe.Menu(Messenger.this);
 
         basicFunctions = new BasicFunctions(this);
 
@@ -128,11 +127,7 @@ public class Messenger extends AppCompatActivity {
         Intent intent = getIntent();
         int not_count = intent.getIntExtra("unreadNotificationCount", 0);
 
-        AdView mAdView = findViewById(R.id.mes_adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
-
-        if (not_count > 0)
+        if(not_count > 0)
             MES_NOT_COUNT.setText("" + not_count);
 
         search_list = findViewById(R.id.mes_search_list);
@@ -184,6 +179,15 @@ public class Messenger extends AppCompatActivity {
             }
         });
 
+
+
+        /*
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+        */
+
+
         MENU_BUTTON = findViewById(R.id.mes_menu);
 
         MENU_BUTTON.setOnClickListener(new View.OnClickListener() {
@@ -214,52 +218,35 @@ public class Messenger extends AppCompatActivity {
                     @Override
                     public void run() {
 
-                        int index = chatRoomArrayList.size();
+                    int index = chatRoomArrayList.size();
 
-                        getMoreChatRooms(index);
+                    getMoreChatRooms(index);
 
-                        mAdapter.notifyDataSetChanged();
-                        mAdapter.setLoaded();
+                    mAdapter.notifyDataSetChanged();
+                    mAdapter.setLoaded();
 
                     }
                 }, 1000);
             }
         });
 
-        if (basicFunctions.isConnectingToInternet())
-            fetchChat();
+        if (basicFunctions.isConnectingToInternet()) {
 
-        else {
+            pDialog = ProgressDialog.show(Messenger.this, "", "Fetching Chat List ... ", false, false);
+
+            getInitialChatRooms();
+
+
+        } else {
 
             DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    switch (which) {
-
+                    switch (which){
                         case DialogInterface.BUTTON_POSITIVE:
 
-                            if (basicFunctions.isConnectingToInternet())
-                                fetchChat();
-
-                            else {
-
-                                Toast.makeText(Messenger.this,
-                                        "No Internet Connection. Try again later !",
-                                        Toast.LENGTH_LONG).show();
-
-                                dialog.dismiss();
-
-                            }
-
-                            break;
-
-                        case DialogInterface.BUTTON_NEGATIVE:
-
-                            Toast.makeText(Messenger.this,
-                                    "No Internet Connection. Try again later !",
-                                    Toast.LENGTH_LONG).show();
-
-                            dialog.dismiss();
+                            Intent intent = new Intent(Messenger.this, Messenger.class);
+                            startActivity(intent);
 
                             break;
 
@@ -267,21 +254,11 @@ public class Messenger extends AppCompatActivity {
                 }
             };
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(Messenger.this);
-            builder.setMessage("No Internet Connection. Try again ?")
-                    .setPositiveButton("Yes", dialogClickListener)
-                    .setNegativeButton("No", dialogClickListener).show();
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Network Failure : Please check your Internet Connection !")
+                    .setPositiveButton("Try Again ... ", dialogClickListener).show();
 
         }
-
-    }
-
-
-    private void fetchChat() {
-
-        pDialog = ProgressDialog.show(Messenger.this, "", "Fetching Chat List ... ", false, false);
-
-        getInitialChatRooms();
 
     }
 
@@ -300,7 +277,9 @@ public class Messenger extends AppCompatActivity {
 
                     JSONArray chatRoomsArray = obj.getJSONArray("chat_rooms");
 
-                    if (chatRoomsArray.length() <= 0) {
+                    System.out.println("HI come" + response);
+
+                    if(chatRoomsArray.length() <= 0) {
 
                         Toast.makeText(Messenger.this, "Your Chat List is empty !", Toast.LENGTH_LONG).show();
                         pDialog.dismiss();
@@ -327,7 +306,7 @@ public class Messenger extends AppCompatActivity {
 
                         chatRoomArrayList.add(cr);
 
-                        if (i == chatRoomsArray.length() - 1)
+                        if(i == chatRoomsArray.length() - 1)
                             pDialog.dismiss();
 
                     }
@@ -356,6 +335,7 @@ public class Messenger extends AppCompatActivity {
                         DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         basicFunctions.addToRequestQueue(strReq);
+
 
     }
 
@@ -409,9 +389,8 @@ public class Messenger extends AppCompatActivity {
             isLoading = false;
         }
 
-        @NonNull
         @Override
-        public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
             View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_messenger_list_row, parent, false);
 
@@ -421,42 +400,43 @@ public class Messenger extends AppCompatActivity {
 
         @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
         @Override
-        public void onBindViewHolder(@NonNull final ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
+        public void onBindViewHolder(final ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
 
             ChatRoom chatRoom = chatRoomArrayList.get(position);
 
-            if (basicFunctions.getUser_name().equals(chatRoom.getUser1_name())) {
+            if(basicFunctions.getUser_name().equals(chatRoom.getUser1_name())) {
 
                 holder.username.setText(chatRoom.getUser2_name());
 
-                if (chatRoom.getUser2_online().equals("1"))
-                    holder.user_online.setVisibility(View.VISIBLE);
+                if(chatRoom.getUser2_online().equals("1"))
+                    holder.useronline.setVisibility(View.VISIBLE);
 
                 else
-                    holder.user_online.setVisibility(View.GONE);
+                    holder.useronline.setVisibility(View.GONE);
 
-                if (chatRoom.getUser1_read().equals("1"))
-                    holder.user_read.setVisibility(View.VISIBLE);
+                if(chatRoom.getUser1_read().equals("1"))
+                    holder.userread.setVisibility(View.VISIBLE);
 
                 else
-                    holder.user_read.setVisibility(View.GONE);
+                    holder.userread.setVisibility(View.GONE);
 
-            } else {
+            }
+
+            else {
 
                 holder.username.setText(chatRoom.getUser1_name());
 
-                if (chatRoom.getUser1_online().equals("1"))
-                    holder.user_online.setVisibility(View.VISIBLE);
+                if(chatRoom.getUser1_online().equals("1"))
+                    holder.useronline.setVisibility(View.VISIBLE);
 
                 else
-                    holder.user_online.setVisibility(View.GONE);
+                    holder.useronline.setVisibility(View.GONE);
 
-                if (chatRoom.getUser2_read().equals("1"))
-                    holder.user_read.setVisibility(View.VISIBLE);
+                if(chatRoom.getUser2_read().equals("1"))
+                    holder.userread.setVisibility(View.VISIBLE);
 
                 else
-                    holder.user_read.setVisibility(View.GONE);
-
+                    holder.userread.setVisibility(View.GONE);
 
             }
 
@@ -493,42 +473,17 @@ public class Messenger extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
 
-                    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    ChatRoom chatRoom = chatRoomArrayList.get(position);
 
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                    String method = "chat";
+                    DeleteChatBackgroundTask deleteChatBackgroundTask = new DeleteChatBackgroundTask(Messenger.this);
+                    deleteChatBackgroundTask.execute(method, chatRoom.getId(), basicFunctions.getUser_id());
 
-                            switch (which) {
+                    chatRoomArrayList.remove(chatRoom);
 
-                                case DialogInterface.BUTTON_POSITIVE:
+                    Toast.makeText(Messenger.this, "Chat removed from Chat List !", Toast.LENGTH_LONG).show();
 
-                                    ChatRoom chatRoom = chatRoomArrayList.get(position);
-
-                                    String method = "chat";
-                                    DeleteChatBackgroundTask deleteChatBackgroundTask = new DeleteChatBackgroundTask(Messenger.this);
-                                    deleteChatBackgroundTask.execute(method, chatRoom.getId(), basicFunctions.getUser_id());
-
-                                    chatRoomArrayList.remove(chatRoom);
-
-                                    Toast.makeText(Messenger.this, "Chat removed from Chat List !", Toast.LENGTH_LONG).show();
-
-                                    mAdapter.notifyDataSetChanged();
-
-
-                                    break;
-
-                                case DialogInterface.BUTTON_NEGATIVE:
-
-                                    Toast.makeText(Messenger.this, "Deletion Cancelled !", Toast.LENGTH_LONG).show();
-
-                                    break;
-                            }
-                        }
-                    };
-
-                    AlertDialog.Builder builder = new AlertDialog.Builder(Messenger.this);
-                    builder.setMessage("Are you sure you want to delete this Chat ?").setPositiveButton("Yes", dialogClickListener)
-                            .setNegativeButton("No", dialogClickListener).show();
+                    mAdapter.notifyDataSetChanged();
 
                 }
             });
@@ -561,7 +516,7 @@ public class Messenger extends AppCompatActivity {
 
                     JSONArray chatRoomsArray = obj.getJSONArray("chat_rooms");
 
-                    if (chatRoomsArray.length() == 0) {
+                    if(chatRoomsArray.length() == 0) {
 
                         Toast.makeText(Messenger.this, "No more Chats to display !", Toast.LENGTH_LONG).show();
                         load_over = 1;
@@ -589,7 +544,7 @@ public class Messenger extends AppCompatActivity {
 
                         chatRoomArrayList.add(cr);
 
-                        if (i == chatRoomsArray.length() - 1)
+                        if(i == chatRoomsArray.length() - 1)
                             pDialog.dismiss();
 
                     }
@@ -617,7 +572,7 @@ public class Messenger extends AppCompatActivity {
                         -1,
                         DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
-        basicFunctions.addToRequestQueue(strReq);
+       basicFunctions.addToRequestQueue(strReq);
 
     }
 
@@ -665,20 +620,22 @@ public class Messenger extends AppCompatActivity {
                     OutputStream OS = httpURLConnection.getOutputStream();
                     BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(OS, "UTF-8"));
 
+
                     String data = URLEncoder.encode("chat_room_id", "UTF-8") + "=" + URLEncoder.encode(chat_room_id, "UTF-8")
                             + "&" + URLEncoder.encode("user_id", "UTF-8") + "=" + URLEncoder.encode(user_id, "UTF-8");
+
 
                     bufferedWriter.write(data);
                     bufferedWriter.flush();
                     bufferedWriter.close();
                     OS.close();
                     InputStream IS = httpURLConnection.getInputStream();
-                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(IS, "iso-8859-1"));
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(IS,"iso-8859-1"));
 
                     StringBuilder response = new StringBuilder();
                     String line;
 
-                    while ((line = bufferedReader.readLine()) != null) {
+                    while((line = bufferedReader.readLine())!=null)  {
                         response.append(line);
                     }
                     bufferedReader.close();
@@ -702,13 +659,13 @@ public class Messenger extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
 
-            switch (result) {
+            switch(result){
 
                 case "Chat removed from Chat List !":
 
                     pDialog.dismiss();
 
-                    if (chatRoomArrayList.size() == 0)
+                    if(chatRoomArrayList.size() == 0)
                         Toast.makeText(Messenger.this, "Your Chat List is empty !", Toast.LENGTH_LONG).show();
 
                     break;
@@ -729,20 +686,19 @@ public class Messenger extends AppCompatActivity {
 
         private TextView username, timestamp;
         private ImageButton delete;
-        private ImageView user_online, user_read;
+        private ImageView useronline, userread;
 
         private ViewHolder(View view) {
             super(view);
 
             username = view.findViewById(R.id.mes_i_username);
             timestamp = view.findViewById(R.id.mes_i_timestamp);
-            user_read = view.findViewById(R.id.mes_i_userread);
-            user_online = view.findViewById(R.id.mes_i_useronline);
+            userread = view.findViewById(R.id.mes_i_userread);
+            useronline = view.findViewById(R.id.mes_i_useronline);
             delete = view.findViewById(R.id.mes_i_deletebutton);
 
         }
     }
-
 
     private void searchData(String searchText, final int index) {
 
@@ -766,7 +722,9 @@ public class Messenger extends AppCompatActivity {
                         search_list.setVisibility(View.GONE);
                         Toast.makeText(Messenger.this, "No Profiles Found !", Toast.LENGTH_LONG).show();
 
-                    } else if (SearchProfileArray.length() == 0)
+                    }
+
+                    else if(SearchProfileArray.length() == 0)
                         Toast.makeText(Messenger.this, "No More Profiles Found !", Toast.LENGTH_LONG).show();
 
                     else
@@ -780,7 +738,7 @@ public class Messenger extends AppCompatActivity {
                         ItemList itemList = new ItemList(jsonObject.getString(basicFunctions.KEY_USER_ID),
                                 jsonObject.getString(basicFunctions.KEY_USER_USERNAME));
 
-                        if (!itemList.getUserid().equals(basicFunctions.getUser_id()))
+                        if(!itemList.getUserid().equals(basicFunctions.getUser_id()))
                             searcharraylist.add(itemList);
 
 
@@ -864,7 +822,9 @@ public class Messenger extends AppCompatActivity {
 
                 view.setTag(holder);
 
-            } else holder = (ViewHolder) view.getTag();
+            }
+
+            else holder = (ViewHolder) view.getTag();
 
             holder.TV_USERNAME.setText(searcharraylist.get(position).getUsername());
 
@@ -882,7 +842,7 @@ public class Messenger extends AppCompatActivity {
                 }
             });
 
-            if (position == (searcharraylist.size() - 1))
+            if(position == (searcharraylist.size() - 1))
                 holder.B_SHOW_MORE.setVisibility(View.VISIBLE);
 
             holder.B_SHOW_MORE.setOnClickListener(new View.OnClickListener() {
@@ -986,7 +946,7 @@ public class Messenger extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
 
-            switch (result) {
+            switch (result){
 
                 case "A Chat request has been sent to this User !":
 

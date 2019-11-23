@@ -15,7 +15,7 @@ if($method === "ContactUs"){
         'X-Mailer: PHP/' . phpversion();
 	
     if(mail($to_email, $subject, $message, $headers))
-		echo "Thank You for your message, kindly wait until our Team responds to it !";
+		echo "Your Message has been sent : Kindly wait until our Team responds to your Message !";
 	
 	else
 		echo "Sending Email Failed !";
@@ -24,11 +24,11 @@ if($method === "ContactUs"){
 
 else if($method === "RecoverPassword"){
     
-    $headers = 'From: Feb <fmt.febulous@gmail.com>' . "\r\n" .
-        'Reply-To: Feb <fmt.febulous@gmail.com>' . "\r\n" .
+    $headers = 'From: Febulous <fmt.febulous@gmail.com>' . "\r\n" .
+        'Reply-To: Febulous <fmt.febulous@gmail.com>' . "\r\n" .
         'X-Mailer: PHP/' . phpversion();
 	
-	$sql = "SELECT username, password FROM feb_profile WHERE email = '".addslashes($to_email)."'";
+	$sql = "SELECT username, password FROM febe_profile WHERE email = '".addslashes($to_email)."'";
 
 	$res = mysqli_query($con, $sql);
 

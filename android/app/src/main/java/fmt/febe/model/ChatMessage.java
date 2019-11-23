@@ -10,8 +10,7 @@ public class ChatMessage implements Serializable {
 
     private ChatUser chatUser;
 
-    public ChatMessage() {
-    }
+    public ChatMessage() {}
 
     public String getId() {
         return message_id;

@@ -1,15 +1,19 @@
 package fmt.febe;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.AsyncTask;
-import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
+import android.os.Bundle;
 import android.support.v4.content.res.ResourcesCompat;
 import android.text.TextUtils;
 import android.view.View;
@@ -47,10 +51,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import fmt.febe.helper.BasicFunctions;
-import fmt.febe.helper.LocationFinder;
-import fmt.febe.helper.Menu;
-
 
 public class Maps extends FragmentActivity implements OnMapReadyCallback {
 
@@ -73,15 +73,11 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
 
     SupportMapFragment mapFragment;
 
-    private BasicFunctions basicFunctions;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-
-        basicFunctions = new BasicFunctions(Maps.this);
 
         menu = new Menu(Maps.this);
 
@@ -96,7 +92,7 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
         IB_ZOOM_IN = findViewById(R.id.ma_zoom_in);
         IB_ZOOM_OUT = findViewById(R.id.ma_zoom_out);
 
-        mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.ma_map);
+        mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
 
         IB_MENU.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,53 +103,17 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
             }
         });
 
-        if (basicFunctions.isConnectingToInternet())
-            mapFragment.getMapAsync(Maps.this);
+        if (ActivityCompat.checkSelfPermission(Maps.this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(Maps.this,
+                        Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-        else {
-
-            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    switch (which) {
-
-                        case DialogInterface.BUTTON_POSITIVE:
-
-                            if (basicFunctions.isConnectingToInternet())
-                                mapFragment.getMapAsync(Maps.this);
-
-                            else {
-
-                                Toast.makeText(Maps.this,
-                                        "No Internet Connection. Try again later !",
-                                        Toast.LENGTH_LONG).show();
-
-                                dialog.dismiss();
-
-                            }
-
-                            break;
-
-                        case DialogInterface.BUTTON_NEGATIVE:
-
-                            Toast.makeText(Maps.this,
-                                    "No Internet Connection. Try again later !",
-                                    Toast.LENGTH_LONG).show();
-
-                            dialog.dismiss();
-
-                            break;
-
-                    }
-                }
-            };
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(Maps.this);
-            builder.setMessage("No Internet Connection. Try again ?")
-                    .setPositiveButton("Yes", dialogClickListener)
-                    .setNegativeButton("No", dialogClickListener).show();
+            ActivityCompat.requestPermissions(Maps.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
 
         }
+
+        else
+            mapFragment.getMapAsync(this);
 
         IB_SEARCH.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -220,34 +180,24 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
     }
 
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-
-        mMap = googleMap;
-
-        setCurrentLocation();
-
-    }
-
-
     private void sendRequest() {
 
         String from = ET_FROM.getText().toString();
 
         String to = ET_TO.getText().toString();
 
-        if (TextUtils.isEmpty(from))
+        if(TextUtils.isEmpty(from))
             ET_FROM.setError("Type in the From Location !");
 
-        else if (TextUtils.isEmpty(to))
+        else if(TextUtils.isEmpty(to))
             ET_FROM.setError("Type in the To Location !");
 
         else {
 
-            if (from.equals("Your Location"))
+            if(from.equals("Your Location"))
                 from = getCurrentLocation();
 
-            else if (to.equals("Your Location"))
+            else if(to.equals("Your Location"))
                 to = getCurrentLocation();
 
             try {
@@ -265,11 +215,46 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
     }
 
 
-    private String getCurrentLocation() {
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
 
-        LocationFinder finder;
+        switch (requestCode) {
 
-        finder = new LocationFinder(this);
+            case 0: {
+
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                    mapFragment.getMapAsync(this);
+
+                else {
+
+                    Toast.makeText(Maps.this, "Kindly grant Location permission to continue !", Toast.LENGTH_LONG).show();
+                    finish();
+
+                }
+
+                break;
+            }
+
+            default:
+                break;
+
+        }
+    }
+
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+
+        mMap = googleMap;
+
+        setCurrentLocation();
+
+    }
+
+
+    private String getCurrentLocation(){
+
+        LatLng currentLocation = getLocation();
 
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
 
@@ -277,7 +262,7 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
 
         try {
 
-            addresses = geocoder.getFromLocation(finder.getLatitude(), finder.getLongitude(), 1);
+            addresses = geocoder.getFromLocation(currentLocation.latitude, currentLocation.longitude, 1);
 
         } catch (IOException e) {
 
@@ -293,13 +278,9 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
 
 
     @SuppressLint("MissingPermission")
-    private void setCurrentLocation() {
+    private void setCurrentLocation(){
 
-        LocationFinder finder;
-
-        finder = new LocationFinder(this);
-
-        LatLng currentLocation = new LatLng(finder.getLatitude(), finder.getLongitude());
+        LatLng currentLocation = getLocation();
 
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 16));
 
@@ -311,6 +292,38 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
         mMap.setMyLocationEnabled(false);
 
     }
+
+
+    @SuppressLint("MissingPermission")
+    private LatLng getLocation(){
+
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        assert locationManager != null;
+
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 10, new Listener());
+
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 10, new Listener());
+
+        android.location.Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+        if (location == null)
+            location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+        return new LatLng(location.getLatitude(), location.getLongitude());
+
+    }
+
+
+    private class Listener implements LocationListener {
+
+        public void onLocationChanged(android.location.Location location) {}
+        public void onProviderDisabled(String provider){}
+        public void onProviderEnabled(String provider){}
+        public void onStatusChanged(String provider, int status, Bundle extras){}
+
+    }
+
 
     private class DirectionFinder {
 
@@ -496,7 +509,7 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
             }
 
             if (polylinePaths != null) {
-                for (Polyline polyline : polylinePaths) {
+                for (Polyline polyline:polylinePaths ) {
                     polyline.remove();
                 }
             }
@@ -509,7 +522,7 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
 
             progressDialog.dismiss();
 
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
             assert imm != null;
             imm.hideSoftInputFromWindow(ET_FROM.getWindowToken(), 0);
             imm.hideSoftInputFromWindow(ET_TO.getWindowToken(), 0);
@@ -549,7 +562,7 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
 
                 PolylineOptions polylineOptions = new PolylineOptions().
                         geodesic(true).
-                        color(ResourcesCompat.getColor(getResources(), R.color.colorPrimary, null)).
+                        color(ResourcesCompat.getColor(getResources(), R.color.colorSecondary, null)).
                         width(8);
 
                 for (int i = 0; i < route.points.size(); i++)

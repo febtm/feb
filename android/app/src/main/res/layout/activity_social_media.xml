@@ -29,7 +29,7 @@
             android:textAllCaps="true"
             android:text="@string/social_media"
             android:textSize="18sp"
-            android:textColor="@color/colorSecondary" />
+            android:textColor="@color/colorPrimary" />
 
         <ImageView
             android:layout_width="40dp"
@@ -73,9 +73,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/sm_send_an_email"
                 android:layout_margin="10dp"
-                android:textAllCaps="true"
                 android:gravity="center"
-                android:textColor="@color/colorSecondary"
+                android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
                 android:textSize="16sp"/>
 
@@ -102,9 +101,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/sm_facebook_share"
                 android:layout_margin="10dp"
-                android:textAllCaps="true"
                 android:gravity="center"
-                android:textColor="@color/colorSecondary"
+                android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
                 android:textSize="16sp"/>
 
@@ -114,7 +112,7 @@
             android:id="@+id/sm_twitter_share"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="10dp"
             android:gravity="center_vertical"
             android:visibility="visible"
             android:background="@color/colorTwitter">
@@ -130,10 +128,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/sm_twitter_share"
-                android:textAllCaps="true"
                 android:layout_margin="10dp"
                 android:gravity="center"
-                android:textColor="@color/colorSecondary"
+                android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
                 android:textSize="16sp"/>
 
@@ -159,13 +156,13 @@
                     android:paddingLeft="10dp"
                     android:paddingRight="30dp"
                     android:paddingBottom="10dp"
-                    android:inputType="textEmailAddress"
+                    android:inputType="textEmailAddress|textMultiLine"
                     android:hint="@string/sm_from_email"
-                    android:background="@color/colorPrimaryTransparent77"
-                    android:textColorHint="@color/colorSecondary"
+                    android:background="@color/colorSecondaryTransparent77"
+                    android:textColorHint="@color/colorPrimary"
                     android:textStyle="bold"
                     android:textSize="15sp"
-                    android:textColor="@color/colorSecondary"
+                    android:textColor="@color/colorPrimary"
                     android:paddingStart="5dp"
                     android:paddingEnd="40dp" />
 
@@ -194,13 +191,13 @@
                     android:paddingLeft="10dp"
                     android:paddingRight="30dp"
                     android:paddingBottom="10dp"
-                    android:inputType="textEmailAddress"
+                    android:inputType="textEmailAddress|textMultiLine"
                     android:hint="@string/sm_to_email"
-                    android:background="@color/colorPrimaryTransparent77"
-                    android:textColorHint="@color/colorSecondary"
+                    android:background="@color/colorSecondaryTransparent77"
+                    android:textColorHint="@color/colorPrimary"
                     android:textStyle="bold"
                     android:textSize="15sp"
-                    android:textColor="@color/colorSecondary"
+                    android:textColor="@color/colorPrimary"
                     android:paddingStart="5dp"
                     android:paddingEnd="40dp" />
 
@@ -232,11 +229,11 @@
                     android:paddingBottom="10dp"
                     android:inputType="textCapSentences|textMultiLine"
                     android:hint="@string/sm_subject"
-                    android:background="@color/colorPrimaryTransparent77"
-                    android:textColorHint="@color/colorSecondary"
+                    android:background="@color/colorSecondaryTransparent77"
+                    android:textColorHint="@color/colorPrimary"
                     android:textStyle="bold"
                     android:textSize="15sp"
-                    android:textColor="@color/colorSecondary"
+                    android:textColor="@color/colorPrimary"
                     android:paddingStart="5dp"
                     android:paddingEnd="40dp" />
 
@@ -255,7 +252,7 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp">
+                android:layout_marginBottom="30dp">
 
                 <EditText
                     android:id="@+id/sm_message"
@@ -267,11 +264,11 @@
                     android:paddingBottom="10dp"
                     android:inputType="textCapSentences|textMultiLine"
                     android:hint="@string/sm_message"
-                    android:background="@color/colorPrimaryTransparent77"
-                    android:textColorHint="@color/colorSecondary"
+                    android:background="@color/colorSecondaryTransparent77"
+                    android:textColorHint="@color/colorPrimary"
                     android:textStyle="bold"
                     android:textSize="15sp"
-                    android:textColor="@color/colorSecondary"
+                    android:textColor="@color/colorPrimary"
                     android:paddingStart="5dp"
                     android:paddingEnd="40dp" />
 
@@ -292,13 +289,11 @@
                 android:layout_width="wrap_content"
                 android:layout_gravity="center"
                 android:layout_height="wrap_content"
-                android:text="@string/sm_send_email"
+                android:text="@string/sm_send"
                 android:textColor="@color/colorPrimary"
-                android:padding="10dp"
                 android:textStyle="bold"
                 android:textSize="15sp"
-                android:layout_marginBottom="10dp"
-                android:background="@color/colorSecondary"/>
+                android:background="@color/colorSecondaryTransparent77"/>
 
         </LinearLayout>
 
@@ -324,11 +319,11 @@
                     android:paddingBottom="10dp"
                     android:inputType="textCapSentences|textMultiLine"
                     android:hint="@string/sm_title"
-                    android:background="@color/colorPrimaryTransparent77"
-                    android:textColorHint="@color/colorSecondary"
+                    android:background="@color/colorSecondaryTransparent77"
+                    android:textColorHint="@color/colorPrimary"
                     android:textStyle="bold"
                     android:textSize="15sp"
-                    android:textColor="@color/colorSecondary"
+                    android:textColor="@color/colorPrimary"
                     android:paddingStart="5dp"
                     android:paddingEnd="40dp" />
 
@@ -347,7 +342,7 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp">
+                android:layout_marginBottom="30dp">
 
                 <EditText
                     android:id="@+id/sm_description"
@@ -359,11 +354,11 @@
                     android:paddingBottom="10dp"
                     android:inputType="textCapSentences|textMultiLine"
                     android:hint="@string/sm_description"
-                    android:background="@color/colorPrimaryTransparent77"
-                    android:textColorHint="@color/colorSecondary"
+                    android:background="@color/colorSecondaryTransparent77"
+                    android:textColorHint="@color/colorPrimary"
                     android:textStyle="bold"
                     android:textSize="15sp"
-                    android:textColor="@color/colorSecondary"
+                    android:textColor="@color/colorPrimary"
                     android:paddingStart="5dp"
                     android:paddingEnd="40dp" />
 
@@ -387,10 +382,8 @@
                 android:text="@string/sm_share"
                 android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
-                android:padding="10dp"
                 android:textSize="15sp"
-                android:layout_marginBottom="10dp"
-                android:background="@color/colorSecondary"/>
+                android:background="@color/colorSecondaryTransparent77"/>
 
         </LinearLayout>
 

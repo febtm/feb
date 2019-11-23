@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@drawable/hp_background">
 
@@ -30,7 +30,7 @@
             android:textAllCaps="true"
             android:text="@string/homepage"
             android:textSize="18sp"
-            android:textColor="@color/colorSecondary" />
+            android:textColor="@color/colorPrimary" />
 
         <ImageView
             android:layout_width="40dp"
@@ -54,10 +54,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@color/colorSecondaryTransparent77"
+            android:background="@color/colorPrimaryTransparent77"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="10dp"
             android:padding="10dp"
             android:gravity="center">
 
@@ -65,7 +65,7 @@
                 android:id="@+id/hp_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorSecondary"
+                android:textColor="@color/colorPrimary"
                 android:gravity="center"
                 android:textSize="20sp"
                 android:textStyle="bold"/>
@@ -83,6 +83,12 @@
                 android:layout_height="40dp"
                 android:layout_marginTop="20dp">
 
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginRight="40dp"
+                android:layout_marginEnd="40dp">
+
                 <EditText
                     android:id="@+id/hp_search_bar"
                     android:layout_width="match_parent"
@@ -95,9 +101,9 @@
                     android:inputType="textCapSentences|textMultiLine"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    android:textColor="@color/colorSecondary"
-                    android:textColorHint="@color/colorSecondary"
-                    android:background="@color/colorPrimaryTransparent77"
+                    android:textColor="@color/colorPrimary"
+                    android:textColorHint="@color/colorPrimary"
+                    android:background="@color/colorSecondaryTransparent77"
                     tools:ignore="RtlSymmetry" />
 
                 <ImageButton
@@ -106,9 +112,9 @@
                     android:layout_height="20dp"
                     android:layout_gravity="center|end"
                     android:background="@drawable/app_cancel"
-                    android:layout_marginRight="40dp"
-                    android:layout_marginEnd="40dp"
-                    android:contentDescription="@null" />
+                    android:layout_margin="5dp"/>
+
+            </FrameLayout>
 
                 <ImageButton
                     android:id="@+id/hp_search_button"
@@ -116,8 +122,7 @@
                     android:layout_height="30dp"
                     android:layout_margin="5dp"
                     android:background="@drawable/hp_search_results"
-                    android:layout_gravity="center|end"
-                    android:contentDescription="@null" />
+                    android:layout_gravity="center|end"/>
 
             </FrameLayout>
 
@@ -152,10 +157,10 @@
                             android:inputType="textCapWords"
                             android:textSize="16sp"
                             android:textStyle="bold"
-                            android:textColor="@color/colorSecondary"
-                            android:textColorHint="@color/colorSecondary"
-                            android:background="@color/colorPrimaryTransparent77"
-                            tools:ignore="RtlSymmetry,TextFields" />
+                            android:textColor="@color/colorPrimary"
+                            android:textColorHint="@color/colorPrimary"
+                            android:background="@color/colorSecondaryTransparent77"
+                            tools:ignore="RtlSymmetry" />
 
                         <ImageButton
                             android:id="@+id/hp_cancel_phone_number"
@@ -163,8 +168,7 @@
                             android:layout_height="20dp"
                             android:layout_gravity="center|end"
                             android:background="@drawable/app_cancel"
-                            android:layout_margin="5dp"
-                            android:contentDescription="@null" />
+                            android:layout_margin="5dp"/>
 
                     </FrameLayout>
 
@@ -189,9 +193,9 @@
                             android:inputType="textCapSentences|textMultiLine"
                             android:textSize="16sp"
                             android:textStyle="bold"
-                            android:textColor="@color/colorSecondary"
-                            android:textColorHint="@color/colorSecondary"
-                            android:background="@color/colorPrimaryTransparent77"
+                            android:textColor="@color/colorPrimary"
+                            android:textColorHint="@color/colorPrimary"
+                            android:background="@color/colorSecondaryTransparent77"
                             tools:ignore="RtlSymmetry" />
 
                         <ImageButton
@@ -200,8 +204,7 @@
                             android:layout_height="20dp"
                             android:layout_gravity="center|end"
                             android:background="@drawable/app_cancel"
-                            android:layout_margin="5dp"
-                            android:contentDescription="@null" />
+                            android:layout_margin="5dp"/>
 
                     </FrameLayout>
 
@@ -213,8 +216,7 @@
                     android:layout_height="30dp"
                     android:layout_margin="5dp"
                     android:background="@drawable/app_go"
-                    android:layout_gravity="center|end"
-                    android:contentDescription="@null" />
+                    android:layout_gravity="center|end"/>
 
             </FrameLayout>
 
@@ -223,8 +225,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="10dp"
-                android:background="@color/colorPrimaryTransparent77"
                 android:visibility="gone">
 
                 <android.support.v7.widget.RecyclerView
@@ -233,10 +233,13 @@
                     android:layout_height="wrap_content" />
 
                 <TextView
+                    android:id="@+id/hp_pow_gcsapi"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorSecondary"
+                    android:background="@color/colorSecondaryTransparent77"
+                    android:textColor="@color/colorPrimary"
                     android:gravity="end"
+                    android:layout_marginTop="5dp"
                     android:padding="5dp"
                     android:text="@string/hp_pow_gcsapi"
                     android:textSize="14sp"
@@ -246,24 +249,12 @@
 
         </LinearLayout>
 
-            <com.google.android.gms.ads.AdView
-                android:id="@+id/hp_adView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                ads:adSize="BANNER"
-                android:layout_marginBottom="20dp"
-                ads:adUnitId="@string/hp_admob_banner">
-            </com.google.android.gms.ads.AdView>
-
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginBottom="20dp"
-                android:background="@color/colorPrimaryTransparent77"
+                android:layout_marginBottom="10dp"
                 android:orientation="vertical">
 
                 <FrameLayout
@@ -281,7 +272,7 @@
                         android:textAllCaps="true"
                         android:text="@string/hp_news"
                         android:textSize="18sp"
-                        android:textColor="@color/colorSecondary" />
+                        android:textColor="@color/colorPrimary" />
 
                     <ImageView
                         android:layout_width="40dp"
@@ -297,15 +288,14 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:textStyle="bold"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginBottom="20dp"
                     android:text="@string/hp_general_news"
                     android:textSize="16sp"
-                    android:textColor="@color/colorSecondary"
-                    android:layout_marginStart="5dp" />
+                    android:textColor="@color/colorPrimary" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/hp_news_general"
+                    android:background="@color/colorPrimaryTransparent77"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
@@ -314,16 +304,15 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:textStyle="bold"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
                     android:text="@string/hp_business_news"
                     android:textSize="16sp"
-                    android:textColor="@color/colorSecondary"
-                    android:layout_marginStart="5dp" />
+                    android:textColor="@color/colorPrimary" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/hp_news_business"
+                    android:background="@color/colorPrimaryTransparent77"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
@@ -332,16 +321,15 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:textStyle="bold"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
                     android:text="@string/hp_technology_news"
                     android:textSize="16sp"
-                    android:textColor="@color/colorSecondary"
-                    android:layout_marginStart="5dp" />
+                    android:textColor="@color/colorPrimary" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/hp_news_techonology"
+                    android:background="@color/colorPrimaryTransparent77"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
@@ -350,16 +338,15 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:textStyle="bold"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
                     android:text="@string/hp_sports_news"
                     android:textSize="16sp"
-                    android:textColor="@color/colorSecondary"
-                    android:layout_marginStart="5dp" />
+                    android:textColor="@color/colorPrimary" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/hp_news_sports"
+                    android:background="@color/colorPrimaryTransparent77"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
@@ -368,24 +355,26 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:textStyle="bold"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
                     android:text="@string/hp_entertainment_news"
                     android:textSize="16sp"
-                    android:textColor="@color/colorSecondary"
-                    android:layout_marginStart="5dp" />
+                    android:textColor="@color/colorPrimary" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/hp_news_entertainment"
+                    android:background="@color/colorPrimaryTransparent77"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
                 <TextView
+                    android:id="@+id/hp_pow_newsapi"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorSecondary"
+                    android:background="@color/colorSecondaryTransparent77"
+                    android:textColor="@color/colorPrimary"
                     android:gravity="end"
+                    android:layout_marginTop="5dp"
                     android:padding="5dp"
                     android:text="@string/hp_pow_newsapi"
                     android:textSize="14sp"

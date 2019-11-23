@@ -102,7 +102,7 @@ $result['message'] = array();
 
 $result['user'] = array();
 
-$sql = "INSERT INTO feb_chat_messages (chat_room_id, user_id, message, created_at) values('$chat_room_id', '$user_id', '".addslashes($message)."', '$timestamp')";
+$sql = "INSERT INTO febe_chat_messages (chat_room_id, user_id, message, created_at) values('$chat_room_id', '$user_id', '".addslashes($message)."', '$timestamp')";
 
 if(mysqli_query($con, $sql)){
 
@@ -121,7 +121,7 @@ if(mysqli_query($con, $sql)){
 	
 	$user = array();
 	
-	$sql_2 = "SELECT username FROM feb_profile WHERE userid = '$user_id'";
+	$sql_2 = "SELECT username FROM febe_profile WHERE userid = '$user_id'";
 
 	$res_2 = mysqli_query($con, $sql_2);
 
@@ -132,26 +132,26 @@ if(mysqli_query($con, $sql)){
 	
 	$result['user'] = $user;
 	
-	$sql_3 = "UPDATE feb_chat_rooms SET created_at = '$timestamp' WHERE chat_room_id = '$chat_room_id';";
+	$sql_3 = "UPDATE febe_chat_rooms SET created_at = '$timestamp' WHERE chat_room_id = '$chat_room_id';";
 
 	$res_3 = mysqli_query($con, $sql_3);
 
-	$sql_4 = "SELECT * FROM feb_chat_rooms WHERE user1_id = '$user_id' AND chat_room_id = '$chat_room_id'";
+	$sql_4 = "SELECT * FROM febe_chat_rooms WHERE user1_id = '$user_id' AND chat_room_id = '$chat_room_id'";
 
 	$res_4 = mysqli_query($con, $sql_4);
 
-	$sql_5 = "SELECT * FROM feb_chat_rooms WHERE user2_id = '$user_id' AND chat_room_id = '$chat_room_id'";
+	$sql_5 = "SELECT * FROM febe_chat_rooms WHERE user2_id = '$user_id' AND chat_room_id = '$chat_room_id'";
 
 	$res_5 = mysqli_query($con, $sql_5);
 
     if(mysqli_num_rows($res_4)>0)
-    $sql_6 = "UPDATE feb_chat_rooms SET user1_read = 1, user2_read = 0 WHERE chat_room_id = '$chat_room_id';";
+    $sql_6 = "UPDATE febe_chat_rooms SET user1_read = 1, user2_read = 0 WHERE chat_room_id = '$chat_room_id';";
 
     else if(mysqli_num_rows($res_5)>0)
-    $sql_6 = "UPDATE feb_chat_rooms SET user1_read = 0, user2_read = 1 WHERE chat_room_id = '$chat_room_id';";
+    $sql_6 = "UPDATE febe_chat_rooms SET user1_read = 0, user2_read = 1 WHERE chat_room_id = '$chat_room_id';";
 
     else
-    $sql_6 = "SELECT * FROM feb_profile";
+    $sql_6 = "SELECT * FROM febe_profile";
 
     if(mysqli_query($con, $sql_6)){
 	
@@ -163,13 +163,13 @@ if(mysqli_query($con, $sql)){
 
 	$push = null; 
 
-	$sql_7 = "SELECT username FROM feb_profile WHERE userid = '$user_id'";
+	$sql_7 = "SELECT username FROM febe_profile WHERE userid = '$user_id'";
 
 	$res_7 = mysqli_query($con, $sql_7);
 
 	$row_7 = mysqli_fetch_array($res_7);
 
-	$push = new Push("Feb", $row_7['username']. " has sent you a Message !", null);
+	$push = new Push("FeBe", $row_7['username']. " has sent you a Message !", null);
 	 
 	$mPushNotification = $push->getPush(); 
 	
@@ -177,11 +177,11 @@ if(mysqli_query($con, $sql)){
 
 	$devicetoken = array();
 	
-	$sql_8 = "SELECT user1_id FROM feb_chat_rooms WHERE chat_room_id = '$chat_room_id' AND user2_id = '$user_id'";
+	$sql_8 = "SELECT user1_id FROM febe_chat_rooms WHERE chat_room_id = '$chat_room_id' AND user2_id = '$user_id'";
 
 	$res_8 = mysqli_query($con, $sql_8);
 	
-	$sql_9 = "SELECT user2_id FROM feb_chat_rooms WHERE chat_room_id = '$chat_room_id' AND user1_id = '$user_id'";
+	$sql_9 = "SELECT user2_id FROM febe_chat_rooms WHERE chat_room_id = '$chat_room_id' AND user1_id = '$user_id'";
 
 	$res_9 = mysqli_query($con, $sql_9);
 
@@ -201,7 +201,7 @@ if(mysqli_query($con, $sql)){
 
 	}
 	
-	$sql_10 = "SELECT device_token FROM feb_profile WHERE userid = '$receiver_user_id'";
+	$sql_10 = "SELECT device_token FROM febe_profile WHERE userid = '$receiver_user_id'";
 
 	$res_10 = mysqli_query($con,$sql_10);
 
@@ -215,7 +215,7 @@ if(mysqli_query($con, $sql)){
 	$firebase->send($devicetoken, $mPushNotification);
 	
 	
-	$sql_11 = "SELECT COUNT(*) as final_message_id FROM feb_chat_messages WHERE chat_room_id = $chat_room_id";
+	$sql_11 = "SELECT COUNT(*) as final_message_id FROM febe_chat_messages WHERE chat_room_id = $chat_room_id";
 
 	$res_11 = mysqli_query($con, $sql_11);
 

@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="colorPrimary">#2196F3</color>
-    <color name="colorPrimaryTransparent77">#772196F3</color>
-    <color name="colorPrimaryDark">#1565C0</color>
-
-    <color name="colorSecondary">#FFFFFF</color>
-    <color name="colorSecondaryTransparent77">#77FFFFFF</color>
-
-    <color name="colorTertiaryTransparent33">#33d3d3d3</color>
-
-    <color name="colorQuaternary">#E040FB</color>
+    <color name="colorPrimary">#FFFFFF</color>
+    <color name="colorSecondary">#2196F3</color>
+    <color name="colorTertiary">#808080</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="colorPrimaryTransparent77">#77FFFFFF</color>
+    <color name="colorSecondaryTransparent77">#772196F3</color>
+    <color name="colorTertiaryTransparent33">#33d3d3d3</color>
 
     <color name="colorGmail">#dd4b39</color>
     <color name="colorFacebook">#3b5998</color>
     <color name="colorTwitter">#0084b4</color>
+
+
 
 </resources>

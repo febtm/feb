@@ -1,4 +1,4 @@
-package fmt.feb;
+package fmt.febe;
 
 import org.junit.Test;
 

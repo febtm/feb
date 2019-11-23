@@ -17,18 +17,12 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.crashlytics.android.Crashlytics;
-import com.facebook.appevents.AppEventsLogger;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
+//import com.google.android.gms.ads.AdRequest;
+//import com.google.android.gms.ads.AdView;
+
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.twitter.sdk.android.core.Twitter;
-import com.twitter.sdk.android.core.TwitterAuthConfig;
-import com.twitter.sdk.android.core.TwitterConfig;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -41,127 +35,104 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
-import fmt.febe.helper.BasicFunctions;
-import fmt.febe.helper.LSRMenu;
-import io.fabric.sdk.android.Fabric;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 
 
-public class LogIn extends AppCompatActivity {
+public class Login extends AppCompatActivity {
 
 
-    Button LI_LOGIN;
-    EditText ET_EMAIL, ET_PASSWORD;
+    Button L_LOGIN;
+    Button L_SIGNIN;
+    Button L_FORGOT_PASSWORD;
+    EditText ET_EMAIL;
+    EditText ET_PASSWORD;
     CheckBox CB_SHOW;
 
-    String li_email, li_password, li_device_token;
+    String l_email,l_password, l_device_token;
 
     private BasicFunctions basicFunctions;
-
-    private LSRMenu lsrMenu;
-
-    ImageButton MENU_BUTTON, LI_EMAIL_CANCEL, LI_PASSWORD_CANCEL;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_log_in);
+        setContentView(R.layout.activity_login);
 
         basicFunctions = new BasicFunctions(this);
+
+        if(basicFunctions.isLoggedIn()) {
+
+            Intent intent = new Intent(Login.this, HomePage.class);
+            startActivity(intent);
+
+        }
 
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
         basicFunctions.storeFCMNotDeviceToken(refreshedToken);
 
-        MobileAds.initialize(getApplicationContext(), "ca-app-pub-6196885651315287~7727581519");
-
-        Fabric.with(this, new Crashlytics());
-
-        AppEventsLogger.activateApp(getApplication());
-
-        TwitterAuthConfig authConfig = new TwitterAuthConfig(basicFunctions.TWITTER_KEY, basicFunctions.TWITTER_SECRET);
-        TwitterConfig.Builder builder = new TwitterConfig.Builder(this);
-        builder.twitterAuthConfig(authConfig);
-        Twitter.initialize(builder.build());
-
-        if(basicFunctions.isLoggedIn()) {
-
-            Intent intent = new Intent(LogIn.this, HomePage.class);
-            startActivity(intent);
-            LogIn.this.finish();
-
-        }
-
-        lsrMenu = new LSRMenu(LogIn.this);
-
-        MENU_BUTTON = findViewById(R.id.li_menu);
-
-        MENU_BUTTON.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                lsrMenu.LeftDrawer.toggleLeftDrawer();
-
-            }
-        });
-
-
-        AdView mAdView = findViewById(R.id.li_adView);
+        /*
+        AdView mAdView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
+        */
 
-        ET_EMAIL = findViewById(R.id.li_email);
-        ET_PASSWORD = findViewById(R.id.li_password);
-        LI_LOGIN = findViewById(R.id.li_login);
-        CB_SHOW = findViewById(R.id.li_show_password);
+        CB_SHOW = findViewById(R.id.l_show_password);
+
+        ET_EMAIL = findViewById(R.id.l_email);
+        ET_PASSWORD = findViewById(R.id.l_password);
+        L_SIGNIN = findViewById(R.id.l_signin);
+        L_LOGIN = findViewById(R.id.l_login);
+        L_FORGOT_PASSWORD = findViewById(R.id.l_recoverpassword);
 
         ET_EMAIL.setText(basicFunctions.getUser_email());
         ET_PASSWORD.setText(basicFunctions.getUser_password());
 
+        L_FORGOT_PASSWORD.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
 
-        LI_EMAIL_CANCEL = findViewById(R.id.li_email_cancel);
-
-        LI_EMAIL_CANCEL.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                ET_EMAIL.setText("");
+                Intent myIntent = new Intent(view.getContext(), RecoverPassword.class);
+                startActivityForResult(myIntent, 0);
 
             }
         });
 
 
-        LI_PASSWORD_CANCEL = findViewById(R.id.li_password_cancel);
+        L_SIGNIN.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
 
-        LI_PASSWORD_CANCEL.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                ET_PASSWORD.setText("");
+                Intent myIntent = new Intent(view.getContext(), SignIn.class);
+                startActivityForResult(myIntent, 0);
 
             }
         });
 
 
-        LI_LOGIN.setOnClickListener(new View.OnClickListener() {
+        L_LOGIN.setOnClickListener(new View.OnClickListener() {
                                        public void onClick(View view) {
 
-                         li_email = ET_EMAIL.getText().toString();
-                         li_password = ET_PASSWORD.getText().toString();
+                         l_email = ET_EMAIL.getText().toString();
+                         l_password = ET_PASSWORD.getText().toString();
 
-                         li_device_token = basicFunctions.getFCMNotDeviceToken();
+                         l_device_token = basicFunctions.getFCMNotDeviceToken();
 
-                         if (TextUtils.isEmpty(li_email) || !android.util.Patterns.EMAIL_ADDRESS.matcher(li_email).matches())
+                         if (TextUtils.isEmpty(l_email) || !android.util.Patterns.EMAIL_ADDRESS.matcher(l_email).matches())
                              ET_EMAIL.setError("Invalid Email-Id !");
 
-                         else if (TextUtils.isEmpty(li_password))
+                         else if (TextUtils.isEmpty(l_password))
                              ET_PASSWORD.setError("Type in your Password !");
 
-                         else if (li_device_token == null)
-                             Toast.makeText(LogIn.this, "Device Registration Failed ! Please try logging in again later !", Toast.LENGTH_LONG).show();
+                         else if (l_device_token == null)
+                             Toast.makeText(Login.this, "Device Registration Failed ! Please try logging in again later !", Toast.LENGTH_LONG).show();
 
                          else {
 
-                             if(basicFunctions.isConnectingToInternet())
-                                 logIn();
+                             if(basicFunctions.isConnectingToInternet()) {
+
+                                 String method = "login";
+                                 LoginBackgroundTask loginBackgroundTask = new LoginBackgroundTask(Login.this);
+                                 loginBackgroundTask.execute(method, l_email, l_password, l_device_token);
+                             }
 
                              else {
 
@@ -169,31 +140,10 @@ public class LogIn extends AppCompatActivity {
                                      @Override
                                      public void onClick(DialogInterface dialog, int which) {
                                          switch (which){
-
                                              case DialogInterface.BUTTON_POSITIVE:
 
-                                                 if(basicFunctions.isConnectingToInternet())
-                                                     logIn();
-
-                                                 else {
-
-                                                     Toast.makeText(LogIn.this,
-                                                             "No Internet Connection. Try again later !",
-                                                             Toast.LENGTH_LONG).show();
-
-                                                     dialog.dismiss();
-
-                                                 }
-
-                                                 break;
-
-                                             case DialogInterface.BUTTON_NEGATIVE:
-
-                                                 Toast.makeText(LogIn.this,
-                                                         "No Internet Connection. Try again later !",
-                                                         Toast.LENGTH_LONG).show();
-
-                                                 dialog.dismiss();
+                                                 Intent intent = new Intent(Login.this, Login.class);
+                                                 startActivity(intent);
 
                                                  break;
 
@@ -201,14 +151,12 @@ public class LogIn extends AppCompatActivity {
                                      }
                                  };
 
-                                 AlertDialog.Builder builder = new AlertDialog.Builder(LogIn.this);
-                                 builder.setMessage("No Internet Connection. Try again ?")
-                                         .setPositiveButton("Yes", dialogClickListener)
-                                         .setNegativeButton("No", dialogClickListener).show();
+                                 AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
+                                 builder.setMessage("Network Failure : Please check your Internet Connection !")
+                                         .setPositiveButton("Try Again ... ", dialogClickListener).show();
 
                              }
                          }}}
-
         );
 
 
@@ -226,14 +174,6 @@ public class LogIn extends AppCompatActivity {
     }
 
 
-    private void logIn() {
-
-        String method = "login";
-        LoginBackgroundTask loginBackgroundTask = new LoginBackgroundTask(LogIn.this);
-        loginBackgroundTask.execute(method, li_email, li_password, li_device_token);
-
-    }
-
     @SuppressLint("StaticFieldLeak")
     private class LoginBackgroundTask extends AsyncTask<String, Void, String> {
 
@@ -248,7 +188,7 @@ public class LogIn extends AppCompatActivity {
         @Override
         public void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(LogIn.this);
+            pDialog = new ProgressDialog(Login.this);
             pDialog.setMessage("Logging In ... ");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
@@ -258,13 +198,15 @@ public class LogIn extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
 
+
             String method = params[0];
+
 
             if (method.equals("login")) {
 
-                String li_email = params[1];
-                String li_password = params[2];
-                String li_device_token = params[3];
+                String login_email = params[1];
+                String login_password = params[2];
+                String login_device_token = params[3];
 
                 try {
 
@@ -275,9 +217,10 @@ public class LogIn extends AppCompatActivity {
                     OutputStream OS = httpURLConnection.getOutputStream();
                     BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(OS, "UTF-8"));
 
-                    String data = URLEncoder.encode("li_email", "UTF-8") + "=" + URLEncoder.encode(li_email, "UTF-8")
-                            + "&" + URLEncoder.encode("li_password", "UTF-8") + "=" + URLEncoder.encode(li_password, "UTF-8")
-                            + "&" + URLEncoder.encode("li_device_token", "UTF-8") + "=" + URLEncoder.encode(li_device_token, "UTF-8");
+
+                    String data = URLEncoder.encode("login_email", "UTF-8") + "=" + URLEncoder.encode(login_email, "UTF-8")
+                            + "&" + URLEncoder.encode("login_password", "UTF-8") + "=" + URLEncoder.encode(login_password, "UTF-8")
+                            + "&" + URLEncoder.encode("login_device_token", "UTF-8") + "=" + URLEncoder.encode(login_device_token, "UTF-8");
 
                     bufferedWriter.write(data);
                     bufferedWriter.flush();
@@ -317,11 +260,10 @@ public class LogIn extends AppCompatActivity {
 
                     Toast.makeText(ctx, result, Toast.LENGTH_LONG).show();
 
-                    basicFunctions.getCurrentUserData(li_email);
+                    basicFunctions.getCurrentUserData(l_email);
 
-                    Intent intent = new Intent (LogIn.this, HomePage.class);
+                    Intent intent = new Intent(Login.this, HomePage.class);
                     startActivity(intent);
-                    LogIn.this.finish();
 
                     pDialog.dismiss();
 

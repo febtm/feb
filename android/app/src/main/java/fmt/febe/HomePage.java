@@ -1,17 +1,18 @@
 package fmt.febe;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -39,12 +40,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -52,15 +52,12 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Locale;
-import java.util.TimeZone;
 
-import fmt.febe.helper.BasicFunctions;
-import fmt.febe.helper.LocationEnabler;
-import fmt.febe.helper.Menu;
+import android.os.AsyncTask;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 public class HomePage extends AppCompatActivity {
@@ -98,9 +95,8 @@ public class HomePage extends AppCompatActivity {
 
     private ProgressDialog progressDialog;
 
-    String MY_LOCATION_COUNTRY_CODE;
+    String MY_LOCATION_COUNTRY_CODE, MY_LOCATION_LATITUDE, MY_LOCATION_LONGITUDE;
 
-    private BasicFunctions basicFunctions;
 
 
     @Override
@@ -111,13 +107,12 @@ public class HomePage extends AppCompatActivity {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        basicFunctions = new BasicFunctions(HomePage.this);
-
         menu = new Menu(HomePage.this);
 
-        AdView mAdView = findViewById(R.id.hp_adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+
+        //Fabric.with(this, new Crashlytics());
+        //AppEventsLogger.activateApp(this);
+
 
         ImageButton IB_VOICE_BUTTON = findViewById(R.id.hp_voice_button);
 
@@ -244,8 +239,8 @@ public class HomePage extends AppCompatActivity {
 
                 String searchText = ET_SEARCH.getText().toString();
 
-                if (TextUtils.isEmpty(searchText))
-                    ET_SEARCH.setError("Type in the box or click on the mic to search !");
+                if(TextUtils.isEmpty(searchText))
+                    ET_SEARCH.setError("Type in or click on the mic to search !");
 
                 else
                     performSearchFunction(searchText);
@@ -253,114 +248,76 @@ public class HomePage extends AppCompatActivity {
             }
         });
 
-        if (basicFunctions.isConnectingToInternet())
-            this.checkLocationPermission();
-
-        else {
-
-            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    switch (which) {
-
-                        case DialogInterface.BUTTON_POSITIVE:
-
-                            if (basicFunctions.isConnectingToInternet())
-                                HomePage.this.checkLocationPermission();
-
-                            else {
-
-                                Toast.makeText(HomePage.this,
-                                        "No Internet Connection. Try again later !",
-                                        Toast.LENGTH_LONG).show();
-
-                                dialog.dismiss();
-
-                            }
-
-                            break;
-
-                        case DialogInterface.BUTTON_NEGATIVE:
-
-                            Toast.makeText(HomePage.this,
-                                    "No Internet Connection. Try again later !",
-                                    Toast.LENGTH_LONG).show();
-
-                            dialog.dismiss();
-
-                            break;
-
-                    }
-                }
-            };
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(HomePage.this);
-            builder.setMessage("No Internet Connection. Try again ?")
-                    .setPositiveButton("Yes", dialogClickListener)
-                    .setNegativeButton("No", dialogClickListener).show();
-
-        }
-
-    }
-
-    private void checkLocationPermission() {
-
         if (ActivityCompat.checkSelfPermission(HomePage.this,
                 android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(HomePage.this,
-                        android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+                        android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
             ActivityCompat.requestPermissions(HomePage.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 0);
 
-        else
-            HomePage.this.enableLocation();
-
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
-
-        switch (requestCode) {
-
-            case 0: {
-
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                    this.enableLocation();
-
-                else {
-
-                    Toast.makeText(HomePage.this, "Kindly grant Location permission to continue !", Toast.LENGTH_LONG).show();
-                    finish();
-
-                }
-
-                break;
-            }
-
-            default:
-                break;
-
         }
+
+        else
+            getLocation();
+
     }
 
-    private void enableLocation() {
+
+    @SuppressLint("MissingPermission")
+    private void getLocation(){
+
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        assert locationManager != null;
+
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 10, new Listener());
+
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 10, new Listener());
+
+        android.location.Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+        if (location == null)
+            location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+        setDetails(location);
 
         fetchNews();
 
-        new LocationEnabler(this).turnGPSOn(new LocationEnabler.onGpsListener() {
-            @Override
-            public void gpsStatus() {
-            }
-        });
     }
 
 
-    private void fetchNews() {
+    private void setDetails(android.location.Location location){
+
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+
+        MY_LOCATION_LATITUDE = String.valueOf(location.getLatitude());
+
+        MY_LOCATION_LONGITUDE = String.valueOf(location.getLongitude());
+
+        List<Address> addresses = null;
+
+        try {
+
+            addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+
+        } catch (IOException e) {
+
+            e.printStackTrace();
+
+        }
+
+        assert addresses != null;
+
+        MY_LOCATION_COUNTRY_CODE = addresses.get(0).getCountryCode().toLowerCase();
+
+    }
+
+
+    private void fetchNews(){
 
         progressDialog = new ProgressDialog(HomePage.this);
         progressDialog.setMessage("Fetching News ... ");
         progressDialog.show();
-
-        MY_LOCATION_COUNTRY_CODE = this.getResources().getConfiguration().locale.getCountry();
 
         HP_GENERAL_NEWS_LIST = new ArrayList<>();
         mGeneralNewsAdapter = new NewsItemsAdapter(HP_GENERAL_NEWS_LIST);
@@ -388,8 +345,35 @@ public class HomePage extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
+
+        switch (requestCode) {
+
+            case 0: {
+
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                    getLocation();
+
+                else {
+
+                    Toast.makeText(HomePage.this, "Kindly grant location permission to continue !", Toast.LENGTH_LONG).show();
+                    finish();
+
+                }
+
+                break;
+            }
+
+            default:
+                break;
+
+        }
+    }
+
+
     @SuppressLint("StaticFieldLeak")
-    private class FetchNewsItems extends AsyncTask<Integer, Integer, String> {
+    private class FetchNewsItems extends AsyncTask<Integer, Integer, String>{
 
         int responseCode;
         String responseMessage;
@@ -397,7 +381,7 @@ public class HomePage extends AppCompatActivity {
 
         int NEWS_TYPE = 0;
 
-        protected void onPreExecute() {
+        protected void onPreExecute(){
             super.onPreExecute();
         }
 
@@ -410,23 +394,23 @@ public class HomePage extends AppCompatActivity {
 
             String newsURL = null;
 
-            if (NEWS_TYPE == 1)
+            if(NEWS_TYPE == 1)
                 newsURL = "https://newsapi.org/v2/top-headlines?category=general&pageSize=5&apiKey="
                         + NEWS_API_KEY + "&country=" + MY_LOCATION_COUNTRY_CODE;
 
-            else if (NEWS_TYPE == 2)
+            else if(NEWS_TYPE == 2)
                 newsURL = "https://newsapi.org/v2/top-headlines?category=business&pageSize=5&apiKey="
                         + NEWS_API_KEY + "&country=" + MY_LOCATION_COUNTRY_CODE;
 
-            else if (NEWS_TYPE == 3)
+            else if(NEWS_TYPE == 3)
                 newsURL = "https://newsapi.org/v2/top-headlines?category=technology&pageSize=5&apiKey="
                         + NEWS_API_KEY + "&country=" + MY_LOCATION_COUNTRY_CODE;
 
-            else if (NEWS_TYPE == 4)
+            else if(NEWS_TYPE == 4)
                 newsURL = "https://newsapi.org/v2/top-headlines?category=sports&pageSize=5&apiKey="
                         + NEWS_API_KEY + "&country=" + MY_LOCATION_COUNTRY_CODE;
 
-            else if (NEWS_TYPE == 5)
+            else if(NEWS_TYPE == 5)
                 newsURL = "https://newsapi.org/v2/top-headlines?category=entertainment&pageSize=5&apiKey="
                         + NEWS_API_KEY + "&country=" + MY_LOCATION_COUNTRY_CODE;
 
@@ -469,7 +453,7 @@ public class HomePage extends AppCompatActivity {
 
             try {
 
-                if (responseCode == 200) {
+                if(responseCode == 200) {
 
                     BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                     StringBuilder sb = new StringBuilder();
@@ -487,11 +471,11 @@ public class HomePage extends AppCompatActivity {
 
                     return result;
 
-                } else {
+                } else{
 
                     Toast.makeText(HomePage.this, "HTTP Response Error : " + responseMessage, Toast.LENGTH_LONG).show();
                     result = responseMessage;
-                    return result;
+                    return  result;
 
                 }
 
@@ -517,7 +501,7 @@ public class HomePage extends AppCompatActivity {
 
                 JSONArray items = jsonResult.getJSONArray("articles");
 
-                for (int i = 0; i < items.length(); i++) {
+                for(int i = 0; i < items.length(); i++){
 
                     JSONObject jsonObject = items.getJSONObject(i);
 
@@ -528,31 +512,39 @@ public class HomePage extends AppCompatActivity {
 
                     NewsItemsValues obj = new NewsItemsValues(title, description, link, image);
 
-                    if (NEWS_TYPE == 1) {
+                    if(NEWS_TYPE == 1) {
 
                         HP_GENERAL_NEWS_LIST.add(obj);
 
                         mGeneralNewsAdapter.notifyDataSetChanged();
 
-                    } else if (NEWS_TYPE == 2) {
+                    }
+
+                    else if(NEWS_TYPE == 2) {
 
                         HP_BUSINESS_NEWS_LIST.add(obj);
 
                         mBusinessNewsAdapter.notifyDataSetChanged();
 
-                    } else if (NEWS_TYPE == 3) {
+                    }
+
+                    else if(NEWS_TYPE == 3) {
 
                         HP_TECHNOLOGY_NEWS_LIST.add(obj);
 
                         mTechnologyNewsAdapter.notifyDataSetChanged();
 
-                    } else if (NEWS_TYPE == 4) {
+                    }
+
+                    else if(NEWS_TYPE == 4) {
 
                         HP_SPORTS_NEWS_LIST.add(obj);
 
                         mSportsNewsAdapter.notifyDataSetChanged();
 
-                    } else if (NEWS_TYPE == 5) {
+                    }
+
+                    else if(NEWS_TYPE == 5) {
 
                         HP_ENTERTAINMENT_NEWS_LIST.add(obj);
 
@@ -564,19 +556,20 @@ public class HomePage extends AppCompatActivity {
 
                 FetchNewsItems fetchBusinessNewsItems = new FetchNewsItems();
 
-                if (NEWS_TYPE == 1)
+                if(NEWS_TYPE == 1)
                     fetchBusinessNewsItems.execute(2);
 
-                else if (NEWS_TYPE == 2)
+                else if(NEWS_TYPE == 2)
                     fetchBusinessNewsItems.execute(3);
 
-                else if (NEWS_TYPE == 3)
+                else if(NEWS_TYPE == 3)
                     fetchBusinessNewsItems.execute(4);
 
-                else if (NEWS_TYPE == 4)
+                else if(NEWS_TYPE == 4)
                     fetchBusinessNewsItems.execute(5);
 
-                progressDialog.dismiss();
+                else if(NEWS_TYPE == 5)
+                    progressDialog.dismiss();
 
             } catch (JSONException e) {
 
@@ -614,9 +607,8 @@ public class HomePage extends AppCompatActivity {
             mDataset = myDataset;
         }
 
-        @NonNull
         @Override
-        public DataHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        public DataHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_hp_item_news, parent, false);
 
@@ -631,7 +623,7 @@ public class HomePage extends AppCompatActivity {
 
         @SuppressWarnings("deprecation")
         @Override
-        public void onBindViewHolder(@NonNull final DataHolder holder, @SuppressLint("RecyclerView") final int position) {
+        public void onBindViewHolder(final DataHolder holder, @SuppressLint("RecyclerView") final int position) {
 
             String title, description, link, image;
 
@@ -640,29 +632,31 @@ public class HomePage extends AppCompatActivity {
             link = mDataset.get(position).getHP_I_N_LINK();
             image = mDataset.get(position).getHP_I_N_IMAGE();
 
-            if (!title.equals("null"))
+            if(!title.equals("null"))
                 holder.HP_I_N_TITLE.setText(title);
 
             else
                 holder.HP_I_N_TITLE.setVisibility(View.GONE);
 
-            if (!description.equals("null"))
+            if(!description.equals("null"))
                 holder.HP_I_N_DESCRIPTION.setText(description);
 
             else
                 holder.HP_I_N_DESCRIPTION.setVisibility(View.GONE);
 
-            if (!link.equals("null")) {
+            if(!link.equals("null")) {
 
                 SpannableString underlinedLink = new SpannableString(link);
                 underlinedLink.setSpan(new UnderlineSpan(), 0, underlinedLink.length(), 0);
 
                 holder.HP_I_N_LINK.setText(underlinedLink);
 
-            } else
+            }
+
+            else
                 holder.HP_I_N_LINK.setVisibility(View.GONE);
 
-            if (!image.equals("null")) {
+            if(!image.equals("null")) {
 
                 image = mDataset.get(position).getHP_I_N_IMAGE();
 
@@ -686,7 +680,9 @@ public class HomePage extends AppCompatActivity {
 
                 holder.HP_I_N_IMAGE.setImageBitmap(bmp);
 
-            } else
+            }
+
+            else
                 holder.HP_I_N_IMAGE.setVisibility(View.GONE);
 
             holder.HP_I_N_TITLE.setOnClickListener(new View.OnClickListener() {
@@ -757,7 +753,7 @@ public class HomePage extends AppCompatActivity {
         private String HP_I_N_IMAGE;
 
 
-        NewsItemsValues(String title, String description, String link, String image) {
+        NewsItemsValues(String title, String description, String link, String image){
             HP_I_N_TITLE = title;
             HP_I_N_DESCRIPTION = description;
             HP_I_N_LINK = link;
@@ -783,9 +779,19 @@ public class HomePage extends AppCompatActivity {
     }
 
 
-    private void performSearchFunction(String searchText) {
+    private class Listener implements LocationListener {
 
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        public void onLocationChanged(android.location.Location location) {}
+        public void onProviderDisabled(String provider){}
+        public void onProviderEnabled(String provider){}
+        public void onStatusChanged(String provider, int status, Bundle extras){}
+
+    }
+
+
+    private void performSearchFunction(String searchText){
+
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
         assert imm != null;
         imm.hideSoftInputFromWindow(ET_SEARCH.getWindowToken(), 0);
 
@@ -793,39 +799,57 @@ public class HomePage extends AppCompatActivity {
 
         searchText = searchText.toLowerCase();
 
-        if (searchText.contains("post on facebook") || searchText.contains("post on twitter")
-                || searchText.contains("send an email")) {
+        if(searchText.contains("control device") || searchText.contains("monitor device") || searchText.contains("home device")
+                || searchText.contains("smart home")){
+
+            Intent intent = new Intent(HomePage.this, HomeAssistant.class);
+            startActivity(intent);
+
+            speak("Let's check out your smart home !");
+
+        }
+
+        else if(searchText.contains("post on facebook") || searchText.contains("post on twitter")
+                || searchText.contains("send an email")){
 
             Intent intent = new Intent(HomePage.this, SocialMedia.class);
             startActivity(intent);
 
             speak("Let's socialize !");
 
-        } else if (searchText.contains("chat") || searchText.contains("message online")) {
+        }
+
+        else if(searchText.contains("chat") || searchText.contains("message online")){
 
             Intent intent = new Intent(HomePage.this, Messenger.class);
             startActivity(intent);
 
             speak("Let's connect with people !");
 
-        } else if (searchText.contains("weather") || searchText.contains("forecast") || searchText.contains("climate")
+        }
+
+        else if(searchText.contains("weather") || searchText.contains("forecast") || searchText.contains("climate")
                 || searchText.contains("temperature") || searchText.contains("humidity")
                 || searchText.contains("atmospheric pressure") || searchText.contains("rain")
-                || searchText.contains("sunny")) {
+                || searchText.contains("sunny")){
 
             Intent intent = new Intent(HomePage.this, WeatherForecast.class);
             startActivity(intent);
 
             speak("Showing you the weather forecast !");
 
-        } else if (searchText.contains("maps") || searchText.contains("location") || searchText.contains("route")) {
+        }
+
+        else if(searchText.contains("maps") || searchText.contains("location") || searchText.contains("route")){
 
             Intent intent = new Intent(HomePage.this, Maps.class);
             startActivity(intent);
 
             speak("Let's find directions !");
 
-        } else if (searchText.contains("call") || searchText.contains("phone") || searchText.contains("dial")) {
+        }
+
+        else if(searchText.contains("call") ||searchText.contains("phone") || searchText.contains("dial")) {
 
             HP_SEARCH_LAYOUT.setVisibility(View.GONE);
 
@@ -839,7 +863,7 @@ public class HomePage extends AppCompatActivity {
 
                     String phone_number = ET_PH_NO.getText().toString();
 
-                    if (TextUtils.isEmpty(phone_number))
+                    if(TextUtils.isEmpty(phone_number))
                         ET_PH_NO.setError("Type in the mobile number or contact name !");
 
                     else {
@@ -862,7 +886,9 @@ public class HomePage extends AppCompatActivity {
 
             });
 
-        } else if (searchText.contains("message") || searchText.contains("text")) {
+        }
+
+        else if(searchText.contains("message") || searchText.contains("text")){
 
             HP_SEARCH_LAYOUT.setVisibility(View.GONE);
 
@@ -880,10 +906,10 @@ public class HomePage extends AppCompatActivity {
 
                     String message = ET_MESSAGE.getText().toString();
 
-                    if (TextUtils.isEmpty(phone_number))
+                    if(TextUtils.isEmpty(phone_number))
                         ET_PH_NO.setError("Type in the mobile number or contact name !");
 
-                    else if (TextUtils.isEmpty(phone_number))
+                    else if(TextUtils.isEmpty(phone_number))
                         ET_MESSAGE.setError("Type in the message !");
 
                     else {
@@ -907,8 +933,10 @@ public class HomePage extends AppCompatActivity {
 
             });
 
-        } else if (searchText.contains("take a picture") || searchText.contains("take an image")
-                || searchText.contains("take a photo")) {
+        }
+
+        else if(searchText.contains("take a picture") || searchText.contains("take an image")
+                || searchText.contains("take a photo")){
 
             Intent intent = new Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA);
             startActivity(intent);
@@ -917,20 +945,26 @@ public class HomePage extends AppCompatActivity {
 
             ET_SEARCH.setText("");
 
-        } else if (searchText.contains("contact developer")) {
+        }
+
+        else if(searchText.contains("contact developer")){
 
             Intent intent = new Intent(HomePage.this, ContactUs.class);
             startActivity(intent);
 
             speak("Send us a message !");
 
-        } else if (searchText.contains("log out") || searchText.contains("logout")) {
+        }
+
+        else if(searchText.contains("log out") || searchText.contains("logout")){
 
             menu.logout();
 
             speak("Logging out ! See you soon !");
 
-        } else {
+        }
+
+        else {
 
             HP_SEARCH_LAYOUT.setVisibility(View.VISIBLE);
 
@@ -970,7 +1004,7 @@ public class HomePage extends AppCompatActivity {
 
 
     @SuppressLint("StaticFieldLeak")
-    private class SearchResultAsyncTask extends AsyncTask<URL, Integer, String> {
+    private class SearchResultAsyncTask extends AsyncTask<URL, Integer, String>{
 
         private ProgressDialog hp_loading;
 
@@ -978,7 +1012,7 @@ public class HomePage extends AppCompatActivity {
         String responseMessage;
         String result;
 
-        protected void onPreExecute() {
+        protected void onPreExecute(){
             super.onPreExecute();
             hp_loading = new ProgressDialog(HomePage.this);
             hp_loading.setMessage("Fetching Search Results ... ");
@@ -1019,7 +1053,7 @@ public class HomePage extends AppCompatActivity {
 
             try {
 
-                if (responseCode == 200) {
+                if(responseCode == 200) {
 
                     BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                     StringBuilder sb = new StringBuilder();
@@ -1037,11 +1071,11 @@ public class HomePage extends AppCompatActivity {
 
                     return result;
 
-                } else {
+                } else{
 
                     Toast.makeText(HomePage.this, "HTTP Response Error : " + responseMessage, Toast.LENGTH_LONG).show();
                     result = responseMessage;
-                    return result;
+                    return  result;
 
                 }
 
@@ -1067,7 +1101,7 @@ public class HomePage extends AppCompatActivity {
 
                 JSONArray items = jsonResult.getJSONArray("items");
 
-                for (int i = 0; i < items.length(); i++) {
+                for(int i = 0; i < items.length(); i++){
 
                     JSONObject jsonObject = items.getJSONObject(i);
 
@@ -1119,9 +1153,8 @@ public class HomePage extends AppCompatActivity {
             mDataset = myDataset;
         }
 
-        @NonNull
         @Override
-        public DataHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        public DataHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_hp_item_search, parent, false);
 
@@ -1132,7 +1165,7 @@ public class HomePage extends AppCompatActivity {
 
         @SuppressWarnings("deprecation")
         @Override
-        public void onBindViewHolder(@NonNull final DataHolder holder, @SuppressLint("RecyclerView") final int position) {
+        public void onBindViewHolder(final DataHolder holder, @SuppressLint("RecyclerView") final int position) {
 
             String title, description, link;
 
@@ -1142,26 +1175,28 @@ public class HomePage extends AppCompatActivity {
 
             link = mDataset.get(position).getHP_I_S_LINK();
 
-            if (!title.equals("null"))
+            if(!title.equals("null"))
                 holder.HP_I_S_TITLE.setText(title);
 
             else
                 holder.HP_I_S_TITLE.setVisibility(View.GONE);
 
-            if (!description.equals("null"))
+            if(!description.equals("null"))
                 holder.HP_I_S_DESCRIPTION.setText(description);
 
             else
                 holder.HP_I_S_DESCRIPTION.setVisibility(View.GONE);
 
-            if (!link.equals("null")) {
+            if(!link.equals("null")) {
 
                 SpannableString underlinedLink = new SpannableString(link);
                 underlinedLink.setSpan(new UnderlineSpan(), 0, underlinedLink.length(), 0);
 
                 holder.HP_I_S_LINK.setText(underlinedLink);
 
-            } else
+            }
+
+            else
                 holder.HP_I_S_LINK.setVisibility(View.GONE);
 
             holder.HP_I_S_TITLE.setOnClickListener(new View.OnClickListener() {
@@ -1220,7 +1255,7 @@ public class HomePage extends AppCompatActivity {
         private String HP_I_S_DESCRIPTION;
         private String HP_I_S_LINK;
 
-        SearchResultValues(String title, String description, String link) {
+        SearchResultValues(String title, String description, String link){
             HP_I_S_TITLE = title;
             HP_I_S_DESCRIPTION = description;
             HP_I_S_LINK = link;
@@ -1283,13 +1318,13 @@ public class HomePage extends AppCompatActivity {
     }
 
 
-    private void speak(String text) {
+    private void speak(String text){
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
             TTS.speak(text, TextToSpeech.QUEUE_FLUSH, null, null);
 
-        } else {
+        }else{
 
             TTS.speak(text, TextToSpeech.QUEUE_FLUSH, null);
 
@@ -1297,7 +1332,7 @@ public class HomePage extends AppCompatActivity {
     }
 
 
-    private void showTime() {
+    private void showTime(){
 
         CountDownTimer newtimer = new CountDownTimer(1000000000, 1000) {
 
@@ -1307,9 +1342,7 @@ public class HomePage extends AppCompatActivity {
                 Calendar c = Calendar.getInstance();
 
                 @SuppressLint("SimpleDateFormat")
-                SimpleDateFormat df = new SimpleDateFormat("HH : mm\n\nEEE, dd MMM yyyy");
-                df.setTimeZone(TimeZone.getDefault());
-
+                SimpleDateFormat df = new SimpleDateFormat("HH : mm\n\nEEE, d MMM yyyy");
 
                 String currentTime = df.format(c.getTime());
 
@@ -1317,8 +1350,7 @@ public class HomePage extends AppCompatActivity {
 
             }
 
-            public void onFinish() {
-            }
+            public void onFinish() {}
         };
 
         newtimer.start();

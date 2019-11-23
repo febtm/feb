@@ -4,19 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
-    android:layout_marginTop="5dp"
-    android:layout_marginBottom="5dp"
-    android:background="@color/colorPrimaryTransparent77">
+    android:layout_margin="10dp"
+    android:background="@color/colorSecondaryTransparent77">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginRight="40dp"
-        android:layout_marginEnd="40dp"
-        tools:ignore="RtlHardcoded">
+        android:layout_marginEnd="40dp">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -39,15 +35,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:paddingEnd="45dp"
+                    android:paddingEnd="40dp"
                     android:text="@string/username"
-                    android:textColor="@color/colorSecondary"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="16sp"
                     android:layout_marginLeft="20dp"
                     android:textStyle="bold"
                     tools:ignore="RtlSymmetry"
                     android:layout_marginStart="20dp"
-                    android:paddingRight="45dp" />
+                    android:paddingRight="35dp" />
 
                 <ImageView
                     android:id="@+id/mes_i_userread"
@@ -56,7 +52,7 @@
                     android:layout_gravity="center|end"
                     android:background="@drawable/app_ok"
                     android:contentDescription="@null"
-                    android:visibility="visible" />
+                    android:visibility="gone" />
 
             </FrameLayout>
 
@@ -66,7 +62,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end"
         android:padding="5dp"
-        android:textColor="@color/colorQuaternary"
+        android:textColor="@color/colorTertiary"
         android:text="@string/timestamp"
         android:textSize="12sp"/>
 
@@ -79,8 +75,6 @@
         android:layout_marginRight="10dp"
         android:layout_gravity="center|end"
         android:background="@drawable/app_delete"
-        android:layout_marginEnd="10dp"
-        tools:ignore="RtlHardcoded"
-        android:contentDescription="@null" />
+        android:layout_marginEnd="10dp" />
 
 </FrameLayout>

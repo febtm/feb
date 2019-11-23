@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -26,9 +27,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import fmt.febe.helper.BasicFunctions;
-import fmt.febe.helper.Menu;
 
 public class HomeAssistant extends AppCompatActivity {
 
@@ -275,6 +273,7 @@ public class HomeAssistant extends AppCompatActivity {
                 else {
 
                     NO_OF_VAL++;
+                    System.out.println("*******" + NO_OF_VAL);
                     GetThingSpeak getThingSpeak = new GetThingSpeak();
                     getThingSpeak.execute();
 

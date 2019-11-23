@@ -53,10 +53,10 @@ $type = $_GET['type'];
 require_once('init.php');
 
 if($type === "old")
-$sql = "SELECT p.username as username, c.message_id, c.user_id, c.message, c.created_at FROM feb_profile p, feb_chat_messages c WHERE p.userid = c.user_id AND c.chat_room_id = $chat_room_id ORDER BY c.created_at DESC LIMIT $index, 10";
+$sql = "SELECT p.username as username, c.message_id, c.user_id, c.message, c.created_at FROM febe_profile p, febe_chat_messages c WHERE p.userid = c.user_id AND c.chat_room_id = $chat_room_id ORDER BY c.created_at DESC LIMIT $index, 10";
 
 else
-$sql = "SELECT p.username as username, c.message_id, c.user_id, c.message, c.created_at FROM feb_profile p, feb_chat_messages c WHERE p.userid = c.user_id AND c.chat_room_id = $chat_room_id ORDER BY c.created_at LIMIT $index, 10";
+$sql = "SELECT p.username as username, c.message_id, c.user_id, c.message, c.created_at FROM febe_profile p, febe_chat_messages c WHERE p.userid = c.user_id AND c.chat_room_id = $chat_room_id ORDER BY c.created_at LIMIT $index, 10";
 
 $res = mysqli_query($con, $sql);
 
@@ -96,7 +96,7 @@ if($type === "old")
 $result["messages"] = array_reverse($result["messages"]);
 
 
-$sql_1 = "SELECT COUNT(*) as final_message_id FROM feb_chat_messages WHERE chat_room_id = $chat_room_id";
+$sql_1 = "SELECT COUNT(*) as final_message_id FROM febe_chat_messages WHERE chat_room_id = $chat_room_id";
 
 $res_1 = mysqli_query($con, $sql_1);
 

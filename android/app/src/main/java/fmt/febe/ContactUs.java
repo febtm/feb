@@ -2,39 +2,35 @@ package fmt.febe;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-
-import fmt.febe.helper.BasicFunctions;
-import fmt.febe.helper.LSRMenu;
-import fmt.febe.helper.Menu;
+//import com.google.android.gms.ads.AdRequest;
+//import com.google.android.gms.ads.AdView;
 
 
 public class ContactUs extends AppCompatActivity {
 
 
+    LinearLayout CU_SEND_MESSAGE, CU_RATE_US, CU_FIND_US;
+
     String cu_email, cu_name, cu_subject, cu_message;
 
     EditText CU_NAME, CU_EMAIL, CU_SUBJECT, CU_MESSAGE;
 
-    Button CU_SEND_MESSAGE;
-
-    ImageButton MENU_BUTTON, CU_NAME_CANCEL, CU_EMAIL_CANCEL, CU_SUBJECT_CANCEL, CU_MESSAGE_CANCEL;
+    ImageButton MENU_BUTTON;
 
     private BasicFunctions basicFunctions;
 
     private Menu menu;
-
-    private LSRMenu lsrMenu;
 
 
     @Override
@@ -44,86 +40,31 @@ public class ContactUs extends AppCompatActivity {
 
         menu = new Menu(ContactUs.this);
 
-        lsrMenu = new LSRMenu(ContactUs.this);
-
         basicFunctions = new BasicFunctions(ContactUs.this);
 
-        AdView mAdView = findViewById(R.id.cu_adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
-
-        CU_NAME = findViewById(R.id.cu_name);
-        CU_EMAIL = findViewById(R.id.cu_email);
+        CU_NAME = findViewById(R.id.cu_full_name);
+        CU_EMAIL = findViewById(R.id.cu_email_id);
         CU_SUBJECT = findViewById(R.id.cu_subject);
         CU_MESSAGE = findViewById(R.id.cu_message);
         CU_SEND_MESSAGE = findViewById(R.id.cu_send_message);
-
+        CU_RATE_US = findViewById(R.id.cu_rate_us);
+        CU_FIND_US = findViewById(R.id.cu_find_us);
         MENU_BUTTON = findViewById(R.id.cu_menu);
 
-        if (basicFunctions.isLoggedIn()) {
+/*
+        AdView mAdView = (AdView) findViewById(R.id.cu_adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+*/
 
-            MENU_BUTTON.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    menu.LeftDrawer.toggleLeftDrawer();
-
-                }
-            });
-
-        } else {
-
-            MENU_BUTTON.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    lsrMenu.LeftDrawer.toggleLeftDrawer();
-
-                }
-            });
-        }
-
-        CU_NAME_CANCEL = findViewById(R.id.cu_name_cancel);
-
-        CU_NAME_CANCEL.setOnClickListener(new View.OnClickListener() {
+        MENU_BUTTON.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-
-                CU_NAME.setText("");
+            public void onClick(View v) {
+                menu.LeftDrawer.toggleLeftDrawer();
 
             }
         });
 
-        CU_EMAIL_CANCEL = findViewById(R.id.cu_email_cancel);
-
-        CU_EMAIL_CANCEL.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                CU_EMAIL.setText("");
-
-            }
-        });
-
-        CU_SUBJECT_CANCEL = findViewById(R.id.cu_subject_cancel);
-
-        CU_SUBJECT_CANCEL.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                CU_SUBJECT.setText("");
-
-            }
-        });
-
-        CU_MESSAGE_CANCEL = findViewById(R.id.cu_message_cancel);
-
-        CU_MESSAGE_CANCEL.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                CU_MESSAGE.setText("");
-
-            }
-        });
 
         CU_SEND_MESSAGE.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,30 +92,25 @@ public class ContactUs extends AppCompatActivity {
 
                 } else {
 
-                    if (basicFunctions.isConnectingToInternet())
-                        basicFunctions.sendEmail("ContactUs", cu_email, cu_name, cu_subject, cu_message);
+                    if(basicFunctions.isConnectingToInternet())
+                       basicFunctions.sendEmail("ContactUs", cu_email, cu_name, cu_subject, cu_message);
 
                     else {
 
                         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                switch (which) {
+                                switch (which){
 
                                     case DialogInterface.BUTTON_POSITIVE:
 
-                                        if (basicFunctions.isConnectingToInternet())
-                                            basicFunctions.sendEmail("ContactUs", cu_email, cu_name, cu_subject, cu_message);
+                                        if(basicFunctions.isConnectingToInternet())
+                                            basicFunctions.sendEmail("ContactUs", cu_name, cu_email, cu_subject, cu_message);
 
-                                        else {
-
+                                        else
                                             Toast.makeText(ContactUs.this,
                                                     "No Internet Connection. Try again later !",
                                                     Toast.LENGTH_LONG).show();
-
-                                            dialog.dismiss();
-
-                                        }
 
                                         break;
 
@@ -201,6 +137,48 @@ public class ContactUs extends AppCompatActivity {
 
                 }
             }
+        });
+
+
+        CU_RATE_US.setOnClickListener(new View.OnClickListener(){
+
+            public void onClick(View view){
+
+                String appPackageName = getPackageName();
+
+                try {
+
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+
+                } catch (android.content.ActivityNotFoundException anfe) {
+
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+
+                }
+
+            }
+
+        });
+
+
+        CU_FIND_US.setOnClickListener(new View.OnClickListener(){
+
+            public void onClick(View view){
+
+                String appDeveloperName = "Febin+M+Thomas";
+
+                try {
+
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://developer?id=" + appDeveloperName)));
+
+                } catch (android.content.ActivityNotFoundException anfe) {
+
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/developer?id=" + appDeveloperName)));
+
+                }
+
+            }
+
         });
 
     }

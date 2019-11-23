@@ -1,16 +1,20 @@
 package fmt.febe;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -38,17 +42,22 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import fmt.febe.helper.BasicFunctions;
-import fmt.febe.helper.LocationFinder;
-import fmt.febe.helper.Menu;
+/*
+import com.crashlytics.android.Crashlytics;
+import com.facebook.appevents.AppEventsLogger;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 
+*/
+//import io.fabric.sdk.android.Fabric;
 
 public class WeatherForecast extends AppCompatActivity {
 
 
     TextView WF_LOCATION, WF_ICON, WF_DESCRIPTION,
-            WF_TEMPERATURE, WF_HUMIDITY, WF_PRESSURE,
-            WF_WIND_SPEED, WF_WIND_ANGLE, WF_SUNRISE_TIME, WF_SUNSET_TIME;
+             WF_TEMPERATURE, WF_HUMIDITY, WF_PRESSURE,
+             WF_WIND_SPEED, WF_WIND_ANGLE, WF_SUNRISE_TIME, WF_SUNSET_TIME;
 
     ImageButton MENU_BUTTON;
 
@@ -62,7 +71,7 @@ public class WeatherForecast extends AppCompatActivity {
     RecyclerView.Adapter mHourlyAdapter;
     RecyclerView.LayoutManager mHourlyLayoutManager;
 
-    LinearLayout WF_CO_FEBWEATHER;
+    LinearLayout WF_CO_FEBUWEATHER;
 
     String MY_LOCATION, MY_LOCATION_LATITUDE, MY_LOCATION_LONGITUDE;
 
@@ -85,7 +94,7 @@ public class WeatherForecast extends AppCompatActivity {
 
         menu = new Menu(WeatherForecast.this);
 
-        WF_CO_FEBWEATHER = findViewById(R.id.wf_co_febuweather);
+        WF_CO_FEBUWEATHER = findViewById(R.id.wf_co_febuweather);
         WF_LOCATION = findViewById(R.id.wf_location);
         WF_ICON = findViewById(R.id.wf_icon);
         WF_DESCRIPTION = findViewById(R.id.wf_description);
@@ -109,57 +118,17 @@ public class WeatherForecast extends AppCompatActivity {
             }
         });
 
-        if (basicFunctions.isConnectingToInternet()) {
+        if (ActivityCompat.checkSelfPermission(WeatherForecast.this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(WeatherForecast.this,
+                        Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-            setDetails();
-            fetchForecast();
-
-        } else {
-
-            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    switch (which) {
-
-                        case DialogInterface.BUTTON_POSITIVE:
-
-                            if (basicFunctions.isConnectingToInternet()) {
-
-                                setDetails();
-                                fetchForecast();
-
-                            } else {
-
-                                Toast.makeText(WeatherForecast.this,
-                                        "No Internet Connection. Try again later !",
-                                        Toast.LENGTH_LONG).show();
-
-                                dialog.dismiss();
-
-                            }
-
-                            break;
-
-                        case DialogInterface.BUTTON_NEGATIVE:
-
-                            Toast.makeText(WeatherForecast.this,
-                                    "No Internet Connection. Try again later !",
-                                    Toast.LENGTH_LONG).show();
-
-                            dialog.dismiss();
-
-                            break;
-
-                    }
-                }
-            };
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(WeatherForecast.this);
-            builder.setMessage("No Internet Connection. Try again ?")
-                    .setPositiveButton("Yes", dialogClickListener)
-                    .setNegativeButton("No", dialogClickListener).show();
+            ActivityCompat.requestPermissions(WeatherForecast.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
 
         }
+
+        else
+            getLocation();
 
         mHourlyRecyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -177,9 +146,21 @@ public class WeatherForecast extends AppCompatActivity {
         mDailyAdapter = new DailyForecastAdapter(WF_DAILY_LOCATION_LIST);
         mDailyRecyclerView.setAdapter(mDailyAdapter);
 
-        WF_CO_FEBWEATHER.setOnClickListener(new View.OnClickListener() {
+/*
+        MobileAds.initialize(getApplicationContext(), "ca-app-pub-6196885651315287~3113095854");
 
-            public void onClick(View view) {
+        AdView mAdView = (AdView) findViewById(R.id.wf_adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
+        what if location is off - rectify it
+
+
+*/
+
+        WF_CO_FEBUWEATHER.setOnClickListener(new View.OnClickListener(){
+
+            public void onClick(View view){
 
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=fmt.febuweather")));
 
@@ -190,23 +171,69 @@ public class WeatherForecast extends AppCompatActivity {
     }
 
 
-    private void setDetails() {
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
 
-        LocationFinder finder;
+        switch (requestCode) {
 
-        finder = new LocationFinder(this);
+            case 0: {
 
-        MY_LOCATION_LATITUDE = String.valueOf(finder.getLatitude());
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                    getLocation();
 
-        MY_LOCATION_LONGITUDE = String.valueOf(finder.getLongitude());
+                else {
+
+                    Toast.makeText(WeatherForecast.this, "Kindly grant location permission to continue !", Toast.LENGTH_LONG).show();
+                    finish();
+
+                }
+
+                break;
+            }
+
+            default:
+                break;
+
+        }
+    }
+
+
+    @SuppressLint("MissingPermission")
+    private void getLocation(){
+
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        assert locationManager != null;
+
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 10, new Listener());
+
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 10, new Listener());
+
+        android.location.Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+        if (location == null)
+            location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+        setDetails(location);
+
+        fetchForecast();
+
+    }
+
+
+    private void setDetails(android.location.Location location){
 
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+
+        MY_LOCATION_LATITUDE = String.valueOf(location.getLatitude());
+
+        MY_LOCATION_LONGITUDE = String.valueOf(location.getLongitude());
 
         List<Address> addresses = null;
 
         try {
 
-            addresses = geocoder.getFromLocation(finder.getLatitude(), finder.getLongitude(), 1);
+            addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
 
         } catch (IOException e) {
 
@@ -221,7 +248,7 @@ public class WeatherForecast extends AppCompatActivity {
     }
 
 
-    private void fetchForecast() {
+    private void fetchForecast(){
 
         progressDialog = new ProgressDialog(WeatherForecast.this);
         progressDialog.setMessage("Fetching Forecast Details ... ");
@@ -232,11 +259,20 @@ public class WeatherForecast extends AppCompatActivity {
     }
 
 
+    private class Listener implements LocationListener {
+
+        public void onLocationChanged(android.location.Location location) {}
+        public void onProviderDisabled(String provider){}
+        public void onProviderEnabled(String provider){}
+        public void onStatusChanged(String provider, int status, Bundle extras){}
+
+    }
+
+
     @SuppressLint("StaticFieldLeak")
     private class GetCurrentForecastTask extends AsyncTask<String, Void, JSONObject> {
 
-        private GetCurrentForecastTask() {
-        }
+        private GetCurrentForecastTask() {}
 
         @Override
         protected JSONObject doInBackground(String... params) {
@@ -264,7 +300,7 @@ public class WeatherForecast extends AppCompatActivity {
 
             try {
 
-                if (json != null) {
+                if(json != null){
 
                     JSONObject weather = json.getJSONArray("weather").getJSONObject(0);
                     JSONObject sys = json.getJSONObject("sys");
@@ -334,8 +370,7 @@ public class WeatherForecast extends AppCompatActivity {
     @SuppressLint("StaticFieldLeak")
     private class GetHourlyForecastTask extends AsyncTask<String, Void, JSONObject> {
 
-        private GetHourlyForecastTask() {
-        }
+        private GetHourlyForecastTask() {}
 
         @Override
         protected JSONObject doInBackground(String... params) {
@@ -362,14 +397,14 @@ public class WeatherForecast extends AppCompatActivity {
 
             try {
 
-                if (json != null) {
+                if(json != null){
 
                     JSONObject list = json.getJSONArray("list").getJSONObject(COUNT);
                     JSONObject weather = list.getJSONArray("weather").getJSONObject(0);
                     JSONObject main = list.getJSONObject("main");
 
 
-                    long millis = list.getLong("dt") * 1000L;
+                    long millis = list.getLong("dt")*1000L;
 
                     Date d = new Date(millis);
                     Calendar original = Calendar.getInstance();
@@ -379,22 +414,22 @@ public class WeatherForecast extends AppCompatActivity {
 
                     String time;
 
-                    if (today.get(Calendar.DATE) == original.get(Calendar.DATE)) {
+                    if(today.get(Calendar.DATE) == original.get(Calendar.DATE)){
 
                         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-                        sdf.setTimeZone(TimeZone.getDefault());
+                        sdf.setTimeZone(TimeZone.getTimeZone("Asia/Calcutta"));
                         time = "Today, " + sdf.format(d);
 
-                    } else {
+                    } else{
 
                         SimpleDateFormat sdf = new SimpleDateFormat("EE, HH:mm");
-                        sdf.setTimeZone(TimeZone.getDefault());
+                        sdf.setTimeZone(TimeZone.getTimeZone("Asia/Calcutta"));
                         time = sdf.format(d);
 
                     }
 
                     com.luckycatlabs.sunrisesunset.dto.Location location = new com.luckycatlabs.sunrisesunset.dto.Location(MY_LOCATION_LATITUDE, MY_LOCATION_LONGITUDE);
-                    SunriseSunsetCalculator calculator = new SunriseSunsetCalculator(location, TimeZone.getDefault());
+                    SunriseSunsetCalculator calculator = new SunriseSunsetCalculator(location, "Asia/Calcutta");
 
                     String sunriseForDate = calculator.getOfficialSunriseForDate(original) + ":00";
                     String sunsetForDate = calculator.getOfficialSunsetForDate(original) + ":00";
@@ -419,13 +454,15 @@ public class WeatherForecast extends AppCompatActivity {
 
                     COUNT++;
 
-                    if (COUNT == 16) {
+                    if(COUNT == 16){
 
                         COUNT = 0;
 
                         new GetDailyForecastTask().execute();
 
-                    } else
+                    }
+
+                    else
                         new GetHourlyForecastTask().execute();
 
                 }
@@ -466,9 +503,8 @@ public class WeatherForecast extends AppCompatActivity {
             mDataset = myDataset;
         }
 
-        @NonNull
         @Override
-        public DataHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        public DataHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_wf_item_hourly, parent, false);
 
@@ -479,7 +515,7 @@ public class WeatherForecast extends AppCompatActivity {
 
         @SuppressWarnings("deprecation")
         @Override
-        public void onBindViewHolder(@NonNull DataHolder holder, int position) {
+        public void onBindViewHolder(DataHolder holder, int position) {
 
             holder.WF_H_TIME.setText(mDataset.get(position).getWF_H_TIME());
             holder.WF_H_ICON.setText(Html.fromHtml(mDataset.get(position).getWF_H_ICON()));
@@ -515,7 +551,7 @@ public class WeatherForecast extends AppCompatActivity {
         private String WF_H_HUMIDITY;
         private String WF_H_PRESSURE;
 
-        LocationHourlyForecastValues(String time, String icon, String temperature, String humidity, String pressure) {
+        LocationHourlyForecastValues(String time, String icon, String temperature, String humidity, String pressure){
             WF_H_TIME = time;
             WF_H_ICON = icon;
             WF_H_TEMPERATURE = temperature;
@@ -549,8 +585,7 @@ public class WeatherForecast extends AppCompatActivity {
     @SuppressLint("StaticFieldLeak")
     private class GetDailyForecastTask extends AsyncTask<String, Void, JSONObject> {
 
-        private GetDailyForecastTask() {
-        }
+        private GetDailyForecastTask() {}
 
         @Override
         protected JSONObject doInBackground(String... params) {
@@ -577,14 +612,14 @@ public class WeatherForecast extends AppCompatActivity {
 
             try {
 
-                if (json != null) {
+                if(json != null){
 
                     JSONObject list = json.getJSONArray("list").getJSONObject(COUNT);
                     JSONObject weather = list.getJSONArray("weather").getJSONObject(0);
                     JSONObject temp = list.getJSONObject("temp");
 
 
-                    long millis = list.getLong("dt") * 1000L;
+                    long millis = list.getLong("dt")*1000L;
 
                     Date d = new Date(millis);
                     Calendar original = Calendar.getInstance();
@@ -594,22 +629,22 @@ public class WeatherForecast extends AppCompatActivity {
 
                     String date;
 
-                    if (today.get(Calendar.DATE) == original.get(Calendar.DATE)) {
+                    if(today.get(Calendar.DATE) == original.get(Calendar.DATE)){
 
                         SimpleDateFormat sdf = new SimpleDateFormat("d / M");
-                        sdf.setTimeZone(TimeZone.getDefault());
+                        sdf.setTimeZone(TimeZone.getTimeZone("Asia/Calcutta"));
                         date = "Today, " + sdf.format(d);
 
-                    } else {
+                    } else{
 
                         SimpleDateFormat sdf = new SimpleDateFormat("EE, d / M");
-                        sdf.setTimeZone(TimeZone.getDefault());
+                        sdf.setTimeZone(TimeZone.getTimeZone("Asia/Calcutta"));
                         date = sdf.format(d);
 
                     }
 
                     com.luckycatlabs.sunrisesunset.dto.Location location = new com.luckycatlabs.sunrisesunset.dto.Location(MY_LOCATION_LATITUDE, MY_LOCATION_LONGITUDE);
-                    SunriseSunsetCalculator calculator = new SunriseSunsetCalculator(location, TimeZone.getDefault());
+                    SunriseSunsetCalculator calculator = new SunriseSunsetCalculator(location, "Asia/Calcutta");
 
                     String sunriseForDate = calculator.getOfficialSunriseForDate(original) + ":00";
                     String sunsetForDate = calculator.getOfficialSunsetForDate(original) + ":00";
@@ -632,7 +667,7 @@ public class WeatherForecast extends AppCompatActivity {
 
                     COUNT++;
 
-                    if (COUNT == 10)
+                    if(COUNT == 10)
                         progressDialog.dismiss();
 
                     else
@@ -675,9 +710,8 @@ public class WeatherForecast extends AppCompatActivity {
             mDataset = myDataset;
         }
 
-        @NonNull
         @Override
-        public DataHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        public DataHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_wf_item_daily, parent, false);
 
@@ -688,7 +722,7 @@ public class WeatherForecast extends AppCompatActivity {
 
         @SuppressWarnings("deprecation")
         @Override
-        public void onBindViewHolder(@NonNull DataHolder holder, int position) {
+        public void onBindViewHolder(DataHolder holder, int position) {
 
             holder.WF_D_DATE.setText(mDataset.get(position).getWF_D_DATE());
             holder.WF_D_DESCRIPTION.setText(mDataset.get(position).getWF_D_DESCRIPTION());
@@ -722,7 +756,7 @@ public class WeatherForecast extends AppCompatActivity {
         private String WF_D_DESCRIPTION;
         private String WF_D_TEMPERATURE;
 
-        LocationDailyForecastValues(String date, String icon, String description, String temperature) {
+        LocationDailyForecastValues(String date, String icon, String description, String temperature){
             WF_D_DATE = date;
             WF_D_DESCRIPTION = description;
             WF_D_ICON = icon;

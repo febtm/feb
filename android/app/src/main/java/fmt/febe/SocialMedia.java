@@ -1,6 +1,8 @@
 package fmt.febe;
 
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -17,16 +19,20 @@ import android.widget.Toast;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 import com.facebook.share.Sharer;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.model.ShareOpenGraphAction;
 import com.facebook.share.model.ShareOpenGraphContent;
 import com.facebook.share.model.ShareOpenGraphObject;
 import com.facebook.share.widget.ShareDialog;
+import com.twitter.sdk.android.core.Twitter;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
+import com.twitter.sdk.android.core.TwitterConfig;
 import com.twitter.sdk.android.tweetcomposer.TweetComposer;
+import com.twitter.sdk.android.tweetcomposer.TweetUploadService;
 
-import fmt.febe.helper.BasicFunctions;
-import fmt.febe.helper.Menu;
 
 
 public class SocialMedia extends AppCompatActivity {
@@ -65,7 +71,17 @@ public class SocialMedia extends AppCompatActivity {
 
         MENU_BUTTON = findViewById(R.id.sm_menu);
 
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
+
         fb_callbackManager = CallbackManager.Factory.create();
+
+        TwitterConfig config = new TwitterConfig.Builder(this)
+                .twitterAuthConfig(new TwitterAuthConfig(this.getString(R.string.twitter_consumer_key),
+                        this.getString(R.string.twitter_consumer_secret)))
+                .build();
+
+        Twitter.initialize(config);
 
         SM_SEND_EMAIL = findViewById(R.id.sm_send_email);
         SM_FACEBOOK_SHARE = findViewById(R.id.sm_facebook_share);
@@ -150,13 +166,15 @@ public class SocialMedia extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if (SM_SEND_EMAIL_DETAILS.getVisibility() == View.VISIBLE) {
+                if(SM_SEND_EMAIL_DETAILS.getVisibility() == View.VISIBLE) {
 
                     SM_FACEBOOK_SHARE.setVisibility(View.VISIBLE);
                     SM_TWITTER_SHARE.setVisibility(View.VISIBLE);
                     SM_SEND_EMAIL_DETAILS.setVisibility(View.GONE);
 
-                } else {
+                }
+
+                else {
 
                     SM_FACEBOOK_SHARE.setVisibility(View.GONE);
                     SM_TWITTER_SHARE.setVisibility(View.GONE);
@@ -173,13 +191,15 @@ public class SocialMedia extends AppCompatActivity {
 
                 FB_AND_TW = 0;
 
-                if (SM_FB_AND_TW_SHARE_DETAILS.getVisibility() == View.VISIBLE) {
+                if(SM_FB_AND_TW_SHARE_DETAILS.getVisibility() == View.VISIBLE) {
 
                     SM_SEND_EMAIL.setVisibility(View.VISIBLE);
                     SM_TWITTER_SHARE.setVisibility(View.VISIBLE);
                     SM_FB_AND_TW_SHARE_DETAILS.setVisibility(View.GONE);
 
-                } else {
+                }
+
+                else {
 
                     SM_SEND_EMAIL.setVisibility(View.GONE);
                     SM_TWITTER_SHARE.setVisibility(View.GONE);
@@ -196,13 +216,15 @@ public class SocialMedia extends AppCompatActivity {
 
                 FB_AND_TW = 1;
 
-                if (SM_FB_AND_TW_SHARE_DETAILS.getVisibility() == View.VISIBLE) {
+                if(SM_FB_AND_TW_SHARE_DETAILS.getVisibility() == View.VISIBLE) {
 
                     SM_SEND_EMAIL.setVisibility(View.VISIBLE);
                     SM_FACEBOOK_SHARE.setVisibility(View.VISIBLE);
                     SM_FB_AND_TW_SHARE_DETAILS.setVisibility(View.GONE);
 
-                } else {
+                }
+
+                else {
 
                     SM_SEND_EMAIL.setVisibility(View.GONE);
                     SM_FACEBOOK_SHARE.setVisibility(View.GONE);
@@ -235,10 +257,10 @@ public class SocialMedia extends AppCompatActivity {
                 sm_message = SM_MESSAGE.getText().toString();
 
                 if (TextUtils.isEmpty(sm_from_email) || !android.util.Patterns.EMAIL_ADDRESS.matcher(sm_from_email).matches()) {
-                    SM_FROM_EMAIL.setError("Invalid Email-Id !");
+                    SM_FROM_EMAIL.setError("Invalid Email-ID !");
 
                 } else if (TextUtils.isEmpty(sm_to_email) || !android.util.Patterns.EMAIL_ADDRESS.matcher(sm_to_email).matches()) {
-                    SM_TO_EMAIL.setError("Invalid Email-Id !");
+                    SM_TO_EMAIL.setError("Invalid Email-ID !");
 
                 } else if (TextUtils.isEmpty(sm_subject)) {
                     SM_SUBJECT.setError("Type in the Subject !");
@@ -248,19 +270,19 @@ public class SocialMedia extends AppCompatActivity {
 
                 } else {
 
-                    if (basicFunctions.isConnectingToInternet())
-                        basicFunctions.sendEmail("SendEmail", sm_from_email, sm_to_email, sm_subject, sm_message);
+                    if(basicFunctions.isConnectingToInternet())
+                       basicFunctions.sendEmail("SendEmail", sm_from_email, sm_to_email, sm_subject, sm_message);
 
                     else {
 
                         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                switch (which) {
+                                switch (which){
 
                                     case DialogInterface.BUTTON_POSITIVE:
 
-                                        if (basicFunctions.isConnectingToInternet())
+                                        if(basicFunctions.isConnectingToInternet())
                                             basicFunctions.sendEmail("SendEmail", sm_from_email, sm_to_email, sm_subject, sm_message);
 
                                         else
@@ -314,12 +336,12 @@ public class SocialMedia extends AppCompatActivity {
 
                     String app_id;
 
-                    if (FB_AND_TW == 0) {
+                    if(FB_AND_TW == 0){
 
                         app_id = "com.facebook.katana";
 
-                        if (basicFunctions.isAppInstalled(app_id))
-                            shareOnFacebook(sm_title, sm_description);
+                        if(basicFunctions.isAppInstalled(app_id))
+                            shareonFacebook(sm_title, sm_description);
 
                         else {
 
@@ -337,7 +359,9 @@ public class SocialMedia extends AppCompatActivity {
 
                         }
 
-                    } else {
+                    }
+
+                    else {
 
                         shareOnTwitter(sm_title, sm_description);
 
@@ -351,7 +375,7 @@ public class SocialMedia extends AppCompatActivity {
     }
 
 
-    private void shareOnFacebook(String title, String description) {
+    private void shareonFacebook(String title, String description) {
 
         ShareDialog shareDialog = new ShareDialog(SocialMedia.this);
 
@@ -404,32 +428,12 @@ public class SocialMedia extends AppCompatActivity {
     }
 
 
-    private void shareOnTwitter(String title, String description) {
 
-        String app_id = "com.twitter.android";
+    private void shareOnTwitter(String title, String description){
 
-        if (basicFunctions.isAppInstalled(app_id)) {
-
-            TweetComposer.Builder builder = new TweetComposer.Builder(this)
-                    .text("Feb - " + title + " : " + description);
-            builder.show();
-
-        } else {
-
-            try {
-
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + app_id)));
-
-            } catch (android.content.ActivityNotFoundException anfe) {
-
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + app_id)));
-
-            }
-
-            Toast.makeText(getApplicationContext(), "Kindly install the Twitter App to enable Twitter Post Sharing !", Toast.LENGTH_LONG).show();
-
-        }
-
+        TweetComposer.Builder builder = new TweetComposer.Builder(this)
+                .text(title + " : " + description + " - @fmt_george");
+        builder.show();
 
     }
 
@@ -441,5 +445,36 @@ public class SocialMedia extends AppCompatActivity {
         fb_callbackManager.onActivityResult(requestCode, resultCode, data);
 
     }
+
+
+    public class MyResultReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            if (TweetUploadService.UPLOAD_SUCCESS.equals(intent.getAction())) {
+
+                SM_SEND_EMAIL.setVisibility(View.VISIBLE);
+                SM_TWITTER_SHARE.setVisibility(View.VISIBLE);
+                SM_FB_AND_TW_SHARE_DETAILS.setVisibility(View.GONE);
+
+                SM_TITLE.setText("");
+                SM_DESCRIPTION.setText("");
+
+                Toast.makeText(SocialMedia.this, "Twitter Share Successful !", Toast.LENGTH_LONG).show();
+
+            } else if (TweetUploadService.UPLOAD_FAILURE.equals(intent.getAction())) {
+
+                Toast.makeText(SocialMedia.this, "Twitter Share Failed !", Toast.LENGTH_LONG).show();
+
+            } else if (TweetUploadService.TWEET_COMPOSE_CANCEL.equals(intent.getAction())) {
+
+                Toast.makeText(SocialMedia.this, "Twitter Share Cancelled !", Toast.LENGTH_LONG).show();
+
+            }
+        }
+    }
+
+
 
 }

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/anr_no_it"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:background="@color/colorPrimaryTransparent77"
+    android:background="@color/colorSecondaryTransparent77"
     android:padding="5dp"
     android:layout_margin="5dp">
 
@@ -24,7 +25,7 @@
         android:textStyle="bold"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="30dp"
-        android:textColor="@color/colorSecondary"
+        android:textColor="@color/colorPrimary"
         android:layout_marginEnd="30dp"
         android:layout_marginStart="40dp" />
 

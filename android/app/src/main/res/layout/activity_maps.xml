@@ -5,14 +5,14 @@
     tools:context="fmt.febe.Maps"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/ma_background"
     android:orientation="vertical">
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        android:layout_gravity="top">
+        android:layout_gravity="top"
+        android:background="@color/colorSecondaryTransparent77">
 
         <ImageButton
             android:id="@+id/ma_menu"
@@ -31,7 +31,7 @@
             android:textAllCaps="true"
             android:text="@string/maps"
             android:textSize="18sp"
-            android:textColor="@color/colorSecondary" />
+            android:textColor="@color/colorPrimary" />
 
         <ImageView
             android:layout_width="40dp"
@@ -46,7 +46,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@color/colorSecondaryTransparent77">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -65,7 +66,7 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginStart="5dp"
                     android:layout_marginBottom="5dp"
-                    android:background="@color/colorPrimaryTransparent77">
+                    android:background="@color/colorSecondaryTransparent77">
 
                     <EditText
                         android:id="@+id/ma_from"
@@ -80,8 +81,8 @@
                         android:paddingEnd="55dp"
                         android:textSize="16sp"
                         android:textStyle="bold"
-                        android:textColor="@color/colorSecondary"
-                        android:textColorHint="@color/colorSecondary"
+                        android:textColor="@color/colorPrimary"
+                        android:textColorHint="@color/colorPrimary"
                         tools:ignore="RtlSymmetry" />
 
                     <ImageButton
@@ -91,8 +92,7 @@
                         android:layout_gravity="center|end"
                         android:background="@drawable/app_cancel"
                         android:layout_marginRight="30dp"
-                        android:layout_marginEnd="30dp"
-                        android:contentDescription="@null" />
+                        android:layout_marginEnd="30dp" />
 
                     <ImageButton
                         android:id="@+id/ma_from_my_location"
@@ -103,8 +103,7 @@
                         android:layout_marginRight="5dp"
                         android:layout_marginEnd="5dp"
                         android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"
-                        android:contentDescription="@null"/>
+                        android:layout_marginBottom="5dp"/>
 
                 </FrameLayout>
 
@@ -115,7 +114,7 @@
                     android:layout_marginTop="5dp"
                     android:layout_marginStart="5dp"
                     android:layout_marginBottom="5dp"
-                    android:background="@color/colorPrimaryTransparent77">
+                    android:background="@color/colorSecondaryTransparent77">
 
                     <EditText
                         android:id="@+id/ma_to"
@@ -130,8 +129,8 @@
                         android:paddingEnd="55dp"
                         android:textSize="16sp"
                         android:textStyle="bold"
-                        android:textColor="@color/colorSecondary"
-                        android:textColorHint="@color/colorSecondary"
+                        android:textColor="@color/colorPrimary"
+                        android:textColorHint="@color/colorPrimary"
                         tools:ignore="RtlSymmetry" />
 
                     <ImageButton
@@ -141,8 +140,7 @@
                         android:layout_gravity="center|end"
                         android:background="@drawable/app_cancel"
                         android:layout_marginRight="30dp"
-                        android:layout_marginEnd="30dp"
-                        android:contentDescription="@null" />
+                        android:layout_marginEnd="30dp" />
 
                     <ImageButton
                         android:id="@+id/ma_to_my_location"
@@ -153,8 +151,7 @@
                         android:layout_marginRight="5dp"
                         android:layout_marginEnd="5dp"
                         android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"
-                        android:contentDescription="@null"/>
+                        android:layout_marginBottom="5dp"/>
 
                 </FrameLayout>
 
@@ -166,8 +163,7 @@
                 android:layout_height="30dp"
                 android:layout_margin="5dp"
                 android:layout_gravity="center|end"
-                android:background="@drawable/app_go"
-                android:contentDescription="@null"/>
+                android:background="@drawable/app_go"/>
 
         </FrameLayout>
 
@@ -184,22 +180,19 @@
             android:layout_marginRight="55dp"
             android:weightSum="2"
             android:layout_marginEnd="75dp"
-            android:layout_marginStart="5dp"
-            android:baselineAligned="false">
+            android:layout_marginStart="5dp">
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                tools:ignore="UseCompoundDrawables">
+                android:layout_weight="1">
 
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_gravity="center|end"
                     android:background="@drawable/ma_duration"
-                    android:layout_margin="5dp"
-                    android:contentDescription="@null"/>
+                    android:layout_margin="5dp"/>
 
                 <TextView
                     android:id="@+id/tvDuration"
@@ -208,7 +201,7 @@
                     android:layout_gravity="center_vertical"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    android:textColor="@color/colorSecondary" />
+                    android:textColor="@color/colorPrimary" />
 
             </LinearLayout>
 
@@ -216,16 +209,14 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                tools:ignore="UseCompoundDrawables">
+                android:layout_weight="1">
 
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_gravity="center|end"
                     android:background="@drawable/ma_distance"
-                    android:layout_margin="5dp"
-                    android:contentDescription="@null"/>
+                    android:layout_margin="5dp"/>
 
                 <TextView
                     android:id="@+id/tvDistance"
@@ -234,7 +225,7 @@
                     android:layout_gravity="center_vertical"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    android:textColor="@color/colorSecondary" />
+                    android:textColor="@color/colorPrimary" />
 
             </LinearLayout>
 
@@ -247,8 +238,7 @@
             android:layout_gravity="center|end"
             android:layout_marginRight="5dp"
             android:layout_marginEnd="5dp"
-            android:background="@drawable/ma_zoom_in"
-            android:contentDescription="@null"/>
+            android:background="@drawable/ma_zoom_in"/>
 
         <ImageButton
             android:id="@+id/ma_zoom_out"
@@ -257,15 +247,14 @@
             android:layout_gravity="center|end"
             android:layout_marginRight="40dp"
             android:layout_marginEnd="40dp"
-            android:background="@drawable/ma_zoom_out"
-            android:contentDescription="@null" />
+            android:background="@drawable/ma_zoom_out" />
 
         </FrameLayout>
 
     </LinearLayout>
 
     <fragment
-        android:id="@+id/ma_map"
+        android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

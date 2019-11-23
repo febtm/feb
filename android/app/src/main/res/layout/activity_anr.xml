@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:ads="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@drawable/anr_background">
 
@@ -31,7 +30,7 @@
             android:textAllCaps="true"
             android:text="@string/anr"
             android:textSize="15sp"
-            android:textColor="@color/colorSecondary" />
+            android:textColor="@color/colorPrimary" />
 
         <ImageView
             android:layout_width="40dp"
@@ -54,23 +53,31 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        tools:ignore="UselessParent">
+        android:orientation="vertical">
+
+<!--
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/se_adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        ads:adSize="BANNER"
+        android:layout_gravity="center"
+        android:layout_margin="20dp"
+        ads:adUnitId="@string/admob_banner_contact_us">
+    </com.google.android.gms.ads.AdView>
+-->
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_margin="10dp"
         android:orientation="vertical">
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimaryTransparent77"
+            android:background="@color/colorSecondaryTransparent77"
             android:padding="10dp">
 
             <ImageView
@@ -86,7 +93,7 @@
                 android:gravity="center"
                 android:layout_gravity="center"
                 android:text="@string/anr_alarms"
-                android:textColor="@color/colorSecondary"
+                android:textColor="@color/colorPrimary"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -104,12 +111,12 @@
             android:id="@+id/anr_al_alarm_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorSecondaryTransparent77" />
+            android:background="@color/colorPrimaryTransparent77" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorSecondaryTransparent77"
+            android:background="@color/colorPrimaryTransparent77"
             android:gravity="center"
             android:orientation="horizontal"
             android:padding="10dp">
@@ -121,7 +128,7 @@
                 android:layout_marginRight="40dp"
                 android:gravity="center"
                 android:text="@string/anr_al_alarm_duration"
-                android:textColor="@color/colorSecondary"
+                android:textColor="@color/colorPrimary"
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
@@ -139,7 +146,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:padding="5dp"
-                android:textColor="@color/colorSecondary"
+                android:textColor="@color/colorPrimary"
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
@@ -155,7 +162,7 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorSecondaryTransparent77">
+            android:background="@color/colorPrimaryTransparent77">
 
             <EditText
                 android:id="@+id/anr_al_label"
@@ -172,9 +179,9 @@
                 android:paddingRight="50dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:background="@color/colorPrimaryTransparent77"
-                android:textColor="@color/colorSecondary"
-                android:textColorHint="@color/colorSecondary"
+                android:background="@color/colorSecondaryTransparent77"
+                android:textColor="@color/colorPrimary"
+                android:textColorHint="@color/colorPrimary"
                 android:layout_gravity="center|start"
                 android:hint="@string/anr_al_set_label" />
 
@@ -193,7 +200,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorSecondaryTransparent77"
+            android:background="@color/colorPrimaryTransparent77"
             android:gravity="center"
             android:orientation="horizontal"
             android:padding="10dp">
@@ -205,7 +212,7 @@
                 android:layout_marginRight="40dp"
                 android:gravity="center"
                 android:text="@string/anr_al_snooze_duration"
-                android:textColor="@color/colorSecondary"
+                android:textColor="@color/colorPrimary"
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
@@ -223,7 +230,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:padding="5dp"
-                android:textColor="@color/colorSecondary"
+                android:textColor="@color/colorPrimary"
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
@@ -239,7 +246,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorSecondaryTransparent77"
+            android:background="@color/colorPrimaryTransparent77"
             android:gravity="center"
             android:orientation="horizontal"
             android:padding="10dp">
@@ -251,7 +258,7 @@
                 android:layout_marginRight="40dp"
                 android:gravity="center"
                 android:text="@string/anr_al_vibration"
-                android:textColor="@color/colorSecondary"
+                android:textColor="@color/colorPrimary"
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
@@ -264,25 +271,12 @@
 
     </LinearLayout>
 
-        <com.google.android.gms.ads.AdView
-            android:id="@+id/anr_adView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            ads:adSize="BANNER"
-            android:layout_gravity="center"
-            android:layout_marginBottom="20dp"
-            ads:adUnitId="@string/anr_admob_banner">
-        </com.google.android.gms.ads.AdView>
-
         <LinearLayout
             android:id="@+id/anr_al_settings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_margin="10dp"
             android:visibility="gone"
             android:orientation="vertical">
 
@@ -290,7 +284,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:background="@color/colorPrimaryTransparent77">
+                android:background="@color/colorSecondaryTransparent77">
 
                 <ImageView
                     android:layout_width="30dp"
@@ -305,7 +299,7 @@
                     android:gravity="center"
                     android:layout_gravity="center"
                     android:text="@string/anr_alarms_settings"
-                    android:textColor="@color/colorSecondary"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -324,9 +318,9 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:padding="10dp"
-                android:background="@color/colorSecondaryTransparent77"
+                android:background="@color/colorPrimaryTransparent77"
                 android:text="@string/anr_al_time"
-                android:textColor="@color/colorSecondary"
+                android:textColor="@color/colorPrimary"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -334,7 +328,7 @@
                 android:id="@+id/anr_al_set_timepicker"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:background="@color/colorSecondaryTransparent77"
+                android:background="@color/colorPrimaryTransparent77"
                 android:layout_weight="1"
                 android:padding="10dp"
                 android:gravity="center"/>
@@ -344,9 +338,9 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:padding="10dp"
-                android:background="@color/colorSecondaryTransparent77"
+                android:background="@color/colorPrimaryTransparent77"
                 android:text="@string/anr_al_days"
-                android:textColor="@color/colorSecondary"
+                android:textColor="@color/colorPrimary"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -355,7 +349,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:paddingTop="10dp"
-                android:background="@color/colorSecondaryTransparent77"
+                android:background="@color/colorPrimaryTransparent77"
                 android:orientation="horizontal">
 
                 <CheckBox
@@ -369,7 +363,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/anr_al_sunday"
-                    android:textColor="@color/colorSecondary"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="16sp"
                     android:textStyle="bold"/>
 
@@ -382,7 +376,7 @@
                 android:layout_height="wrap_content"
                 android:weightSum="2"
                 android:orientation="horizontal"
-                android:background="@color/colorSecondaryTransparent77"
+                android:background="@color/colorPrimaryTransparent77"
                 android:padding="10dp">
 
                 <LinearLayout
@@ -409,7 +403,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="@string/anr_al_monday"
-                            android:textColor="@color/colorSecondary"
+                            android:textColor="@color/colorPrimary"
                             android:textSize="16sp"
                             android:textStyle="bold"/>
 
@@ -433,7 +427,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="@string/anr_al_tuesday"
-                            android:textColor="@color/colorSecondary"
+                            android:textColor="@color/colorPrimary"
                             android:textSize="16sp"
                             android:textStyle="bold"/>
 
@@ -457,7 +451,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="@string/anr_al_wednesday"
-                            android:textColor="@color/colorSecondary"
+                            android:textColor="@color/colorPrimary"
                             android:textSize="16sp"
                             android:textStyle="bold"/>
 
@@ -489,7 +483,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="@string/anr_al_thursday"
-                            android:textColor="@color/colorSecondary"
+                            android:textColor="@color/colorPrimary"
                             android:textSize="16sp"
                             android:textStyle="bold"/>
 
@@ -513,7 +507,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="@string/anr_al_friday"
-                            android:textColor="@color/colorSecondary"
+                            android:textColor="@color/colorPrimary"
                             android:textSize="16sp"
                             android:textStyle="bold"/>
 
@@ -537,7 +531,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="@string/anr_al_saturday"
-                            android:textColor="@color/colorSecondary"
+                            android:textColor="@color/colorPrimary"
                             android:textSize="16sp"
                             android:textStyle="bold"/>
 
@@ -550,7 +544,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorSecondaryTransparent77"
+                android:background="@color/colorPrimaryTransparent77"
                 android:gravity="center"
                 android:padding="10dp">
 
@@ -569,16 +563,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_margin="10dp"
             android:orientation="vertical">
 
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorPrimaryTransparent77"
+                android:background="@color/colorSecondaryTransparent77"
                 android:padding="10dp">
 
                 <ImageView
@@ -594,7 +585,7 @@
                     android:gravity="center"
                     android:layout_gravity="center"
                     android:text="@string/anr_notes"
-                    android:textColor="@color/colorSecondary"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -612,7 +603,7 @@
                 android:id="@+id/anr_no_notes_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorSecondaryTransparent77" />
+                android:background="@color/colorPrimaryTransparent77" />
 
         </LinearLayout>
 
@@ -622,10 +613,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_margin="10dp"
             android:visibility="gone"
             android:orientation="vertical">
 
@@ -633,7 +621,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:background="@color/colorPrimaryTransparent77">
+                android:background="@color/colorSecondaryTransparent77">
 
                 <ImageView
                     android:layout_width="30dp"
@@ -648,7 +636,7 @@
                     android:gravity="center"
                     android:layout_gravity="center"
                     android:text="@string/anr_notes_settings"
-                    android:textColor="@color/colorSecondary"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -665,7 +653,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorSecondaryTransparent77"
+                android:background="@color/colorPrimaryTransparent77"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:padding="10dp">
@@ -678,9 +666,9 @@
                     android:inputType="textCapWords"
                     android:textSize="15sp"
                     android:padding="10dp"
-                    android:background="@color/colorPrimaryTransparent77"
-                    android:textColor="@color/colorSecondary"
-                    android:textColorHint="@color/colorSecondary"
+                    android:background="@color/colorSecondaryTransparent77"
+                    android:textColor="@color/colorPrimary"
+                    android:textColorHint="@color/colorPrimary"
                     android:layout_gravity="center|start"
                     android:hint="@string/anr_type_in_note" />
 
@@ -701,19 +689,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:orientation="vertical"
-            tools:ignore="TooManyViews">
+            android:layout_margin="10dp"
+            android:orientation="vertical">
 
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorPrimaryTransparent77"
-                android:padding="10dp"
-                tools:ignore="TooManyViews">
+                android:background="@color/colorSecondaryTransparent77"
+                android:padding="10dp">
 
                 <ImageView
                     android:layout_width="30dp"
@@ -728,7 +711,7 @@
                     android:gravity="center"
                     android:layout_gravity="center"
                     android:text="@string/anr_reminders"
-                    android:textColor="@color/colorSecondary"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -746,7 +729,7 @@
                 android:id="@+id/anr_re_reminders_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorSecondaryTransparent77" />
+                android:background="@color/colorPrimaryTransparent77" />
 
         </LinearLayout>
 
@@ -755,10 +738,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_margin="10dp"
             android:visibility="gone"
             android:orientation="vertical">
 
@@ -766,7 +746,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:background="@color/colorPrimaryTransparent77">
+                android:background="@color/colorSecondaryTransparent77">
 
                 <ImageView
                     android:layout_width="30dp"
@@ -781,7 +761,7 @@
                     android:gravity="center"
                     android:layout_gravity="center"
                     android:text="@string/anr_reminders_settings"
-                    android:textColor="@color/colorSecondary"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -798,7 +778,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorSecondaryTransparent77"
+                android:background="@color/colorPrimaryTransparent77"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:padding="10dp">
@@ -812,9 +792,9 @@
                     android:textSize="15sp"
                     android:padding="10dp"
                     android:layout_marginBottom="10dp"
-                    android:background="@color/colorPrimaryTransparent77"
-                    android:textColor="@color/colorSecondary"
-                    android:textColorHint="@color/colorSecondary"
+                    android:background="@color/colorSecondaryTransparent77"
+                    android:textColor="@color/colorPrimary"
+                    android:textColorHint="@color/colorPrimary"
                     android:layout_gravity="center|start"
                     android:hint="@string/anr_type_in_reminder" />
 
@@ -822,7 +802,7 @@
                     android:id="@+id/anr_re_set_datepicker"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:background="@color/colorSecondaryTransparent77"
+                    android:background="@color/colorPrimaryTransparent77"
                     android:layout_weight="1"
                     android:padding="10dp"
                     android:layout_marginBottom="10dp"
@@ -832,7 +812,7 @@
                     android:id="@+id/anr_re_set_timepicker"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:background="@color/colorSecondaryTransparent77"
+                    android:background="@color/colorPrimaryTransparent77"
                     android:layout_weight="1"
                     android:padding="10dp"
                     android:gravity="center"/>

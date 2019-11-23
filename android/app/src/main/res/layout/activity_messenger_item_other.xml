@@ -12,8 +12,8 @@
         android:layout_gravity="center"
         android:text="@string/fetch_older_messages"
         android:visibility="gone"
-        android:textColor="@color/colorSecondary"
-        android:background="@color/colorPrimaryTransparent77"
+        android:textColor="@color/colorPrimary"
+        android:background="@color/colorSecondaryTransparent77"
         android:layout_margin="10dp"
         android:padding="5dp"
         android:textStyle="bold"/>
@@ -33,7 +33,7 @@
         android:autoLink="web"
         android:textColor="@color/colorPrimary"
         android:textIsSelectable="true"
-        android:background="@drawable/mes_white_bubble"
+        android:background="@drawable/mes_blue_bubble"
         android:textSize="14sp" />
 
     <TextView
@@ -44,7 +44,7 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:textSize="12sp"
-        android:textColor="@color/colorQuaternary" />
+        android:textColor="@color/colorTertiary" />
 
 </LinearLayout>
 

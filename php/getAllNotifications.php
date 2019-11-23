@@ -8,7 +8,7 @@ $index = $_GET['index'];
 
 require_once('init.php');
 
-$sql = "SELECT p.username as notification_username, n.* FROM feb_notifications n LEFT JOIN feb_profile p ON n.notification_user_id = p.userid WHERE ((n.post_user_id = '$current_user_id' AND n.post_user_id != n.notification_user_id) OR (n.post_user_id = n.notification_user_id AND n.post_user_id != '$current_user_id')) ORDER BY n.created_at DESC LIMIT $index, 10";
+$sql = "SELECT p.username as notification_username, n.* FROM febe_notifications n LEFT JOIN febe_profile p ON n.notification_user_id = p.userid WHERE ((n.post_user_id = '$current_user_id' AND n.post_user_id != n.notification_user_id) OR (n.post_user_id = n.notification_user_id AND n.post_user_id != '$current_user_id')) ORDER BY n.created_at DESC LIMIT $index, 10";
 
 $res = mysqli_query($con, $sql);
 

@@ -8,7 +8,7 @@ $searchText = $_GET['searchText'];
 
 require_once('init.php');
 
-$sql = "SELECT userid, username FROM feb_profile WHERE username LIKE '%".addslashes($searchText)."%' ORDER BY created_at DESC LIMIT $index, 10";
+$sql = "SELECT userid, username FROM febe_profile WHERE username LIKE '%".addslashes($searchText)."%' ORDER BY created_at DESC LIMIT $index, 10";
  	
 $res = mysqli_query($con,$sql);
  

@@ -2,34 +2,26 @@ package fmt.febe;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.Toast;
-
-import fmt.febe.helper.BasicFunctions;
-import fmt.febe.helper.LSRMenu;
 
 
 public class RecoverPassword extends AppCompatActivity {
 
 
     EditText ET_EMAIL;
-    Button B_SEND_EMAIL;
+    Button B_RESET;
 
     private String to_email;
 
     String subject;
 
     private BasicFunctions basicFunctions;
-
-    private LSRMenu lsrMenu;
-
-    ImageButton MENU_BUTTON, RP_EMAIL_CANCEL;
 
 
     @Override
@@ -39,35 +31,10 @@ public class RecoverPassword extends AppCompatActivity {
 
         basicFunctions = new BasicFunctions(this);
 
-        lsrMenu = new LSRMenu(RecoverPassword.this);
+        ET_EMAIL = findViewById(R.id.fp_email);
+        B_RESET = findViewById(R.id.fp_reset);
 
-        MENU_BUTTON = findViewById(R.id.rp_menu);
-
-        MENU_BUTTON.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                lsrMenu.LeftDrawer.toggleLeftDrawer();
-
-            }
-        });
-
-        ET_EMAIL = findViewById(R.id.rp_email);
-
-
-        RP_EMAIL_CANCEL = findViewById(R.id.rp_email_cancel);
-
-        RP_EMAIL_CANCEL.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                ET_EMAIL.setText("");
-
-            }
-        });
-
-        B_SEND_EMAIL = findViewById(R.id.rp_send_email);
-
-        B_SEND_EMAIL.setOnClickListener(new View.OnClickListener() {
+        B_RESET.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -78,41 +45,22 @@ public class RecoverPassword extends AppCompatActivity {
 
                 } else {
 
-                    if (basicFunctions.isConnectingToInternet()) {
+                    if(basicFunctions.isConnectingToInternet()) {
 
-                        recoverPassword();
+                        subject = "Did you forget your password ?";
+
+                        basicFunctions.sendEmail("RecoverPassword", "BATMAN", to_email, subject, "JOKER");
 
                     } else {
 
                         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                switch (which) {
-
+                                switch (which){
                                     case DialogInterface.BUTTON_POSITIVE:
 
-                                        if (basicFunctions.isConnectingToInternet())
-                                            recoverPassword();
-
-                                        else {
-
-                                            Toast.makeText(RecoverPassword.this,
-                                                    "No Internet Connection. Try again later !",
-                                                    Toast.LENGTH_LONG).show();
-
-                                            dialog.dismiss();
-
-                                        }
-
-                                        break;
-
-                                    case DialogInterface.BUTTON_NEGATIVE:
-
-                                        Toast.makeText(RecoverPassword.this,
-                                                "No Internet Connection. Try again later !",
-                                                Toast.LENGTH_LONG).show();
-
-                                        dialog.dismiss();
+                                        Intent intent = new Intent(RecoverPassword.this, RecoverPassword.class);
+                                        startActivity(intent);
 
                                         break;
 
@@ -121,9 +69,8 @@ public class RecoverPassword extends AppCompatActivity {
                         };
 
                         AlertDialog.Builder builder = new AlertDialog.Builder(RecoverPassword.this);
-                        builder.setMessage("No Internet Connection. Try again ?")
-                                .setPositiveButton("Yes", dialogClickListener)
-                                .setNegativeButton("No", dialogClickListener).show();
+                        builder.setMessage("Network Failure : Please check your Internet Connection !")
+                                .setPositiveButton("Try Again ... ", dialogClickListener).show();
 
                     }
                 }
@@ -131,13 +78,5 @@ public class RecoverPassword extends AppCompatActivity {
         });
     }
 
-
-    private void recoverPassword() {
-
-        subject = "Did you forget your password ?";
-
-        basicFunctions.sendEmail("RecoverPassword", "BATMAN", to_email, subject, "JOKER");
-
-    }
 
 }

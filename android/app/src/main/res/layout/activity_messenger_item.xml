@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        android:background="@color/colorPrimaryTransparent77">
+        android:background="@color/colorSecondaryTransparent77">
 
         <ImageButton
             android:id="@+id/mes_i_back"
@@ -29,14 +29,15 @@
             android:textStyle="bold"
             android:text="@string/messenger"
             android:textSize="18sp"
-            android:textColor="@color/colorSecondary" />
+            android:textColor="@color/colorPrimary" />
 
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:contentDescription="@null"
             android:layout_gravity="center_vertical|end"
-            android:background="@drawable/mes_userimage" />
+            android:background="@drawable/me_messenger" />
+
 
     </FrameLayout>
 
@@ -56,7 +57,7 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimaryTransparent77"
+            android:background="@color/colorSecondaryTransparent77"
             android:gravity="bottom"
             android:padding="5dp"
             android:layout_gravity="center|bottom">
@@ -66,7 +67,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="40dp"
                     android:layout_marginEnd="40dp"
-                    android:background="@color/colorPrimaryTransparent77">
+                    android:background="@color/colorSecondaryTransparent77">
 
                     <EditText
                         android:id="@+id/mes_i_message"
@@ -80,10 +81,10 @@
                         android:paddingEnd="30dp"
                         android:layout_gravity="center"
                         android:hint="@string/type_in_your_message"
-                        android:background="@color/colorPrimaryTransparent77"
-                        android:textColorHint="@color/colorSecondary"
+                        android:background="@color/colorSecondaryTransparent77"
+                        android:textColorHint="@color/colorPrimary"
                         android:textStyle="bold"
-                        android:textColor="@color/colorSecondary"
+                        android:textColor="@color/colorPrimary"
                         tools:ignore="RtlSymmetry" />
 
                     <ImageButton
@@ -93,8 +94,7 @@
                         android:layout_gravity="center|end"
                         android:background="@drawable/app_cancel"
                         android:layout_marginRight="5dp"
-                        android:layout_marginEnd="5dp"
-                        android:contentDescription="@null" />
+                        android:layout_marginEnd="5dp" />
 
                 </FrameLayout>
 
@@ -105,8 +105,7 @@
                 android:layout_height="30dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                android:background="@drawable/app_go"
-                android:contentDescription="@null" />
+                android:background="@drawable/app_go"/>
 
         </FrameLayout>
 

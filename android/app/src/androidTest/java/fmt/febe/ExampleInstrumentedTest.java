@@ -1,4 +1,4 @@
-package fmt.feb;
+package fmt.febe;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

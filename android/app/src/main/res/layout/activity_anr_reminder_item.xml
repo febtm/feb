@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/anr_re_it"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:background="@color/colorPrimaryTransparent77"
+    android:background="@color/colorSecondaryTransparent77"
     android:padding="5dp"
     android:layout_margin="5dp">
 
@@ -33,14 +34,14 @@
             android:textStyle="bold"
             android:layout_marginBottom="20dp"
             android:layout_gravity="center"
-            android:textColor="@color/colorSecondary" />
+            android:textColor="@color/colorPrimary" />
 
         <TextView
             android:id="@+id/anr_re_it_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textColor="@color/colorSecondary"
+            android:textColor="@color/colorPrimary"
             android:textStyle="bold"
             android:textSize="14sp"/>
 

@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,8 +27,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
+//import com.google.android.gms.ads.AdRequest;
+//import com.google.android.gms.ads.AdView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,7 +47,6 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
-import fmt.febe.helper.BasicFunctions;
 import fmt.febe.model.Notification;
 
 
@@ -70,6 +68,7 @@ public class Notifications extends AppCompatActivity {
     private BasicFunctions basicFunctions;
 
     ImageButton NOT_BACK;
+
 
 
     @Override
@@ -95,44 +94,24 @@ public class Notifications extends AppCompatActivity {
 
         basicFunctions = new BasicFunctions(this);
 
-        AdView mAdView = findViewById(R.id.not_adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+        //AdView mAdView = (AdView) findViewById(R.id.adView);
+        //AdRequest adRequest = new AdRequest.Builder().build();
+        //mAdView.loadAd(adRequest);
 
-        if (basicFunctions.isConnectingToInternet())
+
+        if(basicFunctions.isConnectingToInternet())
             getInitialNotificationData();
 
-        else {
+        else{
 
             DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    switch (which) {
-
+                    switch (which){
                         case DialogInterface.BUTTON_POSITIVE:
 
-                            if (basicFunctions.isConnectingToInternet())
-                                getInitialNotificationData();
-
-                            else {
-
-                                Toast.makeText(Notifications.this,
-                                        "No Internet Connection. Try again later !",
-                                        Toast.LENGTH_LONG).show();
-
-                                dialog.dismiss();
-
-                            }
-
-                            break;
-
-                        case DialogInterface.BUTTON_NEGATIVE:
-
-                            Toast.makeText(Notifications.this,
-                                    "No Internet Connection. Try again later !",
-                                    Toast.LENGTH_LONG).show();
-
-                            dialog.dismiss();
+                            Intent intent = new Intent(Notifications.this, Notifications.class);
+                            startActivity(intent);
 
                             break;
 
@@ -140,10 +119,9 @@ public class Notifications extends AppCompatActivity {
                 }
             };
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(Notifications.this);
-            builder.setMessage("No Internet Connection. Try again ?")
-                    .setPositiveButton("Yes", dialogClickListener)
-                    .setNegativeButton("No", dialogClickListener).show();
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Network Failure : Please check your Internet Connection !")
+                    .setPositiveButton("Try Again ... ", dialogClickListener).show();
 
         }
 
@@ -154,7 +132,7 @@ public class Notifications extends AppCompatActivity {
 
         pDialog = ProgressDialog.show(this, "", "Fetching Notifications ... ", false, false);
 
-        StringRequest stringRequest = new StringRequest(BasicFunctions.GET_ALL_NOTIFICATIONS + basicFunctions.getUser_id() + "&index=" + 0, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(BasicFunctions.GET_ALL_NOTIFICATIONS + basicFunctions.getUser_id()+"&index="+0, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -183,9 +161,9 @@ public class Notifications extends AppCompatActivity {
     protected void showList_InitialNotifications(String response) {
 
         String an_id;
-        String an_chat_id;
+        String an_chat_id ;
         String an_post_userread;
-        String an_notify_userid;
+        String an_notify_userid ;
         String an_notify_username;
         String an_timestamp;
 
@@ -218,7 +196,7 @@ public class Notifications extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        if (NotificationArray.length() <= 0)
+        if(NotificationArray.length() <= 0)
             Toast.makeText(Notifications.this, "Your Notification List is empty !", Toast.LENGTH_LONG).show();
 
         recyclerView = findViewById(R.id.no_frag_recycler_view);
@@ -262,7 +240,7 @@ public class Notifications extends AppCompatActivity {
 
     private void getMoreNotificationData(int index) {
 
-        StringRequest stringRequest = new StringRequest(BasicFunctions.GET_ALL_NOTIFICATIONS + basicFunctions.getUser_id() + "&index=" + index, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(BasicFunctions.GET_ALL_NOTIFICATIONS + basicFunctions.getUser_id()+"&index="+index, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -301,7 +279,7 @@ public class Notifications extends AppCompatActivity {
             JSONObject jsonObj = new JSONObject(response);
             NotificationArray = jsonObj.getJSONArray(basicFunctions.JSON_ARRAY);
 
-            if (NotificationArray.length() == 0) {
+            if(NotificationArray.length() == 0) {
 
                 Toast.makeText(this, "No more Notifications to display !", Toast.LENGTH_LONG).show();
                 load_over = 1;
@@ -374,19 +352,18 @@ public class Notifications extends AppCompatActivity {
         }
 
 
-        @NonNull
         @Override
-        public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+        public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
             return new ViewHolder(mLayoutInflater.inflate(R.layout.activity_messenger_list_row, viewGroup, false));
         }
 
 
         @Override
-        public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int position) {
+        public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
 
             final Notification data = mNotifications.get(position);
 
-            if (data != null) {
+            if(data != null) {
 
                 viewHolder.setData(data.getChat_id(), data.getPost_userread(), data.getNotify_username(),
                         data.getTimestamp(), position);
@@ -431,86 +408,62 @@ public class Notifications extends AppCompatActivity {
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView mUserName, mDate;
-        private ImageView mUserRead;
-        private ImageButton mDelete;
+        private TextView mTextTextView, mDateTextView;
+        private ImageView mUserreadImageView;
+        private ImageButton delete;
 
 
         private ViewHolder(View itemView) {
             super(itemView);
 
-            mUserName = itemView.findViewById(R.id.mes_i_username);
-            mUserRead = itemView.findViewById(R.id.mes_i_userread);
-            mDate = itemView.findViewById(R.id.mes_i_timestamp);
-            mDelete = itemView.findViewById(R.id.mes_i_deletebutton);
+            mTextTextView = itemView.findViewById(R.id.mes_i_username);
+            mUserreadImageView = itemView.findViewById(R.id.mes_i_userread);
+            mDateTextView = itemView.findViewById(R.id.mes_i_timestamp);
+            delete = itemView.findViewById(R.id.mes_i_deletebutton);
 
         }
 
         private void setData(String chat_id, String post_userread, String notify_username,
                              String timestamp, final int position) {
 
-            if (post_userread.equals("1"))
-                mUserRead.setVisibility(View.VISIBLE);
+            if(post_userread.equals("1"))
+                mUserreadImageView.setVisibility(View.VISIBLE);
 
             else
-                mUserRead.setVisibility(View.GONE);
+                mUserreadImageView.setVisibility(View.GONE);
 
             String temp_timestamp = BasicFunctions.getTimeStamp(timestamp);
 
-            mDate.setText(temp_timestamp);
+            mDateTextView.setText(temp_timestamp);
 
-            mDelete.setOnClickListener(new View.OnClickListener() {
+            delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    Notification data = mNotifications.get(position);
 
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                    String method = "deletenotification";
+                    DeleteNotificationBackgroundTask nb = new DeleteNotificationBackgroundTask(Notifications.this);
+                    nb.execute(method, data.getId(), data.getChat_id(),
+                            basicFunctions.getUser_id(), data.getNotify_userid());
 
-                            switch (which) {
+                    data.deleteNot();
 
-                                case DialogInterface.BUTTON_POSITIVE:
+                    mNotifications.remove(position);
 
-                                    Notification data = mNotifications.get(position);
-
-                                    String method = "deletenotification";
-                                    DeleteNotificationBackgroundTask nb = new DeleteNotificationBackgroundTask(Notifications.this);
-                                    nb.execute(method, data.getId(), data.getChat_id(),
-                                            basicFunctions.getUser_id(), data.getNotify_userid());
-
-                                    data.deleteNot();
-
-                                    mNotifications.remove(position);
-
-                                    notificationFragmentAdapter.notifyDataSetChanged();
-
-                                    break;
-
-                                case DialogInterface.BUTTON_NEGATIVE:
-
-                                    Toast.makeText(Notifications.this, "Deletion Cancelled !", Toast.LENGTH_LONG).show();
-
-                                    break;
-                            }
-                        }
-                    };
-
-                    AlertDialog.Builder builder = new AlertDialog.Builder(Notifications.this);
-                    builder.setMessage("Are you sure you want to delete this Notification ?").setPositiveButton("Yes", dialogClickListener)
-                            .setNegativeButton("No", dialogClickListener).show();
+                    notificationFragmentAdapter.notifyDataSetChanged();
 
                 }
             });
 
             String text;
 
-            switch (chat_id) {
+            switch (chat_id){
 
                 case "55555555":
 
                     text = notify_username + " has sent you a Chat request !";
-                    mUserName.setText(text);
+                    mTextTextView.setText(text);
 
                     break;
 
@@ -518,21 +471,21 @@ public class Notifications extends AppCompatActivity {
                 case "55555551":
 
                     text = notify_username + " has accepted your Chat request !";
-                    mUserName.setText(text);
+                    mTextTextView.setText(text);
 
                     break;
 
                 case "55555552":
 
                     text = notify_username + " has rejected your Chat request !";
-                    mUserName.setText(text);
+                    mTextTextView.setText(text);
 
                     break;
 
                 default:
 
                     text = notify_username + " has sent you a Message !";
-                    mUserName.setText(text);
+                    mTextTextView.setText(text);
 
                     break;
 
@@ -543,14 +496,14 @@ public class Notifications extends AppCompatActivity {
     }
 
 
-    private void onNotificationFragmentItemSelected(String id, final String chat_id,
-                                                    final String notify_user_id, final String notify_username) {
+    private void onNotificationFragmentItemSelected(String id, String chat_id,
+                                                    String notify_user_id, String notify_username) {
 
         String method = "readnotification";
 
         basicFunctions.performTask(method, id, notify_user_id);
 
-        switch (chat_id) {
+        switch (chat_id){
 
             case "55555555":
 
@@ -566,46 +519,26 @@ public class Notifications extends AppCompatActivity {
 
             case "55555552":
 
-                Toast.makeText(this, notify_username + " has rejected Your Chat request !", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, notify_username+" has rejected Your Chat request !", Toast.LENGTH_LONG).show();
                 break;
 
 
             default:
 
-                if (basicFunctions.isConnectingToInternet())
+                if(basicFunctions.isConnectingToInternet())
                     login(chat_id, notify_username, notify_user_id);
 
-                else {
+                else{
 
                     DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            switch (which) {
-
+                            switch (which){
                                 case DialogInterface.BUTTON_POSITIVE:
 
-                                    if (basicFunctions.isConnectingToInternet())
-                                        login(chat_id, notify_username, notify_user_id);
-
-                                    else {
-
-                                        Toast.makeText(Notifications.this,
-                                                "No Internet Connection. Try again later !",
-                                                Toast.LENGTH_LONG).show();
-
-                                        dialog.dismiss();
-
-                                    }
-
-                                    break;
-
-                                case DialogInterface.BUTTON_NEGATIVE:
-
-                                    Toast.makeText(Notifications.this,
-                                            "No Internet Connection. Try again later !",
-                                            Toast.LENGTH_LONG).show();
-
-                                    dialog.dismiss();
+                                    Intent intent = new Intent(Notifications.this, HomePage.class);
+                                    startActivity(intent);
+                                    startActivity(intent);
 
                                     break;
 
@@ -613,110 +546,85 @@ public class Notifications extends AppCompatActivity {
                         }
                     };
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(Notifications.this);
-                    builder.setMessage("No Internet Connection. Try again ?")
-                            .setPositiveButton("Yes", dialogClickListener)
-                            .setNegativeButton("No", dialogClickListener).show();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setMessage("Network Failure : Please check Your Internet Connection !")
+                            .setPositiveButton("Try Again ... ", dialogClickListener).show();
 
                 }
+
+                break;
         }
 
     }
 
 
-    private void dbchat(final String method, final String current_user_id, final String username, final String user_id) {
+    private void dbchat(String method, final String current_user_id, final String username, final String user_id) {
 
-        if (basicFunctions.isConnectingToInternet())
-            chatResponse(method, current_user_id, username, user_id);
+        if(basicFunctions.isConnectingToInternet())
 
-        else {
+            if(method.equals("request")) {
 
-            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    switch (which) {
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
 
-                        case DialogInterface.BUTTON_POSITIVE:
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
 
-                            if (basicFunctions.isConnectingToInternet())
-                                chatResponse(method, current_user_id, username, user_id);
+                        switch (which) {
+                            case DialogInterface.BUTTON_POSITIVE:
 
-                            else {
+                                ChatBackgroundTask backgroundTask = new ChatBackgroundTask(Notifications.this);
 
-                                Toast.makeText(Notifications.this,
-                                        "No Internet Connection. Try again later !",
-                                        Toast.LENGTH_LONG).show();
+                                backgroundTask.execute("chat_accept", current_user_id, username, user_id);
 
-                                dialog.dismiss();
+                                break;
 
-                            }
+                            case DialogInterface.BUTTON_NEGATIVE:
 
-                            break;
+                                ChatBackgroundTask backgroundTask_2 = new ChatBackgroundTask(Notifications.this);
 
-                        case DialogInterface.BUTTON_NEGATIVE:
+                                backgroundTask_2.execute("chat_reject", current_user_id, username, user_id);
 
-                            Toast.makeText(Notifications.this,
-                                    "No Internet Connection. Try again later !",
-                                    Toast.LENGTH_LONG).show();
-
-                            dialog.dismiss();
-
-                            break;
-
+                                break;
+                        }
                     }
-                }
-            };
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(Notifications.this);
-            builder.setMessage("No Internet Connection. Try again ?")
-                    .setPositiveButton("Yes", dialogClickListener)
-                    .setNegativeButton("No", dialogClickListener).show();
-
-        }
-
-    }
 
 
-    private void chatResponse(String method, final String current_user_id, final String username, final String user_id) {
+                };
 
-        if (method.equals("request")) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(Notifications.this);
+                builder.setMessage("Would you like to accept this User's Chat request ?").setPositiveButton("Yes", dialogClickListener)
+                        .setNegativeButton("No", dialogClickListener).show();
+            }
 
-            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            else if(method.equals("chat")){
 
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
+                ChatBackgroundTask backgroundTask = new ChatBackgroundTask(Notifications.this);
 
-                    switch (which) {
-                        case DialogInterface.BUTTON_POSITIVE:
+                backgroundTask.execute("chat_accept", current_user_id, username, user_id);
+            }
 
-                            ChatBackgroundTask backgroundTask = new ChatBackgroundTask(Notifications.this);
+            else{
 
-                            backgroundTask.execute("chat_accept", current_user_id, username, user_id);
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which){
+                            case DialogInterface.BUTTON_POSITIVE:
 
-                            break;
+                                Intent intent = new Intent(Notifications.this, HomePage.class);
+                                startActivity(intent);
 
-                        case DialogInterface.BUTTON_NEGATIVE:
+                                break;
 
-                            ChatBackgroundTask backgroundTask_2 = new ChatBackgroundTask(Notifications.this);
-
-                            backgroundTask_2.execute("chat_reject", current_user_id, username, user_id);
-
-                            break;
+                        }
                     }
-                }
+                };
 
-            };
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("Network Failure : Please check your Internet Connection !")
+                        .setPositiveButton("Try Again ... ", dialogClickListener).show();
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(Notifications.this);
-            builder.setMessage("Would you like to accept this User's Chat request ?").setPositiveButton("Yes", dialogClickListener)
-                    .setNegativeButton("No", dialogClickListener).show();
-
-        } else if (method.equals("chat")) {
-
-            ChatBackgroundTask backgroundTask = new ChatBackgroundTask(Notifications.this);
-
-            backgroundTask.execute("chat_accept", current_user_id, username, user_id);
-        }
+            }
 
     }
 
@@ -754,6 +662,7 @@ public class Notifications extends AppCompatActivity {
                 httpURLConnection.setDoOutput(true);
                 OutputStream OS = httpURLConnection.getOutputStream();
                 BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(OS, "UTF-8"));
+
 
                 data = URLEncoder.encode("method", "UTF-8") + "=" + URLEncoder.encode(method, "UTF-8")
                         + "&" + URLEncoder.encode("current_user_id", "UTF-8") + "=" + URLEncoder.encode(current_user_id, "UTF-8")
@@ -794,22 +703,24 @@ public class Notifications extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
 
-            if (result.equals("The Chat request has been rejected !"))
-                Toast.makeText(Notifications.this, result, Toast.LENGTH_LONG).show();
+            if(result.equals("The Chat request has been rejected !"))
+                Toast.makeText(Notifications.this, result,  Toast.LENGTH_LONG).show();
 
-            else if (result.equals("The Chat request has been accepted !") && method.equals("chat_accept")) {
+            else if(result.equals("The Chat request has been accepted !") && method.equals("chat_accept")) {
 
                 Toast.makeText(Notifications.this, result, Toast.LENGTH_LONG).show();
                 login(result, username, user_id);
 
-            } else if (method.equals("chat_accept"))
+            }
+
+            else if(method.equals("chat_accept"))
                 login(result, username, user_id);
 
         }
     }
 
 
-    private void login(String chat_id, String username, String user_id) {
+    private void login(final String chat_id, final String username, final String user_id) {
 
         Intent intent = new Intent(Notifications.this, MessengerItem.class);
         intent.putExtra("chat_room_id", chat_id);
@@ -864,22 +775,24 @@ public class Notifications extends AppCompatActivity {
                     OutputStream OS = httpURLConnection.getOutputStream();
                     BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(OS, "UTF-8"));
 
+
                     String data = URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(id, "UTF-8")
                             + "&" + URLEncoder.encode("chat_room_id", "UTF-8") + "=" + URLEncoder.encode(chat_room_id, "UTF-8")
                             + "&" + URLEncoder.encode("user_id", "UTF-8") + "=" + URLEncoder.encode(user_id, "UTF-8")
                             + "&" + URLEncoder.encode("notify_user_id", "UTF-8") + "=" + URLEncoder.encode(notify_user_id, "UTF-8");
+
 
                     bufferedWriter.write(data);
                     bufferedWriter.flush();
                     bufferedWriter.close();
                     OS.close();
                     InputStream IS = httpURLConnection.getInputStream();
-                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(IS, "iso-8859-1"));
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(IS,"iso-8859-1"));
 
                     StringBuilder response = new StringBuilder();
                     String line;
 
-                    while ((line = bufferedReader.readLine()) != null) {
+                    while((line = bufferedReader.readLine())!=null)  {
                         response.append(line);
                     }
                     bufferedReader.close();
@@ -904,7 +817,7 @@ public class Notifications extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
 
-            if (result.equals("Notification removed from Notification List !"))
+            if(result.equals("Notification removed from Notification List !"))
                 pDialog.dismiss();
 
         }

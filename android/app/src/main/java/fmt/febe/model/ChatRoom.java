@@ -11,8 +11,7 @@ public class ChatRoom implements Serializable {
             user1_online, user2_online, user1_read, user2_read, timestamp;
 
 
-    public ChatRoom() {
-    }
+    public ChatRoom() {}
 
 
     public String getId() {
@@ -58,7 +57,6 @@ public class ChatRoom implements Serializable {
     public void setUser2_name(String user2_name) {
         this.user2_name = user2_name;
     }
-
 
     public String getUser1_online() {
         return user1_online;

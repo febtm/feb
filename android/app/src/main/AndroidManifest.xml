@@ -1,29 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
     package="fmt.febe">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-    <uses-permission android:name="android.permission.READ_INTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
 
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
-
     <uses-permission android:name="android.permission.CAMERA" />
-
-    <uses-feature android:name="android.hardware.camera" />
-    <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <uses-feature
         android:glEsVersion="0x00020000"
@@ -38,34 +33,35 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+
         <service
             android:name=".FCMNotToken"
             android:exported="false">
-
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>
-
         </service>
+
 
         <service
             android:name=".FCMNotMessaging"
             android:exported="false">
-
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
-
         </service>
+
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/fb_app_id" />
+            android:value="@string/facebook_app_id"/>
+
 
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
+
 
         <activity
             android:name="com.facebook.CustomTabActivity"
@@ -73,32 +69,41 @@
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
 
         </activity>
 
-        <provider
-            android:name="com.facebook.FacebookContentProvider"
-            android:authorities="com.facebook.app.FacebookContentProvider168830133748079"
-            android:exported="false" />
 
-        <receiver android:name=".helper.ANRAlReceiver" />
+        <provider
+            android:authorities="com.facebook.app.FacebookContentProvider168830133748079"
+            android:name="com.facebook.FacebookContentProvider"
+            android:exported="false"/>
+
+        <receiver
+            android:name=".SocialMedia$MyResultReceiver"
+            android:exported="false">
+
+            <intent-filter>
+                <action android:name="com.twitter.sdk.android.tweetcomposer.UPLOAD_SUCCESS"/>
+                <action android:name="com.twitter.sdk.android.tweetcomposer.UPLOAD_FAILURE"/>
+                <action android:name="com.twitter.sdk.android.tweetcomposer.TWEET_COMPOSE_CANCEL"/>
+            </intent-filter>
+
+        </receiver>
+
+        <receiver android:name=".ANRAlReceiver" />
+
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="40315d3f695a7cd08ecafe26eb0961e9161fb60b" />
 
         <activity
-            android:name=".LogIn"
+            android:name=".Login"
             android:theme="@style/AppTheme">
 
             <intent-filter>
@@ -109,130 +114,140 @@
             <intent-filter>
 
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data
-                    android:host="www.google.com"
-                    android:scheme="https" />
+                <data android:scheme="https"
+                    android:host="www.google.com" />
 
-                <data
+                <data android:scheme="https"
                     android:host="www.facebook.com"
-                    android:pathPrefix="/fmt.feb"
-                    android:scheme="https" />
+                    android:pathPrefix="/fmt.febe"/>
 
-                <data
+                <data android:scheme="https"
                     android:host="www.twitter.com"
-                    android:pathPrefix="/fmt_feb"
-                    android:scheme="https" />
+                    android:pathPrefix="/fmt_febe"/>
 
             </intent-filter>
 
         </activity>
+
 
         <activity
             android:name=".SignIn"
             android:theme="@style/AppTheme">
 
             <intent-filter>
-                <action android:name="fmt.febe.SignIn" />
+                <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
         </activity>
+
 
         <activity
             android:name=".RecoverPassword"
             android:theme="@style/AppTheme">
 
             <intent-filter>
-                <action android:name="fmt.febe.RecoverPassword" />
+                <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
         </activity>
+
 
         <activity android:name=".HomePage">
 
             <intent-filter>
-                <action android:name="fmt.febe.HomePage" />
+                <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
         </activity>
 
-        <activity android:name=".Messenger">
+
+        <activity
+            android:name=".Messenger">
 
             <intent-filter>
-                <action android:name="fmt.febe.Messenger" />
+                <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
         </activity>
 
-        <activity android:name=".MessengerItem">
+
+        <activity
+            android:name=".Notifications">
 
             <intent-filter>
-                <action android:name="fmt.febe.MessengerItem" />
+                <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
         </activity>
 
-        <activity android:name=".Notifications">
+
+        <activity
+            android:name=".MessengerItem">
 
             <intent-filter>
-                <action android:name="fmt.febe.Notifications" />
+                <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
         </activity>
+
 
         <activity
             android:name=".SocialMedia"
             android:theme="@style/AppTheme">
 
             <intent-filter>
-                <action android:name="fmt.febe.SocialMedia" />
+                <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
         </activity>
+
 
         <activity
             android:name=".HomeAssistant"
             android:theme="@style/AppTheme">
 
             <intent-filter>
-                <action android:name="fmt.febe.HomeAssistant" />
+                <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
         </activity>
+
 
         <activity android:name=".Maps">
 
             <intent-filter>
-                <action android:name="fmt.febe.Maps" />
+                <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
         </activity>
+
 
         <activity android:name=".WeatherForecast">
 
             <intent-filter>
-                <action android:name="fmt.febe.WeatherForecast" />
+                <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
         </activity>
 
+
         <activity android:name=".ContactUs">
 
             <intent-filter>
-                <action android:name="fmt.febe.ContactUs" />
+                <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
@@ -241,16 +256,16 @@
         <activity android:name=".ANR">
 
             <intent-filter>
-                <action android:name="fmt.febe.ANR" />
+                <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
         </activity>
 
-        <activity android:name=".helper.ANRAlProvider">
+        <activity android:name=".ANRAlProvider">
 
             <intent-filter>
-                <action android:name="fmt.febe.ANRAlProvider" />
+                <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
