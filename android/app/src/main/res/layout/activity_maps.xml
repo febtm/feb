@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="fmt.febe.Maps"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/ma_background"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_gravity="top">
+
+        <ImageButton
+            android:id="@+id/ma_menu"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:contentDescription="@null"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/app_menu"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            android:textAllCaps="true"
+            android:text="@string/maps"
+            android:textSize="18sp"
+            android:textColor="@color/colorSecondary" />
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:contentDescription="@null"
+            android:layout_gravity="center_vertical|end"
+            android:background="@drawable/me_maps"/>
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="40dp"
+                android:orientation="vertical"
+                android:layout_marginEnd="40dp">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@color/colorPrimaryTransparent77">
+
+                    <EditText
+                        android:id="@+id/ma_from"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/ma_from_location"
+                        android:gravity="center_vertical"
+                        android:background="@android:color/transparent"
+                        android:padding="5dp"
+                        android:inputType="textCapWords"
+                        android:paddingRight="55dp"
+                        android:paddingEnd="55dp"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorSecondary"
+                        android:textColorHint="@color/colorSecondary"
+                        tools:ignore="RtlSymmetry" />
+
+                    <ImageButton
+                        android:id="@+id/ma_from_cancel"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center|end"
+                        android:background="@drawable/app_cancel"
+                        android:layout_marginRight="30dp"
+                        android:layout_marginEnd="30dp"
+                        android:contentDescription="@null" />
+
+                    <ImageButton
+                        android:id="@+id/ma_from_my_location"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center|end"
+                        android:background="@drawable/ma_user_location_white"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:contentDescription="@null"/>
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@color/colorPrimaryTransparent77">
+
+                    <EditText
+                        android:id="@+id/ma_to"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/ma_to_location"
+                        android:gravity="center_vertical"
+                        android:background="@android:color/transparent"
+                        android:padding="5dp"
+                        android:inputType="textCapWords"
+                        android:paddingRight="55dp"
+                        android:paddingEnd="55dp"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorSecondary"
+                        android:textColorHint="@color/colorSecondary"
+                        tools:ignore="RtlSymmetry" />
+
+                    <ImageButton
+                        android:id="@+id/ma_to_cancel"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center|end"
+                        android:background="@drawable/app_cancel"
+                        android:layout_marginRight="30dp"
+                        android:layout_marginEnd="30dp"
+                        android:contentDescription="@null" />
+
+                    <ImageButton
+                        android:id="@+id/ma_to_my_location"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center|end"
+                        android:background="@drawable/ma_user_location_white"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:contentDescription="@null"/>
+
+                </FrameLayout>
+
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/ma_search"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="5dp"
+                android:layout_gravity="center|end"
+                android:background="@drawable/app_go"
+                android:contentDescription="@null"/>
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="55dp"
+            android:weightSum="2"
+            android:layout_marginEnd="75dp"
+            android:layout_marginStart="5dp"
+            android:baselineAligned="false">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                tools:ignore="UseCompoundDrawables">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center|end"
+                    android:background="@drawable/ma_duration"
+                    android:layout_margin="5dp"
+                    android:contentDescription="@null"/>
+
+                <TextView
+                    android:id="@+id/tvDuration"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorSecondary" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                tools:ignore="UseCompoundDrawables">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center|end"
+                    android:background="@drawable/ma_distance"
+                    android:layout_margin="5dp"
+                    android:contentDescription="@null"/>
+
+                <TextView
+                    android:id="@+id/tvDistance"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorSecondary" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/ma_zoom_in"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center|end"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
+            android:background="@drawable/ma_zoom_in"
+            android:contentDescription="@null"/>
+
+        <ImageButton
+            android:id="@+id/ma_zoom_out"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center|end"
+            android:layout_marginRight="40dp"
+            android:layout_marginEnd="40dp"
+            android:background="@drawable/ma_zoom_out"
+            android:contentDescription="@null" />
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <fragment
+        android:id="@+id/ma_map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

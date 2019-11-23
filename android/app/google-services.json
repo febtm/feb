@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "715021678523",
+    "firebase_url": "https://fmt-febe.firebaseio.com",
+    "project_id": "fmt-febe",
+    "storage_bucket": "fmt-febe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:715021678523:android:56caa9c9c1881251",
+        "android_client_info": {
+          "package_name": "fmt.febe"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "715021678523-isnbbd9ccblf1iv8havgpmnhceagfnuh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "fmt.febe",
+            "certificate_hash": "40a4f1886c664af7c18409ba01295d604140f22d"
+          }
+        },
+        {
+          "client_id": "715021678523-hp0hcpro15hieo4th44f88j22sosqn9f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDiIsjV0cibHsuGYOmCrKh9bG8U8ThgONQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "715021678523-hp0hcpro15hieo4th44f88j22sosqn9f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

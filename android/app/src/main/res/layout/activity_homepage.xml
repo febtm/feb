@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@drawable/hp_background">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@android:color/transparent">
+
+        <ImageButton
+            android:id="@+id/hp_menu"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:contentDescription="@null"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/app_menu"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            android:textAllCaps="true"
+            android:text="@string/homepage"
+            android:textSize="18sp"
+            android:textColor="@color/colorSecondary" />
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:contentDescription="@null"
+            android:layout_gravity="center_vertical|end"
+            android:background="@drawable/me_home"/>
+
+    </FrameLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/colorSecondaryTransparent77"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="20dp"
+            android:padding="10dp"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/hp_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorSecondary"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
+
+            <ImageButton
+                android:id="@+id/hp_voice_button"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:contentDescription="@null"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/app_logo"/>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="20dp">
+
+                <EditText
+                    android:id="@+id/hp_search_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingRight="30dp"
+                    android:paddingEnd="30dp"
+                    android:hint="@string/hp_how_can"
+                    android:gravity="center_vertical"
+                    android:padding="5dp"
+                    android:inputType="textCapSentences|textMultiLine"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorSecondary"
+                    android:textColorHint="@color/colorSecondary"
+                    android:background="@color/colorPrimaryTransparent77"
+                    tools:ignore="RtlSymmetry" />
+
+                <ImageButton
+                    android:id="@+id/hp_cancel"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center|end"
+                    android:background="@drawable/app_cancel"
+                    android:layout_marginRight="40dp"
+                    android:layout_marginEnd="40dp"
+                    android:contentDescription="@null" />
+
+                <ImageButton
+                    android:id="@+id/hp_search_button"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/hp_search_results"
+                    android:layout_gravity="center|end"
+                    android:contentDescription="@null" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/hp_phone_message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="10dp"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginRight="40dp"
+                        android:layout_marginEnd="40dp">
+
+                        <EditText
+                            android:id="@+id/hp_phone_number"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:paddingRight="30dp"
+                            android:paddingEnd="30dp"
+                            android:hint="@string/hp_phone_number"
+                            android:gravity="center_vertical"
+                            android:padding="5dp"
+                            android:inputType="textCapWords"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/colorSecondary"
+                            android:textColorHint="@color/colorSecondary"
+                            android:background="@color/colorPrimaryTransparent77"
+                            tools:ignore="RtlSymmetry,TextFields" />
+
+                        <ImageButton
+                            android:id="@+id/hp_cancel_phone_number"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center|end"
+                            android:background="@drawable/app_cancel"
+                            android:layout_margin="5dp"
+                            android:contentDescription="@null" />
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/hp_mess_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:visibility="gone"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="40dp"
+                        android:layout_marginEnd="40dp">
+
+                        <EditText
+                            android:id="@+id/hp_message"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:paddingRight="30dp"
+                            android:paddingEnd="30dp"
+                            android:hint="@string/hp_message"
+                            android:gravity="center_vertical"
+                            android:padding="5dp"
+                            android:inputType="textCapSentences|textMultiLine"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/colorSecondary"
+                            android:textColorHint="@color/colorSecondary"
+                            android:background="@color/colorPrimaryTransparent77"
+                            tools:ignore="RtlSymmetry" />
+
+                        <ImageButton
+                            android:id="@+id/hp_cancel_message"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center|end"
+                            android:background="@drawable/app_cancel"
+                            android:layout_margin="5dp"
+                            android:contentDescription="@null" />
+
+                    </FrameLayout>
+
+                </LinearLayout>
+
+                <ImageButton
+                    android:id="@+id/hp_search_button_ph_mes"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/app_go"
+                    android:layout_gravity="center|end"
+                    android:contentDescription="@null" />
+
+            </FrameLayout>
+
+            <LinearLayout
+                android:id="@+id/hp_search_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorPrimaryTransparent77"
+                android:visibility="gone">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/hp_search_results"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorSecondary"
+                    android:gravity="end"
+                    android:padding="5dp"
+                    android:text="@string/hp_pow_gcsapi"
+                    android:textSize="14sp"
+                    android:textStyle="bold"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+            <com.google.android.gms.ads.AdView
+                android:id="@+id/hp_adView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                ads:adSize="BANNER"
+                android:layout_marginBottom="20dp"
+                ads:adUnitId="@string/hp_admob_banner">
+            </com.google.android.gms.ads.AdView>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="20dp"
+                android:background="@color/colorPrimaryTransparent77"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@android:color/transparent">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:textStyle="bold"
+                        android:textAllCaps="true"
+                        android:text="@string/hp_news"
+                        android:textSize="18sp"
+                        android:textColor="@color/colorSecondary" />
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:contentDescription="@null"
+                        android:layout_gravity="center_vertical|end"
+                        android:background="@drawable/hp_news"/>
+
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="@string/hp_general_news"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorSecondary"
+                    android:layout_marginStart="5dp" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/hp_news_general"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="@string/hp_business_news"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorSecondary"
+                    android:layout_marginStart="5dp" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/hp_news_business"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="@string/hp_technology_news"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorSecondary"
+                    android:layout_marginStart="5dp" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/hp_news_techonology"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="@string/hp_sports_news"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorSecondary"
+                    android:layout_marginStart="5dp" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/hp_news_sports"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="@string/hp_entertainment_news"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorSecondary"
+                    android:layout_marginStart="5dp" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/hp_news_entertainment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorSecondary"
+                    android:gravity="end"
+                    android:padding="5dp"
+                    android:text="@string/hp_pow_newsapi"
+                    android:textSize="14sp"
+                    android:textStyle="bold"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

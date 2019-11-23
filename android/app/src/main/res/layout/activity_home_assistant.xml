@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/ha_background">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@android:color/transparent">
+
+        <ImageButton
+            android:id="@+id/ha_menu"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:contentDescription="@null"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/app_menu"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            android:textAllCaps="true"
+            android:text="@string/home_assistant"
+            android:textSize="18sp"
+            android:textColor="@color/colorSecondary" />
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:contentDescription="@null"
+            android:layout_gravity="center_vertical|end"
+            android:background="@drawable/me_home_assistant"/>
+
+    </FrameLayout>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:padding="10dp"
+        android:gravity="center"
+        android:background="@color/colorSecondaryTransparent77"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:contentDescription="@null"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ha_temperature"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:orientation="vertical"
+            android:layout_marginStart="5dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/ha_temperature"
+                android:padding="5dp"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:textColor="@color/colorSecondary"
+                android:textAllCaps="true"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/ha_temperature"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:layout_marginTop="5dp"
+                android:textSize="16sp"
+                android:textColor="@color/colorSecondary"
+                android:gravity="center"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:padding="10dp"
+        android:gravity="center"
+        android:background="@color/colorSecondaryTransparent77"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ha_device_status"
+            android:padding="5dp"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="@color/colorSecondary"
+            android:textAllCaps="true"
+            android:gravity="center"/>
+
+        <ImageView
+            android:contentDescription="@null"
+            android:id="@+id/ha_device_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/ha_status_off"/>
+
+        <TextView
+            android:id="@+id/ha_device_status_text"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="@string/ha_off"
+            android:textAllCaps="true"
+            android:textSize="14sp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/colorSecondary"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:padding="10dp"
+        android:gravity="center"
+        android:background="@color/colorSecondaryTransparent77"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ha_device_switch"
+            android:padding="5dp"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="@color/colorSecondary"
+            android:textAllCaps="true"
+            android:gravity="center"/>
+
+        <ImageButton
+            android:contentDescription="@null"
+            android:id="@+id/ha_device_switch"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:background="@drawable/ha_switch_off"
+            android:layout_marginTop="5dp"/>
+
+        <TextView
+            android:id="@+id/ha_device_switch_text"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="@string/ha_off"
+            android:textSize="14sp"
+            android:textAllCaps="true"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/colorSecondary"/>
+
+    </LinearLayout>
+
+</LinearLayout>
+
+</LinearLayout>

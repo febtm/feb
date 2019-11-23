@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/fetch_old"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/fetch_older_messages"
+        android:visibility="gone"
+        android:textColor="@color/colorSecondary"
+        android:background="@color/colorPrimaryTransparent77"
+        android:layout_margin="10dp"
+        android:padding="5dp"
+        android:textStyle="bold"/>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:baselineAligned="false">
+
+    <TextView
+        android:id="@+id/mes_i_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:textStyle="bold"
+        android:autoLink="web"
+        android:textColor="@color/colorPrimary"
+        android:textIsSelectable="true"
+        android:background="@drawable/mes_white_bubble"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/mes_i_timestamp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:textSize="12sp"
+        android:textColor="@color/colorQuaternary" />
+
+</LinearLayout>
+
+</LinearLayout>

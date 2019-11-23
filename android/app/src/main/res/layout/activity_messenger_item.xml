@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:background="@color/colorPrimaryTransparent77">
+
+        <ImageButton
+            android:id="@+id/mes_i_back"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:contentDescription="@null"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/app_cancel"/>
+
+        <TextView
+            android:id="@+id/mes_i_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            android:text="@string/messenger"
+            android:textSize="18sp"
+            android:textColor="@color/colorSecondary" />
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:contentDescription="@null"
+            android:layout_gravity="center_vertical|end"
+            android:background="@drawable/mes_userimage" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/mes_i_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="10dp"
+        android:background="@color/colorTertiaryTransparent33"
+        android:paddingBottom="80dp"
+        android:scrollbars="vertical"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryTransparent77"
+            android:gravity="bottom"
+            android:padding="5dp"
+            android:layout_gravity="center|bottom">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="40dp"
+                    android:layout_marginEnd="40dp"
+                    android:background="@color/colorPrimaryTransparent77">
+
+                    <EditText
+                        android:id="@+id/mes_i_message"
+                        android:padding="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scrollbars="vertical"
+                        android:textSize="14sp"
+                        android:inputType="textCapSentences|textMultiLine"
+                        android:paddingRight="30dp"
+                        android:paddingEnd="30dp"
+                        android:layout_gravity="center"
+                        android:hint="@string/type_in_your_message"
+                        android:background="@color/colorPrimaryTransparent77"
+                        android:textColorHint="@color/colorSecondary"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorSecondary"
+                        tools:ignore="RtlSymmetry" />
+
+                    <ImageButton
+                        android:id="@+id/mes_i_cancel"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center|end"
+                        android:background="@drawable/app_cancel"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:contentDescription="@null" />
+
+                </FrameLayout>
+
+            <ImageButton
+                android:id="@+id/mes_i_send"
+                android:layout_width="30dp"
+                android:layout_gravity="center|end"
+                android:layout_height="30dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/app_go"
+                android:contentDescription="@null" />
+
+        </FrameLayout>
+
+    </FrameLayout>
+
+</LinearLayout>

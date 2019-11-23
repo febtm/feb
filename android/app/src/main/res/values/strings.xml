@@ -1,0 +1,283 @@
+<resources>
+
+    <string name="app_name">Feb</string>
+
+
+    <string name="fb_app_id">168830133748079</string>
+
+    <string name="fb_login_protocol_scheme">fb168830133748079</string>
+
+
+    <string name="ap_dismiss">Dismiss</string>
+
+
+    <string name="anr_admob_banner">ca-app-pub-6196885651315287/3542044054</string>
+
+    <string name="cu_admob_banner">ca-app-pub-6196885651315287/8958022269</string>
+
+    <string name="hp_admob_banner">ca-app-pub-6196885651315287/3981027753</string>
+
+    <string name="li_admob_banner">ca-app-pub-6196885651315287/5565572162</string>
+
+    <string name="mes_admob_banner">ca-app-pub-6196885651315287/1163292723</string>
+
+    <string name="not_admob_banner">ca-app-pub-6196885651315287/8658230248</string>
+
+
+    <string name="menu">Menu</string>
+
+    <string-array name="menu_titles">
+        <item>Home</item>
+        <item>Messenger</item>
+        <item>Social Media Tasks</item>
+        <!--<item>Home Assistant</item>-->
+        <item>Maps</item>
+        <item>Weather Forecast</item>
+        <item>Alarms, Notes and Reminders</item>
+        <item>Contact Us</item>
+        <item>Rate Us</item>
+        <item>Find Us</item>
+        <item>Log Out</item>
+    </string-array>
+
+    <array name="menu_icons">
+        <item>@drawable/me_home</item>
+        <item>@drawable/me_messenger</item>
+        <item>@drawable/me_soc_media</item>
+        <!--<item>@drawable/me_home_assistant</item>-->
+        <item>@drawable/me_maps</item>
+        <item>@drawable/me_weather_forecast</item>
+        <item>@drawable/me_anr</item>
+        <item>@drawable/me_contact_us</item>
+        <item>@drawable/lsr_me_rate_us</item>
+        <item>@drawable/lsr_me_find_us</item>
+        <item>@drawable/me_log_out</item>
+    </array>
+
+
+    <string-array name="lsr_menu_titles">
+        <item>Log In</item>
+        <item>Sign In</item>
+        <item>Recover Password</item>
+        <item>Contact Us</item>
+        <item>Rate Us</item>
+        <item>Find Us</item>
+        <item>Exit</item>
+    </string-array>
+
+    <array name="lsr_menu_icons">
+        <item>@drawable/lsr_me_login</item>
+        <item>@drawable/lsr_me_signin</item>
+        <item>@drawable/lsr_me_rec_pass</item>
+        <item>@drawable/me_contact_us</item>
+        <item>@drawable/lsr_me_rate_us</item>
+        <item>@drawable/lsr_me_find_us</item>
+        <item>@drawable/lsr_me_exit</item>
+    </array>
+
+
+    <string name="homepage">Home</string>
+
+    <string name="hp_how_can">Hi, How can I help you ?</string>
+
+    <string name="hp_tts_start">Hi, I can help you. Type in the box or click on the mic to search !</string>
+
+    <string name="hp_phone_number">Mobile Number or Contact Name</string>
+
+    <string name="hp_message">Message</string>
+
+    <string name="hp_pow_gcsapi">powered by Google Custom Search API</string>
+
+    <string name="hp_news">News</string>
+
+    <string name="hp_general_news">Top Headlines</string>
+
+    <string name="hp_business_news">Business News</string>
+
+    <string name="hp_technology_news">Technology News</string>
+
+    <string name="hp_sports_news">Sports News</string>
+
+    <string name="hp_entertainment_news">Entertainment News</string>
+
+    <string name="hp_pow_newsapi">powered by News API</string>
+
+
+    <string name="maps">Maps</string>
+
+    <string name="ma_from_location">From Location</string>
+
+    <string name="ma_to_location">To Location</string>
+
+    <string name="ma_your_location">Your Location</string>
+
+
+    <string name="weather_forecast">Weather Forecast</string>
+
+    <string name="wf_hourly">Hourly (3 hours)</string>
+
+    <string name="wf_hours">48 hours</string>
+
+    <string name="wf_other_details">Other Details</string>
+
+    <string name="wf_conditions">Conditions</string>
+
+    <string name="wf_wind_speed">Wind Speed</string>
+
+    <string name="wf_wind_angle">Wind Angle</string>
+
+    <string name="wf_sunrise_time">Sunrise Time</string>
+
+    <string name="wf_sunset_time">Sunset Time</string>
+
+    <string name="wf_daily">Daily</string>
+
+    <string name="wf_days">10 days</string>
+
+    <string name="wf_co_febweather">Click here to install FebWeather for more Weather Updates !</string>
+
+
+    <string name="social_media">Social Media Tasks</string>
+
+    <string name="sm_send_an_email">Send An Email</string>
+
+    <string name="sm_facebook_share">Share on Facebook</string>
+
+    <string name="sm_twitter_share">Share on Twitter</string>
+
+    <string name="sm_from_email">From Email-Id</string>
+
+    <string name="sm_to_email">To Email-Id</string>
+
+    <string name="sm_subject">Subject</string>
+
+    <string name="sm_message">Message</string>
+
+    <string name="sm_title">Title</string>
+
+    <string name="sm_description">Description</string>
+
+    <string name="sm_send_email">Send Email</string>
+
+    <string name="sm_share">Share</string>
+
+
+    <string name="home_assistant">Home Assistant</string>
+
+    <string name="ha_temperature">Temperature</string>
+
+    <string name="ha_device_status">Device Status</string>
+
+    <string name="ha_off">Off</string>
+
+    <string name="ha_on">On</string>
+
+    <string name="ha_device_switch">Device Switch</string>
+
+
+    <string name="anr">Alarms, Notes and Reminders</string>
+
+    <string name="anr_alarms">Alarms</string>
+
+    <string name="anr_alarms_settings">Alarms Settings</string>
+
+    <string name="anr_al_set_label">Set Label &#8230;</string>
+
+    <string name="anr_al_vibration">Vibration</string>
+
+    <string name="anr_al_alarm_duration">Alarm Duration</string>
+
+    <string name="anr_al_snooze_duration">Snooze Duration</string>
+
+    <string name="anr_al_time">Time</string>
+
+    <string name="anr_al_days">Days</string>
+
+    <string name="anr_al_sunday">Sunday</string>
+
+    <string name="anr_al_monday">Monday</string>
+
+    <string name="anr_al_tuesday">Tuesday</string>
+
+    <string name="anr_al_wednesday">Wednesday</string>
+
+    <string name="anr_al_thursday">Thursday</string>
+
+    <string name="anr_al_friday">Friday</string>
+
+    <string name="anr_al_saturday">Saturday</string>
+
+    <string name="anr_notes">Notes</string>
+
+    <string name="anr_notes_settings">Notes Settings</string>
+
+    <string name="anr_type_in_note">Type in your Note &#8230;</string>
+
+    <string name="anr_reminders">Reminders</string>
+
+    <string name="anr_reminders_settings">Reminders Settings</string>
+
+    <string name="anr_type_in_reminder">Type in your Reminder &#8230;</string>
+
+
+    <string name="contact_us">Contact Us</string>
+
+    <string name="cu_contact_us">Send us your valuable feedback describing your experience while using Feb.
+        \n\nWe will be happy to reply and to take up every suggestion seriously thereby making each of our
+        user\'s experience an even more Febulous One !</string>
+
+    <string name="cu_name">Name</string>
+
+    <string name="cu_subject">Subject</string>
+
+    <string name="cu_send_message">Send Message</string>
+
+
+    <string name="type_in_your_message">Type in your Message &#8230;</string>
+
+    <string name="fetch_older_messages">Fetch Older Messages</string>
+
+    <string name="username">Username</string>
+
+    <string name="timestamp">Timestamp</string>
+
+
+    <string name="recover_password">Recover Password</string>
+
+    <string name="rp_send_email">Send Recovery Email</string>
+
+    <string name="rp_enter_email">Enter Your Email-Id</string>
+
+
+    <string name="log_in">Log In</string>
+
+    <string name="li_enter_credentials">Enter Your Credentials</string>
+
+
+    <string name="sign_in">Sign In</string>
+
+    <string name="si_sign_up">Enter Your Credentials to Sign Up for a Febulous Experience !</string>
+
+    <string name="si_tandc">By Signing In, You agree to our Terms and Conditions.\nClick Here to download it !</string>
+
+    <string name="si_sign_in_with">Or\n\nSign In with</string>
+
+
+    <string name="email_id">Email-Id</string>
+
+    <string name="digits">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789</string>
+
+    <string name="password">Password</string>
+
+
+    <string name="messenger">Messenger</string>
+
+    <string name="mes_search_users">Search Users &#8230;</string>
+
+    <string name="mes_search_more">Search More</string>
+
+
+    <string name="notifications">Notifications</string>
+
+
+</resources>
