@@ -14,11 +14,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.navdrawer.SimpleSideDrawer;
-
 import java.util.ArrayList;
-
 import fmt.febe.R;
 
 
@@ -75,7 +72,7 @@ public class LSRMenu extends Activity {
         private Context context;
         private ArrayList<MenuListItem> menuListItems;
 
-        private MenuListAdapter(Context context, ArrayList<MenuListItem> menuListItems) {
+        private MenuListAdapter(Context context, ArrayList<MenuListItem> menuListItems){
 
             this.context = context;
             this.menuListItems = menuListItems;
@@ -125,18 +122,18 @@ public class LSRMenu extends Activity {
         private String title;
         private int icon;
 
-        private MenuListItem(String title, int icon) {
+        private MenuListItem(String title, int icon){
 
             this.title = title;
             this.icon = icon;
 
         }
 
-        private String getTitle() {
+        private String getTitle(){
             return this.title;
         }
 
-        private int getIcon() {
+        private int getIcon(){
             return this.icon;
         }
 

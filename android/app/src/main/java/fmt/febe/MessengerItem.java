@@ -111,7 +111,7 @@ public class MessengerItem extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (mHandler != null)
+                if(mHandler != null)
                     stopRepeatingTask();
 
                 finish();
@@ -176,7 +176,7 @@ public class MessengerItem extends AppCompatActivity {
 
         }
 
-        if (basicFunctions.isConnectingToInternet())
+        if(basicFunctions.isConnectingToInternet())
             fetchChat();
 
         else {
@@ -184,11 +184,11 @@ public class MessengerItem extends AppCompatActivity {
             DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    switch (which) {
+                    switch (which){
 
                         case DialogInterface.BUTTON_POSITIVE:
 
-                            if (basicFunctions.isConnectingToInternet())
+                            if(basicFunctions.isConnectingToInternet())
                                 fetchChat();
 
                             else {
@@ -267,7 +267,7 @@ public class MessengerItem extends AppCompatActivity {
 
                     JSONArray commentsObj = obj.getJSONArray("messages");
 
-                    if (commentsObj.length() == 0) {
+                    if(commentsObj.length() == 0) {
 
                         Toast.makeText(MessengerItem.this, "No Messages to display !", Toast.LENGTH_LONG).show();
 
@@ -310,7 +310,7 @@ public class MessengerItem extends AppCompatActivity {
 
                         chatMessageArrayList.add(chatMessage);
 
-                        if (i == (commentsObj.length() - 1)) {
+                        if(i == (commentsObj.length() - 1)) {
 
                             new Handler().postDelayed(new Runnable() {
                                 @Override
@@ -397,14 +397,14 @@ public class MessengerItem extends AppCompatActivity {
                         chatMessage.setCreatedAt(createdAt);
                         chatMessage.setChatUser(chatUser);
 
-                        if (commentsObj.length() == 1 && !userId.equals(basicFunctions.getUser_id()))
+                        if(commentsObj.length() == 1 && !userId.equals(basicFunctions.getUser_id()))
                             playMessengerSound();
 
                         chatMessageArrayList.add(chatMessage);
 
                         mAdapter.notifyDataSetChanged();
 
-                        if (mAdapter.getItemCount() > 1)
+                        if(mAdapter.getItemCount() > 1)
                             recyclerView.getLayoutManager().smoothScrollToPosition(recyclerView, null, mAdapter.getItemCount() - 1);
 
                     }
@@ -508,7 +508,7 @@ public class MessengerItem extends AppCompatActivity {
 
                     mAdapter.notifyDataSetChanged();
 
-                    if (mAdapter.getItemCount() > 1)
+                    if(mAdapter.getItemCount() > 1)
                         recyclerView.getLayoutManager().smoothScrollToPosition(recyclerView, null, mAdapter.getItemCount() - 1);
 
                 } catch (JSONException e) {
@@ -536,20 +536,20 @@ public class MessengerItem extends AppCompatActivity {
     }
 
 
-    private String messageEncrypt(String message, int hours, int minutes, int seconds) {
+    private String messageEncrypt(String message, int hours, int minutes, int seconds){
 
         int count;
 
         StringBuilder encrypted_message = new StringBuilder();
 
-        for (int i = 0; i < message.length(); i++) {
+        for(int i = 0; i < message.length(); i++){
 
-            if (Character.isLetter(message.charAt(i))) {
+            if(Character.isLetter(message.charAt(i))) {
 
-                if (i % 2 == 0)
+                if(i % 2 == 0)
                     count = hours % 26;
 
-                else if (i % 3 == 0)
+                else if(i % 3 == 0)
                     count = minutes % 26;
 
                 else
@@ -561,7 +561,9 @@ public class MessengerItem extends AppCompatActivity {
                 else
                     encrypted_message.append((char) (((int) message.charAt(i) + count - 97) % 26 + 97));
 
-            } else
+            }
+
+            else
                 encrypted_message.append(message.charAt(i));
 
         }
@@ -571,20 +573,21 @@ public class MessengerItem extends AppCompatActivity {
     }
 
 
-    private String messageDecrypt(String message, int hours, int minutes, int seconds) {
+
+    private String messageDecrypt(String message, int hours, int minutes, int seconds){
 
         int count;
 
         StringBuilder decrypted_message = new StringBuilder();
 
-        for (int i = 0; i < message.length(); i++) {
+        for(int i = 0; i < message.length(); i++){
 
-            if (Character.isLetter(message.charAt(i))) {
+            if(Character.isLetter(message.charAt(i))) {
 
-                if (i % 2 == 0)
+                if(i % 2 == 0)
                     count = 26 - (hours % 26);
 
-                else if (i % 3 == 0)
+                else if(i % 3 == 0)
                     count = 26 - (minutes % 26);
 
                 else
@@ -596,7 +599,9 @@ public class MessengerItem extends AppCompatActivity {
                 else
                     decrypted_message.append((char) (((int) message.charAt(i) + count - 97) % 26 + 97));
 
-            } else
+            }
+
+            else
                 decrypted_message.append(message.charAt(i));
 
         }
@@ -645,7 +650,7 @@ public class MessengerItem extends AppCompatActivity {
 
                     JSONArray commentsObj = obj.getJSONArray("messages");
 
-                    if (commentsObj.length() == 0) {
+                    if(commentsObj.length() == 0) {
 
                         Toast.makeText(MessengerItem.this, "No More Old Messages to display !", Toast.LENGTH_LONG).show();
 
@@ -679,7 +684,7 @@ public class MessengerItem extends AppCompatActivity {
 
                         chatMessageArrayList.add(chatMessage);
 
-                        if (i == (commentsObj.length() - 1)) {
+                        if(i == (commentsObj.length() - 1)){
 
                             chatMessageArrayList.addAll(chatTempMessageArrayList);
 
@@ -716,6 +721,7 @@ public class MessengerItem extends AppCompatActivity {
         basicFunctions.addToRequestQueue(strReq);
 
     }
+
 
 
     private class ChatRoomAdapter extends RecyclerView.Adapter<ViewHolder> {
@@ -792,7 +798,7 @@ public class MessengerItem extends AppCompatActivity {
 
             holder.message.setText(messageDecrypt(chatMessage.getMessage(), hours, minutes, seconds));
 
-            if (position == 0)
+            if(position == 0)
                 holder.fetch_old.setVisibility(View.VISIBLE);
 
             else

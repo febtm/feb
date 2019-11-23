@@ -99,7 +99,7 @@ public class Notifications extends AppCompatActivity {
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 
-        if (basicFunctions.isConnectingToInternet())
+        if(basicFunctions.isConnectingToInternet())
             getInitialNotificationData();
 
         else {
@@ -107,11 +107,11 @@ public class Notifications extends AppCompatActivity {
             DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    switch (which) {
+                    switch (which){
 
                         case DialogInterface.BUTTON_POSITIVE:
 
-                            if (basicFunctions.isConnectingToInternet())
+                            if(basicFunctions.isConnectingToInternet())
                                 getInitialNotificationData();
 
                             else {
@@ -154,7 +154,7 @@ public class Notifications extends AppCompatActivity {
 
         pDialog = ProgressDialog.show(this, "", "Fetching Notifications ... ", false, false);
 
-        StringRequest stringRequest = new StringRequest(BasicFunctions.GET_ALL_NOTIFICATIONS + basicFunctions.getUser_id() + "&index=" + 0, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(BasicFunctions.GET_ALL_NOTIFICATIONS + basicFunctions.getUser_id()+"&index="+0, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -183,9 +183,9 @@ public class Notifications extends AppCompatActivity {
     protected void showList_InitialNotifications(String response) {
 
         String an_id;
-        String an_chat_id;
+        String an_chat_id ;
         String an_post_userread;
-        String an_notify_userid;
+        String an_notify_userid ;
         String an_notify_username;
         String an_timestamp;
 
@@ -218,7 +218,7 @@ public class Notifications extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        if (NotificationArray.length() <= 0)
+        if(NotificationArray.length() <= 0)
             Toast.makeText(Notifications.this, "Your Notification List is empty !", Toast.LENGTH_LONG).show();
 
         recyclerView = findViewById(R.id.no_frag_recycler_view);
@@ -262,7 +262,7 @@ public class Notifications extends AppCompatActivity {
 
     private void getMoreNotificationData(int index) {
 
-        StringRequest stringRequest = new StringRequest(BasicFunctions.GET_ALL_NOTIFICATIONS + basicFunctions.getUser_id() + "&index=" + index, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(BasicFunctions.GET_ALL_NOTIFICATIONS + basicFunctions.getUser_id()+"&index="+index, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -301,7 +301,7 @@ public class Notifications extends AppCompatActivity {
             JSONObject jsonObj = new JSONObject(response);
             NotificationArray = jsonObj.getJSONArray(basicFunctions.JSON_ARRAY);
 
-            if (NotificationArray.length() == 0) {
+            if(NotificationArray.length() == 0) {
 
                 Toast.makeText(this, "No more Notifications to display !", Toast.LENGTH_LONG).show();
                 load_over = 1;
@@ -386,7 +386,7 @@ public class Notifications extends AppCompatActivity {
 
             final Notification data = mNotifications.get(position);
 
-            if (data != null) {
+            if(data != null) {
 
                 viewHolder.setData(data.getChat_id(), data.getPost_userread(), data.getNotify_username(),
                         data.getTimestamp(), position);
@@ -449,7 +449,7 @@ public class Notifications extends AppCompatActivity {
         private void setData(String chat_id, String post_userread, String notify_username,
                              String timestamp, final int position) {
 
-            if (post_userread.equals("1"))
+            if(post_userread.equals("1"))
                 mUserRead.setVisibility(View.VISIBLE);
 
             else
@@ -468,7 +468,7 @@ public class Notifications extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
 
-                            switch (which) {
+                            switch (which){
 
                                 case DialogInterface.BUTTON_POSITIVE:
 
@@ -489,7 +489,7 @@ public class Notifications extends AppCompatActivity {
 
                                 case DialogInterface.BUTTON_NEGATIVE:
 
-                                    Toast.makeText(Notifications.this, "Deletion Cancelled !", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(Notifications.this,"Deletion Cancelled !",Toast.LENGTH_LONG).show();
 
                                     break;
                             }
@@ -505,7 +505,7 @@ public class Notifications extends AppCompatActivity {
 
             String text;
 
-            switch (chat_id) {
+            switch (chat_id){
 
                 case "55555555":
 
@@ -638,7 +638,7 @@ public class Notifications extends AppCompatActivity {
 
                         case DialogInterface.BUTTON_POSITIVE:
 
-                            if (basicFunctions.isConnectingToInternet())
+                            if(basicFunctions.isConnectingToInternet())
                                 chatResponse(method, current_user_id, username, user_id);
 
                             else {
@@ -679,7 +679,7 @@ public class Notifications extends AppCompatActivity {
 
     private void chatResponse(String method, final String current_user_id, final String username, final String user_id) {
 
-        if (method.equals("request")) {
+        if(method.equals("request")) {
 
             DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
 
@@ -711,7 +711,9 @@ public class Notifications extends AppCompatActivity {
             builder.setMessage("Would you like to accept this User's Chat request ?").setPositiveButton("Yes", dialogClickListener)
                     .setNegativeButton("No", dialogClickListener).show();
 
-        } else if (method.equals("chat")) {
+        }
+
+        else if(method.equals("chat")){
 
             ChatBackgroundTask backgroundTask = new ChatBackgroundTask(Notifications.this);
 
@@ -794,15 +796,17 @@ public class Notifications extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
 
-            if (result.equals("The Chat request has been rejected !"))
-                Toast.makeText(Notifications.this, result, Toast.LENGTH_LONG).show();
+            if(result.equals("The Chat request has been rejected !"))
+                Toast.makeText(Notifications.this, result,  Toast.LENGTH_LONG).show();
 
-            else if (result.equals("The Chat request has been accepted !") && method.equals("chat_accept")) {
+            else if(result.equals("The Chat request has been accepted !") && method.equals("chat_accept")) {
 
                 Toast.makeText(Notifications.this, result, Toast.LENGTH_LONG).show();
                 login(result, username, user_id);
 
-            } else if (method.equals("chat_accept"))
+            }
+
+            else if(method.equals("chat_accept"))
                 login(result, username, user_id);
 
         }
@@ -874,12 +878,12 @@ public class Notifications extends AppCompatActivity {
                     bufferedWriter.close();
                     OS.close();
                     InputStream IS = httpURLConnection.getInputStream();
-                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(IS, "iso-8859-1"));
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(IS,"iso-8859-1"));
 
                     StringBuilder response = new StringBuilder();
                     String line;
 
-                    while ((line = bufferedReader.readLine()) != null) {
+                    while((line = bufferedReader.readLine())!=null)  {
                         response.append(line);
                     }
                     bufferedReader.close();
@@ -904,7 +908,7 @@ public class Notifications extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
 
-            if (result.equals("Notification removed from Notification List !"))
+            if(result.equals("Notification removed from Notification List !"))
                 pDialog.dismiss();
 
         }

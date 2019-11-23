@@ -4,11 +4,15 @@ import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -16,6 +20,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.view.View;
@@ -102,7 +108,7 @@ public class ANRAlProvider extends AppCompatActivity {
 
         DB_CURSOR = SQL_DB.rawQuery(SQL_ALA_SET_SELECT, null);
 
-        if (DB_CURSOR.getCount() > 0) {
+        if(DB_CURSOR.getCount() > 0) {
 
             DB_CURSOR.moveToFirst();
 
@@ -120,7 +126,9 @@ public class ANRAlProvider extends AppCompatActivity {
 
             VIBRATION = Integer.parseInt(DB_CURSOR.getString(1));
 
-        } else {
+        }
+
+        else {
 
             String SQL_ALA_SET_INSERT = "INSERT INTO '"
                     + basicFunctions.MY_ALARM_SETTINGS_TABLE + "' ( '" + basicFunctions.ALARM_SETTING_NAME + "', '"
@@ -143,15 +151,28 @@ public class ANRAlProvider extends AppCompatActivity {
 
         SQL_DB.close();
 
-        setDetails();
+        if (ActivityCompat.checkSelfPermission(ANRAlProvider.this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(ANRAlProvider.this,
+                        android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(ANRAlProvider.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+
+        }
+
+        else
+            getLocation();
 
         ANR_AL_PR_SNOOZE.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if (Build.VERSION.SDK_INT >= 21) {
+                if(Build.VERSION.SDK_INT >= 21)
+                {
                     finishAndRemoveTask();
-                } else {
+                }
+                else
+                {
                     finish();
                 }
 
@@ -176,14 +197,17 @@ public class ANRAlProvider extends AppCompatActivity {
         });
 
 
-        ANR_AL_PR_DISMISS.setOnClickListener(new View.OnClickListener() {
+        ANR_AL_PR_DISMISS.setOnClickListener(new View.OnClickListener(){
 
             @Override
-            public void onClick(View view) {
+            public void onClick(View view){
 
-                if (Build.VERSION.SDK_INT >= 21) {
+                if(Build.VERSION.SDK_INT >= 21)
+                {
                     finishAndRemoveTask();
-                } else {
+                }
+                else
+                {
                     finish();
                 }
 
@@ -202,23 +226,77 @@ public class ANRAlProvider extends AppCompatActivity {
     }
 
 
-    private void setDetails() {
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
 
-        LocationFinder finder;
+        switch (requestCode) {
 
-        finder = new LocationFinder(this);
+            case 0: {
 
-        MY_LOCATION_LATITUDE = String.valueOf(finder.getLatitude());
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                    getLocation();
 
-        MY_LOCATION_LONGITUDE = String.valueOf(finder.getLongitude());
+                else {
 
-        List<Address> addresses = null;
+                    Toast.makeText(ANRAlProvider.this, "Kindly grant Location permission to continue !", Toast.LENGTH_LONG).show();
+                    finish();
+
+                }
+
+                break;
+            }
+
+            default:
+                break;
+
+        }
+    }
+
+
+    @SuppressLint("MissingPermission")
+    private void getLocation(){
+
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        assert locationManager != null;
+
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 10, new Listener());
+
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 10, new Listener());
+
+        android.location.Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+        if (location == null)
+            location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+        setDetails(location);
+
+    }
+
+
+    private class Listener implements LocationListener {
+
+        public void onLocationChanged(android.location.Location location) {}
+        public void onProviderDisabled(String provider){}
+        public void onProviderEnabled(String provider){}
+        public void onStatusChanged(String provider, int status, Bundle extras){}
+
+    }
+
+
+    private void setDetails(android.location.Location location){
 
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
 
+        MY_LOCATION_LATITUDE = String.valueOf(location.getLatitude());
+
+        MY_LOCATION_LONGITUDE = String.valueOf(location.getLongitude());
+
+        List<Address> addresses = null;
+
         try {
 
-            addresses = geocoder.getFromLocation(finder.getLatitude(), finder.getLongitude(), 1);
+            addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
 
         } catch (IOException e) {
 
@@ -235,16 +313,20 @@ public class ANRAlProvider extends AppCompatActivity {
 
         setUpAlarm();
 
-        if (basicFunctions.isConnectingToInternet()) {
+        if(basicFunctions.isConnectingToInternet()) {
 
             ANR_AL_PR_FORECAST_DETAILS.setVisibility(View.VISIBLE);
 
             new GetCurrentForecastTask().execute();
 
-        } else
+        }
+
+        else
             ANR_AL_PR_FORECAST_DETAILS.setVisibility(View.GONE);
 
+
     }
+
 
 
     private void setUpAlarm() {
@@ -257,9 +339,12 @@ public class ANRAlProvider extends AppCompatActivity {
                 @Override
                 public void run() {
 
-                    if (Build.VERSION.SDK_INT >= 21) {
+                    if(Build.VERSION.SDK_INT >= 21)
+                    {
                         finishAndRemoveTask();
-                    } else {
+                    }
+                    else
+                    {
                         finish();
 
                     }
@@ -290,9 +375,9 @@ public class ANRAlProvider extends AppCompatActivity {
             mediaPlayer.setLooping(true);
             mediaPlayer.start();
 
-            long[] pattern = {0, 1000, 250, 500, 250, 500, 250, 500, 250, 500};
+            long[] pattern = { 0, 1000, 250, 500, 250, 500, 250, 500, 250, 500};
 
-            if (VIBRATION == 1) {
+            if(VIBRATION == 1) {
 
                 Vibrator vibrator = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
 
@@ -315,7 +400,7 @@ public class ANRAlProvider extends AppCompatActivity {
 
         ANR_AL_PR_DATE.setText(dateFormat.format(c.getTime()));
 
-        if (LABEL.equals(""))
+        if(LABEL.equals(""))
             ANR_AL_PR_LABEL.setVisibility(View.GONE);
 
         else
@@ -323,7 +408,7 @@ public class ANRAlProvider extends AppCompatActivity {
 
         String sno_dur_text;
 
-        if (SNO_DURATION == 60000)
+        if(SNO_DURATION == 60000)
             sno_dur_text = "SNOOZE 1 MINUTE";
 
         else
@@ -337,8 +422,7 @@ public class ANRAlProvider extends AppCompatActivity {
     @SuppressLint("StaticFieldLeak")
     private class GetCurrentForecastTask extends AsyncTask<String, Void, JSONObject> {
 
-        private GetCurrentForecastTask() {
-        }
+        private GetCurrentForecastTask() {}
 
         @Override
         protected JSONObject doInBackground(String... params) {
@@ -366,7 +450,7 @@ public class ANRAlProvider extends AppCompatActivity {
 
             try {
 
-                if (json != null) {
+                if(json != null){
 
                     JSONObject weather = json.getJSONArray("weather").getJSONObject(0);
                     JSONObject sys = json.getJSONObject("sys");

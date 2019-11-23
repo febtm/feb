@@ -59,12 +59,12 @@ public class RecoverPassword extends AppCompatActivity {
         RP_EMAIL_CANCEL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                
                 ET_EMAIL.setText("");
-
-            }
+                
+           }
         });
-
+        
         B_SEND_EMAIL = findViewById(R.id.rp_send_email);
 
         B_SEND_EMAIL.setOnClickListener(new View.OnClickListener() {
@@ -78,7 +78,7 @@ public class RecoverPassword extends AppCompatActivity {
 
                 } else {
 
-                    if (basicFunctions.isConnectingToInternet()) {
+                    if(basicFunctions.isConnectingToInternet()) {
 
                         recoverPassword();
 
@@ -87,11 +87,11 @@ public class RecoverPassword extends AppCompatActivity {
                         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                switch (which) {
+                                switch (which){
 
                                     case DialogInterface.BUTTON_POSITIVE:
 
-                                        if (basicFunctions.isConnectingToInternet())
+                                        if(basicFunctions.isConnectingToInternet())
                                             recoverPassword();
 
                                         else {

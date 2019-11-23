@@ -60,7 +60,7 @@ public class ContactUs extends AppCompatActivity {
 
         MENU_BUTTON = findViewById(R.id.cu_menu);
 
-        if (basicFunctions.isLoggedIn()) {
+        if(basicFunctions.isLoggedIn()) {
 
             MENU_BUTTON.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -70,7 +70,9 @@ public class ContactUs extends AppCompatActivity {
                 }
             });
 
-        } else {
+        }
+
+        else {
 
             MENU_BUTTON.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -151,7 +153,7 @@ public class ContactUs extends AppCompatActivity {
 
                 } else {
 
-                    if (basicFunctions.isConnectingToInternet())
+                    if(basicFunctions.isConnectingToInternet())
                         basicFunctions.sendEmail("ContactUs", cu_email, cu_name, cu_subject, cu_message);
 
                     else {
@@ -159,11 +161,11 @@ public class ContactUs extends AppCompatActivity {
                         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                switch (which) {
+                                switch (which){
 
                                     case DialogInterface.BUTTON_POSITIVE:
 
-                                        if (basicFunctions.isConnectingToInternet())
+                                        if(basicFunctions.isConnectingToInternet())
                                             basicFunctions.sendEmail("ContactUs", cu_email, cu_name, cu_subject, cu_message);
 
                                         else {

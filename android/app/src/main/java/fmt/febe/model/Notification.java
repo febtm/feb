@@ -7,33 +7,22 @@ public class Notification {
     private String id, chat_id, post_userread, notify_userid, notify_username, timestamp;
 
 
-    public String getId() {
-        return id;
-    }
+    public String getId(){return id;}
 
-    public String getChat_id() {
-        return chat_id;
-    }
+    public String getChat_id(){return chat_id;}
 
-    public String getPost_userread() {
-        return post_userread;
-    }
+    public String getPost_userread(){return post_userread;}
 
-    public String getNotify_userid() {
-        return notify_userid;
-    }
+    public String getNotify_userid(){return notify_userid;}
 
-    public String getNotify_username() {
-        return notify_username;
-    }
+    public String getNotify_username(){return notify_username;}
 
-    public String getTimestamp() {
-        return timestamp;
-    }
+    public String getTimestamp(){return timestamp;}
 
 
     public void setNotDetails(String id, String chat_id, String post_userread, String notify_userid, String notify_username,
-                              String timestamp) {
+                              String timestamp)
+    {
 
         this.id = id;
         this.chat_id = chat_id;
@@ -44,7 +33,7 @@ public class Notification {
 
     }
 
-    public void deleteNot() {
+    public void deleteNot(){
 
         this.id = null;
         this.chat_id = null;

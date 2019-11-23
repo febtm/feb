@@ -11,8 +11,7 @@ public class ChatRoom implements Serializable {
             user1_online, user2_online, user1_read, user2_read, timestamp;
 
 
-    public ChatRoom() {
-    }
+    public ChatRoom() {}
 
 
     public String getId() {

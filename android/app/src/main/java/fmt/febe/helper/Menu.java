@@ -95,14 +95,13 @@ public class Menu extends Activity {
         MenuItemList.add(new MenuListItem(MenuTitles[7], MenuIcons.getResourceId(7, -1)));
         MenuItemList.add(new MenuListItem(MenuTitles[8], MenuIcons.getResourceId(8, -1)));
         MenuItemList.add(new MenuListItem(MenuTitles[9], MenuIcons.getResourceId(9, -1)));
-//        MenuItemList.add(new MenuListItem(MenuTitles[10], MenuIcons.getResourceId(10, -1)));
 
         MenuList = menuActivity.findViewById(R.id.me_list);
         MenuListAdapter = new MenuListAdapter(menuActivity, MenuItemList);
         MenuList.setAdapter(MenuListAdapter);
         MenuList.setOnItemClickListener(new SlideMenuClickListener());
 
-        if (basicFunctions.isConnectingToInternet())
+        if(basicFunctions.isConnectingToInternet())
             getCount();
 
         else {
@@ -110,11 +109,11 @@ public class Menu extends Activity {
             DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    switch (which) {
+                    switch (which){
 
                         case DialogInterface.BUTTON_POSITIVE:
 
-                            if (basicFunctions.isConnectingToInternet())
+                            if(basicFunctions.isConnectingToInternet())
                                 getCount();
 
                             else {
@@ -158,13 +157,13 @@ public class Menu extends Activity {
         StringRequest stringRequest = new StringRequest(BasicFunctions.GET_COUNT + basicFunctions.getUser_id(),
                 new Response.Listener<String>() {
 
-                    @Override
-                    public void onResponse(String response) {
+            @Override
+            public void onResponse(String response) {
 
-                        showList_Count(response);
+                showList_Count(response);
 
-                    }
-                },
+            }
+        },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
@@ -221,7 +220,7 @@ public class Menu extends Activity {
         private Context context;
         private ArrayList<MenuListItem> menuListItems;
 
-        private MenuListAdapter(Context context, ArrayList<MenuListItem> menuListItems) {
+        private MenuListAdapter(Context context, ArrayList<MenuListItem> menuListItems){
 
             this.context = context;
             this.menuListItems = menuListItems;
@@ -271,18 +270,18 @@ public class Menu extends Activity {
         private String title;
         private int icon;
 
-        private MenuListItem(String title, int icon) {
+        private MenuListItem(String title, int icon){
 
             this.title = title;
             this.icon = icon;
 
         }
 
-        private String getTitle() {
+        private String getTitle(){
             return this.title;
         }
 
-        private int getIcon() {
+        private int getIcon(){
             return this.icon;
         }
 
@@ -327,11 +326,6 @@ public class Menu extends Activity {
                 menuActivity.finish();
                 break;
 
-//            case 3:
-//
-//                Intent HomeAssistant = new Intent(menuActivity, fmt.febe.HomeAssistant.class);
-//                menuActivity.startActivity(HomeAssistant);
-//                break;
 
             case 3:
 
@@ -420,7 +414,7 @@ public class Menu extends Activity {
     }
 
 
-    public void logout() {
+    public void logout(){
 
         LogoutBackgroundTask lb = new LogoutBackgroundTask(menuActivity);
         lb.execute("logout", basicFunctions.getUser_id());
@@ -473,11 +467,11 @@ public class Menu extends Activity {
                     bufferedWriter.close();
                     OS.close();
                     InputStream IS = httpURLConnection.getInputStream();
-                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(IS, "iso-8859-1"));
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(IS,"iso-8859-1"));
                     StringBuilder response = new StringBuilder();
                     String line;
 
-                    while ((line = bufferedReader.readLine()) != null) {
+                    while((line = bufferedReader.readLine())!=null)  {
                         response.append(line);
                     }
                     bufferedReader.close();

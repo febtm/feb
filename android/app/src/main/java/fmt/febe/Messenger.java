@@ -132,7 +132,7 @@ public class Messenger extends AppCompatActivity {
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 
-        if (not_count > 0)
+        if(not_count > 0)
             MES_NOT_COUNT.setText("" + not_count);
 
         search_list = findViewById(R.id.mes_search_list);
@@ -226,7 +226,7 @@ public class Messenger extends AppCompatActivity {
             }
         });
 
-        if (basicFunctions.isConnectingToInternet())
+        if(basicFunctions.isConnectingToInternet())
             fetchChat();
 
         else {
@@ -234,11 +234,11 @@ public class Messenger extends AppCompatActivity {
             DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    switch (which) {
+                    switch (which){
 
                         case DialogInterface.BUTTON_POSITIVE:
 
-                            if (basicFunctions.isConnectingToInternet())
+                            if(basicFunctions.isConnectingToInternet())
                                 fetchChat();
 
                             else {
@@ -300,7 +300,7 @@ public class Messenger extends AppCompatActivity {
 
                     JSONArray chatRoomsArray = obj.getJSONArray("chat_rooms");
 
-                    if (chatRoomsArray.length() <= 0) {
+                    if(chatRoomsArray.length() <= 0) {
 
                         Toast.makeText(Messenger.this, "Your Chat List is empty !", Toast.LENGTH_LONG).show();
                         pDialog.dismiss();
@@ -327,7 +327,7 @@ public class Messenger extends AppCompatActivity {
 
                         chatRoomArrayList.add(cr);
 
-                        if (i == chatRoomsArray.length() - 1)
+                        if(i == chatRoomsArray.length() - 1)
                             pDialog.dismiss();
 
                     }
@@ -425,33 +425,35 @@ public class Messenger extends AppCompatActivity {
 
             ChatRoom chatRoom = chatRoomArrayList.get(position);
 
-            if (basicFunctions.getUser_name().equals(chatRoom.getUser1_name())) {
+            if(basicFunctions.getUser_name().equals(chatRoom.getUser1_name())) {
 
                 holder.username.setText(chatRoom.getUser2_name());
 
-                if (chatRoom.getUser2_online().equals("1"))
+                if(chatRoom.getUser2_online().equals("1"))
                     holder.user_online.setVisibility(View.VISIBLE);
 
                 else
                     holder.user_online.setVisibility(View.GONE);
 
-                if (chatRoom.getUser1_read().equals("1"))
+                if(chatRoom.getUser1_read().equals("1"))
                     holder.user_read.setVisibility(View.VISIBLE);
 
                 else
                     holder.user_read.setVisibility(View.GONE);
 
-            } else {
+            }
+
+            else {
 
                 holder.username.setText(chatRoom.getUser1_name());
 
-                if (chatRoom.getUser1_online().equals("1"))
+                if(chatRoom.getUser1_online().equals("1"))
                     holder.user_online.setVisibility(View.VISIBLE);
 
                 else
                     holder.user_online.setVisibility(View.GONE);
 
-                if (chatRoom.getUser2_read().equals("1"))
+                if(chatRoom.getUser2_read().equals("1"))
                     holder.user_read.setVisibility(View.VISIBLE);
 
                 else
@@ -498,7 +500,7 @@ public class Messenger extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
 
-                            switch (which) {
+                            switch (which){
 
                                 case DialogInterface.BUTTON_POSITIVE:
 
@@ -519,7 +521,7 @@ public class Messenger extends AppCompatActivity {
 
                                 case DialogInterface.BUTTON_NEGATIVE:
 
-                                    Toast.makeText(Messenger.this, "Deletion Cancelled !", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(Messenger.this,"Deletion Cancelled !",Toast.LENGTH_LONG).show();
 
                                     break;
                             }
@@ -561,7 +563,7 @@ public class Messenger extends AppCompatActivity {
 
                     JSONArray chatRoomsArray = obj.getJSONArray("chat_rooms");
 
-                    if (chatRoomsArray.length() == 0) {
+                    if(chatRoomsArray.length() == 0) {
 
                         Toast.makeText(Messenger.this, "No more Chats to display !", Toast.LENGTH_LONG).show();
                         load_over = 1;
@@ -589,7 +591,7 @@ public class Messenger extends AppCompatActivity {
 
                         chatRoomArrayList.add(cr);
 
-                        if (i == chatRoomsArray.length() - 1)
+                        if(i == chatRoomsArray.length() - 1)
                             pDialog.dismiss();
 
                     }
@@ -673,12 +675,12 @@ public class Messenger extends AppCompatActivity {
                     bufferedWriter.close();
                     OS.close();
                     InputStream IS = httpURLConnection.getInputStream();
-                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(IS, "iso-8859-1"));
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(IS,"iso-8859-1"));
 
                     StringBuilder response = new StringBuilder();
                     String line;
 
-                    while ((line = bufferedReader.readLine()) != null) {
+                    while((line = bufferedReader.readLine())!=null)  {
                         response.append(line);
                     }
                     bufferedReader.close();
@@ -702,13 +704,13 @@ public class Messenger extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
 
-            switch (result) {
+            switch(result){
 
                 case "Chat removed from Chat List !":
 
                     pDialog.dismiss();
 
-                    if (chatRoomArrayList.size() == 0)
+                    if(chatRoomArrayList.size() == 0)
                         Toast.makeText(Messenger.this, "Your Chat List is empty !", Toast.LENGTH_LONG).show();
 
                     break;
@@ -766,7 +768,9 @@ public class Messenger extends AppCompatActivity {
                         search_list.setVisibility(View.GONE);
                         Toast.makeText(Messenger.this, "No Profiles Found !", Toast.LENGTH_LONG).show();
 
-                    } else if (SearchProfileArray.length() == 0)
+                    }
+
+                    else if(SearchProfileArray.length() == 0)
                         Toast.makeText(Messenger.this, "No More Profiles Found !", Toast.LENGTH_LONG).show();
 
                     else
@@ -780,7 +784,7 @@ public class Messenger extends AppCompatActivity {
                         ItemList itemList = new ItemList(jsonObject.getString(basicFunctions.KEY_USER_ID),
                                 jsonObject.getString(basicFunctions.KEY_USER_USERNAME));
 
-                        if (!itemList.getUserid().equals(basicFunctions.getUser_id()))
+                        if(!itemList.getUserid().equals(basicFunctions.getUser_id()))
                             searcharraylist.add(itemList);
 
 
@@ -864,7 +868,9 @@ public class Messenger extends AppCompatActivity {
 
                 view.setTag(holder);
 
-            } else holder = (ViewHolder) view.getTag();
+            }
+
+            else holder = (ViewHolder) view.getTag();
 
             holder.TV_USERNAME.setText(searcharraylist.get(position).getUsername());
 
@@ -882,7 +888,7 @@ public class Messenger extends AppCompatActivity {
                 }
             });
 
-            if (position == (searcharraylist.size() - 1))
+            if(position == (searcharraylist.size() - 1))
                 holder.B_SHOW_MORE.setVisibility(View.VISIBLE);
 
             holder.B_SHOW_MORE.setOnClickListener(new View.OnClickListener() {
@@ -986,7 +992,7 @@ public class Messenger extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
 
-            switch (result) {
+            switch (result){
 
                 case "A Chat request has been sent to this User !":
 

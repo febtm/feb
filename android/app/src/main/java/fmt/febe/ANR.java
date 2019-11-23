@@ -49,7 +49,7 @@ public class ANR extends AppCompatActivity {
     Switch ALA_VIB_SWITCH;
 
     ImageButton MENU_BUTTON, ALA_ADD, ALA_LAB_SET, ALA_DUR_MINUS, ALA_DUR_PLUS,
-            ALA_SNO_MINUS, ALA_SNO_PLUS, ALA_SET, ALA_CANCEL, NO_ADD, NO_CANCEL, NO_SET, RE_ADD, RE_SET, RE_CANCEL;
+                ALA_SNO_MINUS, ALA_SNO_PLUS, ALA_SET, ALA_CANCEL, NO_ADD, NO_CANCEL, NO_SET, RE_ADD, RE_SET, RE_CANCEL;
 
     EditText ALA_LAB_TEXT, NO_NOTE, RE_TEXT;
 
@@ -216,13 +216,13 @@ public class ANR extends AppCompatActivity {
 
         DB_CURSOR = SQL_DB.rawQuery(SQL_ALA_SET_SELECT, null);
 
-        if (DB_CURSOR.getCount() > 0) {
+        if(DB_CURSOR.getCount() > 0) {
 
             DB_CURSOR.moveToFirst();
 
             String time;
 
-            if (Integer.parseInt(DB_CURSOR.getString(1)) == 1)
+            if(Integer.parseInt(DB_CURSOR.getString(1)) == 1)
                 time = DB_CURSOR.getString(1) + " minute";
 
             else
@@ -236,7 +236,7 @@ public class ANR extends AppCompatActivity {
 
             DB_CURSOR.moveToNext();
 
-            if (Integer.parseInt(DB_CURSOR.getString(1)) == 1)
+            if(Integer.parseInt(DB_CURSOR.getString(1)) == 1)
                 time = DB_CURSOR.getString(1) + " minute";
 
             else
@@ -246,13 +246,15 @@ public class ANR extends AppCompatActivity {
 
             DB_CURSOR.moveToNext();
 
-            if (Integer.parseInt(DB_CURSOR.getString(1)) == 0)
+            if(Integer.parseInt(DB_CURSOR.getString(1)) == 0)
                 ALA_VIB_SWITCH.setChecked(false);
 
             else
                 ALA_VIB_SWITCH.setChecked(true);
 
-        } else {
+        }
+
+        else {
 
             String SQL_ALA_SET_INSERT = "INSERT INTO '"
                     + basicFunctions.MY_ALARM_SETTINGS_TABLE + "' ( '" + basicFunctions.ALARM_SETTING_NAME + "', '"
@@ -297,7 +299,7 @@ public class ANR extends AppCompatActivity {
 
         DB_CURSOR = SQL_DB.rawQuery(SQL_ALA_SELECT, null);
 
-        if (DB_CURSOR.getCount() > 0) {
+        if(DB_CURSOR.getCount() > 0) {
 
             DB_CURSOR.moveToFirst();
 
@@ -311,9 +313,11 @@ public class ANR extends AppCompatActivity {
 
                 mAlarmAdapter.notifyDataSetChanged();
 
-            } while (DB_CURSOR.moveToNext());
+            }while(DB_CURSOR.moveToNext());
 
-        } else {
+        }
+
+        else {
 
             String SQL_ALA_SET_INSERT = "INSERT INTO '"
                     + basicFunctions.MY_ALARMS_TABLE + "' ( '" + basicFunctions.ALARM_ID + "', '"
@@ -355,7 +359,7 @@ public class ANR extends AppCompatActivity {
 
         DB_CURSOR = SQL_DB.rawQuery(SQL_NO_SELECT, null);
 
-        if (DB_CURSOR.getCount() > 0) {
+        if(DB_CURSOR.getCount() > 0) {
 
             DB_CURSOR.moveToFirst();
 
@@ -367,7 +371,7 @@ public class ANR extends AppCompatActivity {
 
                 mNotesAdapter.notifyDataSetChanged();
 
-            } while (DB_CURSOR.moveToNext());
+            }while(DB_CURSOR.moveToNext());
 
         }
 
@@ -393,7 +397,7 @@ public class ANR extends AppCompatActivity {
 
         DB_CURSOR = SQL_DB.rawQuery(SQL_RE_SELECT, null);
 
-        if (DB_CURSOR.getCount() > 0) {
+        if(DB_CURSOR.getCount() > 0) {
 
             DB_CURSOR.moveToFirst();
 
@@ -407,7 +411,7 @@ public class ANR extends AppCompatActivity {
 
                 mRemindersAdapter.notifyDataSetChanged();
 
-            } while (DB_CURSOR.moveToNext());
+            }while(DB_CURSOR.moveToNext());
 
         }
 
@@ -425,15 +429,15 @@ public class ANR extends AppCompatActivity {
 
                 DB_CURSOR = SQL_DB.rawQuery(SQL_ALA_DUR_SELECT, null);
 
-                if (DB_CURSOR.getCount() > 0) {
+                if(DB_CURSOR.getCount() > 0) {
 
                     DB_CURSOR.moveToFirst();
 
                     Integer time = Integer.parseInt(DB_CURSOR.getString(1));
 
-                    if (time != 1) {
+                    if(time != 1){
 
-                        if (time == 5)
+                        if(time == 5)
                             time = 1;
 
                         else
@@ -447,7 +451,7 @@ public class ANR extends AppCompatActivity {
 
                         String ala_dur_text;
 
-                        if (time == 1)
+                        if(time == 1)
                             ala_dur_text = time + " minute";
 
                         else
@@ -455,7 +459,9 @@ public class ANR extends AppCompatActivity {
 
                         ALA_DUR_TEXT.setText(ala_dur_text);
 
-                    } else
+                    }
+
+                    else
                         Toast.makeText(ANR.this, "Not within Alarm range !", Toast.LENGTH_LONG).show();
 
                     DB_CURSOR.close();
@@ -478,15 +484,15 @@ public class ANR extends AppCompatActivity {
 
                 DB_CURSOR = SQL_DB.rawQuery(SQL_ALA_DUR_SELECT, null);
 
-                if (DB_CURSOR.getCount() > 0) {
+                if(DB_CURSOR.getCount() > 0) {
 
                     DB_CURSOR.moveToFirst();
 
                     Integer time = Integer.parseInt(DB_CURSOR.getString(1));
 
-                    if (time != 30) {
+                    if(time != 30){
 
-                        if (time == 1)
+                        if(time == 1)
                             time = 5;
 
                         else
@@ -502,7 +508,9 @@ public class ANR extends AppCompatActivity {
 
                         ALA_DUR_TEXT.setText(ala_dur_text);
 
-                    } else
+                    }
+
+                    else
                         Toast.makeText(ANR.this, "Not within Alarm range !", Toast.LENGTH_LONG).show();
 
                     DB_CURSOR.close();
@@ -515,10 +523,10 @@ public class ANR extends AppCompatActivity {
         });
 
 
-        ALA_LAB_SET.setOnClickListener(new View.OnClickListener() {
+        ALA_LAB_SET.setOnClickListener(new View.OnClickListener(){
 
             @Override
-            public void onClick(View view) {
+            public void onClick(View view){
 
                 String alarm_label = ALA_LAB_TEXT.getText().toString();
 
@@ -530,7 +538,7 @@ public class ANR extends AppCompatActivity {
 
                 SQL_DB.execSQL(SQL_ALA_DUR_UPDATE);
 
-                if (TextUtils.isEmpty(alarm_label))
+                if(TextUtils.isEmpty(alarm_label))
                     Toast.makeText(ANR.this, "Your Label has been removed !", Toast.LENGTH_LONG).show();
 
                 else
@@ -552,7 +560,7 @@ public class ANR extends AppCompatActivity {
 
                 DB_CURSOR = SQL_DB.rawQuery(SQL_ALA_SNO_SELECT, null);
 
-                if (DB_CURSOR.getCount() > 0) {
+                if(DB_CURSOR.getCount() > 0) {
 
                     DB_CURSOR.moveToFirst();
 
@@ -562,9 +570,9 @@ public class ANR extends AppCompatActivity {
 
                     Integer time = Integer.parseInt(DB_CURSOR.getString(1));
 
-                    if (time != 1) {
+                    if(time != 1){
 
-                        if (time == 5)
+                        if(time == 5)
                             time = 1;
 
                         else
@@ -578,7 +586,7 @@ public class ANR extends AppCompatActivity {
 
                         String ala_sno_text;
 
-                        if (time == 1)
+                        if(time == 1)
                             ala_sno_text = time + " minute";
 
                         else
@@ -586,7 +594,9 @@ public class ANR extends AppCompatActivity {
 
                         ALA_SNO_TEXT.setText(ala_sno_text);
 
-                    } else
+                    }
+
+                    else
                         Toast.makeText(ANR.this, "Not within Snooze range !", Toast.LENGTH_LONG).show();
 
                     DB_CURSOR.close();
@@ -609,7 +619,7 @@ public class ANR extends AppCompatActivity {
 
                 DB_CURSOR = SQL_DB.rawQuery(SQL_ALA_SNO_SELECT, null);
 
-                if (DB_CURSOR.getCount() > 0) {
+                if(DB_CURSOR.getCount() > 0) {
 
                     DB_CURSOR.moveToFirst();
 
@@ -619,9 +629,9 @@ public class ANR extends AppCompatActivity {
 
                     Integer time = Integer.parseInt(DB_CURSOR.getString(1));
 
-                    if (time != 30) {
+                    if(time != 30){
 
-                        if (time == 1)
+                        if(time == 1)
                             time = 5;
 
                         else
@@ -637,7 +647,9 @@ public class ANR extends AppCompatActivity {
 
                         ALA_SNO_TEXT.setText(ala_sno_text);
 
-                    } else
+                    }
+
+                    else
                         Toast.makeText(ANR.this, "Not within Snooze range !", Toast.LENGTH_LONG).show();
 
                     DB_CURSOR.close();
@@ -658,7 +670,7 @@ public class ANR extends AppCompatActivity {
 
                 String SQL_ALA_VIB_UPDATE;
 
-                if (isChecked)
+                if(isChecked)
                     SQL_ALA_VIB_UPDATE = "UPDATE " + basicFunctions.MY_ALARM_SETTINGS_TABLE
                             + " SET " + basicFunctions.ALARM_SETTING_VALUE + " = 1 WHERE "
                             + basicFunctions.ALARM_SETTING_NAME + " = 'Vibration' ;";
@@ -710,29 +722,29 @@ public class ANR extends AppCompatActivity {
                 Integer sunday = 0, monday = 0, tuesday = 0, wednesday = 0,
                         thursday = 0, friday = 0, saturday = 0, hour, minute;
 
-                if (ALA_SUNDAY.isChecked())
+                if(ALA_SUNDAY.isChecked())
                     sunday = 1;
 
-                if (ALA_MONDAY.isChecked())
+                if(ALA_MONDAY.isChecked())
                     monday = 1;
 
-                if (ALA_TUESDAY.isChecked())
+                if(ALA_TUESDAY.isChecked())
                     tuesday = 1;
 
-                if (ALA_WEDNESDAY.isChecked())
+                if(ALA_WEDNESDAY.isChecked())
                     wednesday = 1;
 
-                if (ALA_THURSDAY.isChecked())
+                if(ALA_THURSDAY.isChecked())
                     thursday = 1;
 
-                if (ALA_FRIDAY.isChecked())
+                if(ALA_FRIDAY.isChecked())
                     friday = 1;
 
-                if (ALA_SATURDAY.isChecked())
+                if(ALA_SATURDAY.isChecked())
                     saturday = 1;
 
 
-                if (sunday == 0 && monday == 0 && tuesday == 0 && wednesday == 0
+                if(sunday == 0 && monday == 0 && tuesday == 0 && wednesday == 0
                         && thursday == 0 && friday == 0 && saturday == 0)
                     Toast.makeText(ANR.this, "Kindly choose the days !", Toast.LENGTH_LONG).show();
 
@@ -759,7 +771,7 @@ public class ANR extends AppCompatActivity {
 
                     int id = 0;
 
-                    if (DB_CURSOR.getCount() > 0) {
+                    if(DB_CURSOR.getCount() > 0){
 
                         DB_CURSOR.moveToFirst();
                         id = DB_CURSOR.getInt(0);
@@ -791,25 +803,25 @@ public class ANR extends AppCompatActivity {
 
                     SQL_DB.close();
 
-                    if (sunday == 1)
+                    if(sunday == 1)
                         basicFunctions.setUpAlarm(id, hour, minute, 1);
 
-                    if (monday == 1)
+                    if(monday == 1)
                         basicFunctions.setUpAlarm(id, hour, minute, 2);
 
-                    if (tuesday == 1)
+                    if(tuesday == 1)
                         basicFunctions.setUpAlarm(id, hour, minute, 3);
 
-                    if (wednesday == 1)
+                    if(wednesday == 1)
                         basicFunctions.setUpAlarm(id, hour, minute, 4);
 
-                    if (thursday == 1)
+                    if(thursday == 1)
                         basicFunctions.setUpAlarm(id, hour, minute, 5);
 
-                    if (friday == 1)
+                    if(friday == 1)
                         basicFunctions.setUpAlarm(id, hour, minute, 6);
 
-                    if (saturday == 1)
+                    if(saturday == 1)
                         basicFunctions.setUpAlarm(id, hour, minute, 7);
 
                     LL_AL_SETTINGS.setVisibility(View.GONE);
@@ -845,7 +857,7 @@ public class ANR extends AppCompatActivity {
 
                 note_text = NO_NOTE.getText().toString();
 
-                if (TextUtils.isEmpty(note_text))
+                if(TextUtils.isEmpty(note_text))
                     Toast.makeText(ANR.this, "Kindly enter the Note !", Toast.LENGTH_LONG).show();
 
                 else {
@@ -858,7 +870,7 @@ public class ANR extends AppCompatActivity {
 
                     int id = 0;
 
-                    if (DB_CURSOR.getCount() > 0) {
+                    if(DB_CURSOR.getCount() > 0){
 
                         DB_CURSOR.moveToFirst();
                         id = DB_CURSOR.getInt(0);
@@ -939,7 +951,7 @@ public class ANR extends AppCompatActivity {
 
                 year = RE_DATEPICKER.getYear();
 
-                if (TextUtils.isEmpty(reminder_text))
+                if(TextUtils.isEmpty(reminder_text))
                     Toast.makeText(ANR.this, "Kindly enter the Reminder !", Toast.LENGTH_LONG).show();
 
                 else {
@@ -952,7 +964,7 @@ public class ANR extends AppCompatActivity {
 
                     int id = 0;
 
-                    if (DB_CURSOR.getCount() > 0) {
+                    if(DB_CURSOR.getCount() > 0){
 
                         DB_CURSOR.moveToFirst();
                         id = DB_CURSOR.getInt(0);
@@ -1034,12 +1046,14 @@ public class ANR extends AppCompatActivity {
         @Override
         public void onBindViewHolder(@NonNull final DataHolder holder, @SuppressLint("RecyclerView") final int position) {
 
-            if (mDataset.get(holder.getAdapterPosition()).getANR_AL_STATUS() == 0) {
+            if(mDataset.get(holder.getAdapterPosition()).getANR_AL_STATUS() == 0){
 
                 holder.ANR_AL_STATUS.setBackgroundResource(R.drawable.anr_alarm_off);
                 holder.ANR_AL_SWITCH.setChecked(false);
 
-            } else {
+            }
+
+            else {
 
                 holder.ANR_AL_STATUS.setBackgroundResource(R.drawable.anr_alarm_on);
                 holder.ANR_AL_SWITCH.setChecked(true);
@@ -1048,7 +1062,7 @@ public class ANR extends AppCompatActivity {
 
             @SuppressLint("DefaultLocale")
             String time = String.format("%02d", mDataset.get(position).getANR_AL_HOUR()) +
-                    " : " + String.format("%02d", mDataset.get(position).getANR_AL_MINUTE());
+                            " : " + String.format("%02d", mDataset.get(position).getANR_AL_MINUTE());
 
             holder.ANR_AL_TIME.setText(time);
 
@@ -1064,7 +1078,7 @@ public class ANR extends AppCompatActivity {
             friday = mDataset.get(position).getANR_AL_FRIDAY();
             saturday = mDataset.get(position).getANR_AL_SATURDAY();
 
-            if (sunday == 1 && monday == 1 && tuesday == 1 && wednesday == 1
+            if(sunday == 1 && monday == 1 && tuesday == 1 && wednesday == 1
                     && thursday == 1 && friday == 1 && saturday == 1)
                 days = "Everyday";
 
@@ -1102,7 +1116,7 @@ public class ANR extends AppCompatActivity {
                     DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            switch (which) {
+                            switch (which){
                                 case DialogInterface.BUTTON_POSITIVE:
 
                                     Integer id, identifier, hour, minute, sunday, monday, tuesday, wednesday, thursday, friday, saturday;
@@ -1140,10 +1154,10 @@ public class ANR extends AppCompatActivity {
 
                                     mAlarmAdapter.notifyDataSetChanged();
 
-                                    if (mAlarmAdapter.getItemCount() == 0)
+                                    if(mAlarmAdapter.getItemCount() == 0)
                                         Toast.makeText(ANR.this, "Your Alarm List is empty !", Toast.LENGTH_LONG).show();
 
-                                    if (sunday == 1) {
+                                    if(sunday == 1) {
 
                                         identifier = Integer.parseInt(String.valueOf(1) + "" + String.valueOf(id));
 
@@ -1157,7 +1171,7 @@ public class ANR extends AppCompatActivity {
 
                                     }
 
-                                    if (monday == 1) {
+                                    if(monday == 1) {
 
                                         identifier = Integer.parseInt(String.valueOf(2) + "" + String.valueOf(id));
 
@@ -1171,7 +1185,7 @@ public class ANR extends AppCompatActivity {
 
                                     }
 
-                                    if (tuesday == 1) {
+                                    if(tuesday == 1) {
 
                                         identifier = Integer.parseInt(String.valueOf(3) + "" + String.valueOf(id));
 
@@ -1185,7 +1199,7 @@ public class ANR extends AppCompatActivity {
 
                                     }
 
-                                    if (wednesday == 1) {
+                                    if(wednesday == 1) {
 
                                         identifier = Integer.parseInt(String.valueOf(4) + "" + String.valueOf(id));
 
@@ -1199,7 +1213,7 @@ public class ANR extends AppCompatActivity {
 
                                     }
 
-                                    if (thursday == 1) {
+                                    if(thursday == 1) {
 
                                         identifier = Integer.parseInt(String.valueOf(5) + "" + String.valueOf(id));
 
@@ -1213,7 +1227,7 @@ public class ANR extends AppCompatActivity {
 
                                     }
 
-                                    if (friday == 1) {
+                                    if(friday == 1) {
 
                                         identifier = Integer.parseInt(String.valueOf(6) + "" + String.valueOf(id));
 
@@ -1227,7 +1241,7 @@ public class ANR extends AppCompatActivity {
 
                                     }
 
-                                    if (saturday == 1) {
+                                    if(saturday == 1) {
 
                                         identifier = Integer.parseInt(String.valueOf(7) + "" + String.valueOf(id));
 
@@ -1289,7 +1303,7 @@ public class ANR extends AppCompatActivity {
                     friday = mDataset.get(position).getANR_AL_FRIDAY();
                     saturday = mDataset.get(position).getANR_AL_SATURDAY();
 
-                    if (isChecked) {
+                    if(isChecked) {
 
                         SQL_ALA_LIST_UPDATE = "UPDATE " + basicFunctions.MY_ALARMS_TABLE
                                 + " SET " + basicFunctions.ALARM_STATUS + " = 1 WHERE "
@@ -1297,28 +1311,30 @@ public class ANR extends AppCompatActivity {
 
                         holder.ANR_AL_STATUS.setBackgroundResource(R.drawable.anr_alarm_on);
 
-                        if (sunday == 1)
+                        if(sunday == 1)
                             basicFunctions.setUpAlarm(id, hour, minute, 1);
 
-                        if (monday == 1)
+                        if(monday == 1)
                             basicFunctions.setUpAlarm(id, hour, minute, 2);
 
-                        if (tuesday == 1)
+                        if(tuesday == 1)
                             basicFunctions.setUpAlarm(id, hour, minute, 3);
 
-                        if (wednesday == 1)
+                        if(wednesday == 1)
                             basicFunctions.setUpAlarm(id, hour, minute, 4);
 
-                        if (thursday == 1)
+                        if(thursday == 1)
                             basicFunctions.setUpAlarm(id, hour, minute, 5);
 
-                        if (friday == 1)
+                        if(friday == 1)
                             basicFunctions.setUpAlarm(id, hour, minute, 6);
 
-                        if (saturday == 1)
+                        if(saturday == 1)
                             basicFunctions.setUpAlarm(id, hour, minute, 7);
 
-                    } else {
+                    }
+
+                    else {
 
 
                         SQL_ALA_LIST_UPDATE = "UPDATE " + basicFunctions.MY_ALARMS_TABLE
@@ -1327,7 +1343,7 @@ public class ANR extends AppCompatActivity {
 
                         holder.ANR_AL_STATUS.setBackgroundResource(R.drawable.anr_alarm_off);
 
-                        if (sunday == 1) {
+                        if(sunday == 1) {
 
                             identifier = Integer.parseInt(String.valueOf(1) + "" + String.valueOf(id));
 
@@ -1340,7 +1356,7 @@ public class ANR extends AppCompatActivity {
 
                         }
 
-                        if (monday == 1) {
+                        if(monday == 1) {
 
                             identifier = Integer.parseInt(String.valueOf(2) + "" + String.valueOf(id));
 
@@ -1353,7 +1369,7 @@ public class ANR extends AppCompatActivity {
 
                         }
 
-                        if (tuesday == 1) {
+                        if(tuesday == 1) {
 
                             identifier = Integer.parseInt(String.valueOf(3) + "" + String.valueOf(id));
 
@@ -1366,7 +1382,7 @@ public class ANR extends AppCompatActivity {
 
                         }
 
-                        if (wednesday == 1) {
+                        if(wednesday == 1) {
 
                             identifier = Integer.parseInt(String.valueOf(4) + "" + String.valueOf(id));
 
@@ -1379,7 +1395,7 @@ public class ANR extends AppCompatActivity {
 
                         }
 
-                        if (thursday == 1) {
+                        if(thursday == 1) {
 
                             identifier = Integer.parseInt(String.valueOf(5) + "" + String.valueOf(id));
 
@@ -1392,7 +1408,7 @@ public class ANR extends AppCompatActivity {
 
                         }
 
-                        if (friday == 1) {
+                        if(friday == 1) {
 
                             identifier = Integer.parseInt(String.valueOf(6) + "" + String.valueOf(id));
 
@@ -1405,7 +1421,7 @@ public class ANR extends AppCompatActivity {
 
                         }
 
-                        if (saturday == 1) {
+                        if(saturday == 1) {
 
                             identifier = Integer.parseInt(String.valueOf(7) + "" + String.valueOf(id));
 
@@ -1463,7 +1479,7 @@ public class ANR extends AppCompatActivity {
         private Integer ANR_AL_SATURDAY;
 
         AlarmListValues(Integer id, Integer status, Integer hour, Integer minute, Integer sunday,
-                        Integer monday, Integer tuesday, Integer wednesday, Integer thursday, Integer friday, Integer saturday) {
+                        Integer monday, Integer tuesday, Integer wednesday, Integer thursday, Integer friday, Integer saturday){
 
             ANR_AL_ID = id;
             ANR_AL_STATUS = status;
@@ -1573,7 +1589,7 @@ public class ANR extends AppCompatActivity {
                     DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            switch (which) {
+                            switch (which){
                                 case DialogInterface.BUTTON_POSITIVE:
 
                                     Integer id;
@@ -1585,7 +1601,7 @@ public class ANR extends AppCompatActivity {
                                     SQLiteDatabase db = mOpenHelper.getWritableDatabase();
 
                                     db.delete(basicFunctions.MY_NOTES_TABLE, " " + basicFunctions.NOTE_ID + " = '" + id + "' " +
-                                            "AND " + basicFunctions.NOTE_TEXT + " = '" + text + "'", null);
+                                            "AND " + basicFunctions.NOTE_TEXT + " = '" + text  + "'", null);
 
                                     Toast.makeText(ANR.this, "Your Note has been removed !", Toast.LENGTH_LONG).show();
 
@@ -1593,7 +1609,7 @@ public class ANR extends AppCompatActivity {
 
                                     mNotesAdapter.notifyDataSetChanged();
 
-                                    if (mNotesAdapter.getItemCount() == 0)
+                                    if(mNotesAdapter.getItemCount() == 0)
                                         Toast.makeText(ANR.this, "Your Notes List is empty !", Toast.LENGTH_LONG).show();
 
                                     break;
@@ -1643,7 +1659,7 @@ public class ANR extends AppCompatActivity {
         private Integer ANR_NO_ID;
         private String ANR_NO_TEXT;
 
-        NotesListValues(Integer id, String text) {
+        NotesListValues(Integer id, String text){
 
             ANR_NO_ID = id;
             ANR_NO_TEXT = text;
@@ -1718,7 +1734,7 @@ public class ANR extends AppCompatActivity {
                     DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            switch (which) {
+                            switch (which){
                                 case DialogInterface.BUTTON_POSITIVE:
 
                                     Integer id, hour, minute, day, month, year;
@@ -1741,7 +1757,7 @@ public class ANR extends AppCompatActivity {
                                             "AND " + basicFunctions.REMINDER_DAY + " = '" + day + "' " +
                                             "AND " + basicFunctions.REMINDER_MONTH + " = '" + month + "' " +
                                             "AND " + basicFunctions.REMINDER_YEAR + " = '" + year + "' " +
-                                            "AND " + basicFunctions.REMINDER_TEXT + " = '" + text + "'", null);
+                                            "AND " + basicFunctions.REMINDER_TEXT + " = '" + text  + "'", null);
 
                                     Toast.makeText(ANR.this, "Your Reminder has been removed !", Toast.LENGTH_LONG).show();
 
@@ -1749,7 +1765,7 @@ public class ANR extends AppCompatActivity {
 
                                     mRemindersAdapter.notifyDataSetChanged();
 
-                                    if (mRemindersAdapter.getItemCount() == 0)
+                                    if(mRemindersAdapter.getItemCount() == 0)
                                         Toast.makeText(ANR.this, "Your Reminders List is empty !", Toast.LENGTH_LONG).show();
 
                                     break;
@@ -1799,7 +1815,7 @@ public class ANR extends AppCompatActivity {
         private Integer ANR_RE_ID, ANR_RE_HOUR, ANR_RE_MINUTE, ANR_RE_DAY, ANR_RE_MONTH, ANR_RE_YEAR;
         private String ANR_RE_TEXT;
 
-        RemindersListValues(Integer id, Integer hour, Integer minute, Integer day, Integer month, Integer year, String text) {
+        RemindersListValues(Integer id, Integer hour, Integer minute, Integer day, Integer month, Integer year, String text){
 
             ANR_RE_ID = id;
             ANR_RE_HOUR = hour;

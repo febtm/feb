@@ -30,7 +30,6 @@
         <item>Home</item>
         <item>Messenger</item>
         <item>Social Media Tasks</item>
-        <!--<item>Home Assistant</item>-->
         <item>Maps</item>
         <item>Weather Forecast</item>
         <item>Alarms, Notes and Reminders</item>
@@ -44,7 +43,6 @@
         <item>@drawable/me_home</item>
         <item>@drawable/me_messenger</item>
         <item>@drawable/me_soc_media</item>
-        <!--<item>@drawable/me_home_assistant</item>-->
         <item>@drawable/me_maps</item>
         <item>@drawable/me_weather_forecast</item>
         <item>@drawable/me_anr</item>
@@ -160,19 +158,6 @@
     <string name="sm_send_email">Send Email</string>
 
     <string name="sm_share">Share</string>
-
-
-    <string name="home_assistant">Home Assistant</string>
-
-    <string name="ha_temperature">Temperature</string>
-
-    <string name="ha_device_status">Device Status</string>
-
-    <string name="ha_off">Off</string>
-
-    <string name="ha_on">On</string>
-
-    <string name="ha_device_switch">Device Switch</string>
 
 
     <string name="anr">Alarms, Notes and Reminders</string>

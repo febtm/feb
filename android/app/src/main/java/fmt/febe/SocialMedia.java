@@ -24,6 +24,7 @@ import com.facebook.share.model.ShareOpenGraphContent;
 import com.facebook.share.model.ShareOpenGraphObject;
 import com.facebook.share.widget.ShareDialog;
 import com.twitter.sdk.android.tweetcomposer.TweetComposer;
+import com.twitter.sdk.android.tweetcomposer.TweetUploadService;
 
 import fmt.febe.helper.BasicFunctions;
 import fmt.febe.helper.Menu;
@@ -150,13 +151,15 @@ public class SocialMedia extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if (SM_SEND_EMAIL_DETAILS.getVisibility() == View.VISIBLE) {
+                if(SM_SEND_EMAIL_DETAILS.getVisibility() == View.VISIBLE) {
 
                     SM_FACEBOOK_SHARE.setVisibility(View.VISIBLE);
                     SM_TWITTER_SHARE.setVisibility(View.VISIBLE);
                     SM_SEND_EMAIL_DETAILS.setVisibility(View.GONE);
 
-                } else {
+                }
+
+                else {
 
                     SM_FACEBOOK_SHARE.setVisibility(View.GONE);
                     SM_TWITTER_SHARE.setVisibility(View.GONE);
@@ -173,13 +176,15 @@ public class SocialMedia extends AppCompatActivity {
 
                 FB_AND_TW = 0;
 
-                if (SM_FB_AND_TW_SHARE_DETAILS.getVisibility() == View.VISIBLE) {
+                if(SM_FB_AND_TW_SHARE_DETAILS.getVisibility() == View.VISIBLE) {
 
                     SM_SEND_EMAIL.setVisibility(View.VISIBLE);
                     SM_TWITTER_SHARE.setVisibility(View.VISIBLE);
                     SM_FB_AND_TW_SHARE_DETAILS.setVisibility(View.GONE);
 
-                } else {
+                }
+
+                else {
 
                     SM_SEND_EMAIL.setVisibility(View.GONE);
                     SM_TWITTER_SHARE.setVisibility(View.GONE);
@@ -196,13 +201,15 @@ public class SocialMedia extends AppCompatActivity {
 
                 FB_AND_TW = 1;
 
-                if (SM_FB_AND_TW_SHARE_DETAILS.getVisibility() == View.VISIBLE) {
+                if(SM_FB_AND_TW_SHARE_DETAILS.getVisibility() == View.VISIBLE) {
 
                     SM_SEND_EMAIL.setVisibility(View.VISIBLE);
                     SM_FACEBOOK_SHARE.setVisibility(View.VISIBLE);
                     SM_FB_AND_TW_SHARE_DETAILS.setVisibility(View.GONE);
 
-                } else {
+                }
+
+                else {
 
                     SM_SEND_EMAIL.setVisibility(View.GONE);
                     SM_FACEBOOK_SHARE.setVisibility(View.GONE);
@@ -248,19 +255,19 @@ public class SocialMedia extends AppCompatActivity {
 
                 } else {
 
-                    if (basicFunctions.isConnectingToInternet())
-                        basicFunctions.sendEmail("SendEmail", sm_from_email, sm_to_email, sm_subject, sm_message);
+                    if(basicFunctions.isConnectingToInternet())
+                       basicFunctions.sendEmail("SendEmail", sm_from_email, sm_to_email, sm_subject, sm_message);
 
                     else {
 
                         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                switch (which) {
+                                switch (which){
 
                                     case DialogInterface.BUTTON_POSITIVE:
 
-                                        if (basicFunctions.isConnectingToInternet())
+                                        if(basicFunctions.isConnectingToInternet())
                                             basicFunctions.sendEmail("SendEmail", sm_from_email, sm_to_email, sm_subject, sm_message);
 
                                         else
@@ -314,11 +321,11 @@ public class SocialMedia extends AppCompatActivity {
 
                     String app_id;
 
-                    if (FB_AND_TW == 0) {
+                    if(FB_AND_TW == 0){
 
                         app_id = "com.facebook.katana";
 
-                        if (basicFunctions.isAppInstalled(app_id))
+                        if(basicFunctions.isAppInstalled(app_id))
                             shareOnFacebook(sm_title, sm_description);
 
                         else {
@@ -337,7 +344,9 @@ public class SocialMedia extends AppCompatActivity {
 
                         }
 
-                    } else {
+                    }
+
+                    else {
 
                         shareOnTwitter(sm_title, sm_description);
 
@@ -404,11 +413,11 @@ public class SocialMedia extends AppCompatActivity {
     }
 
 
-    private void shareOnTwitter(String title, String description) {
+    private void shareOnTwitter(String title, String description){
 
         String app_id = "com.twitter.android";
 
-        if (basicFunctions.isAppInstalled(app_id)) {
+        if(basicFunctions.isAppInstalled(app_id)) {
 
             TweetComposer.Builder builder = new TweetComposer.Builder(this)
                     .text("Feb - " + title + " : " + description);
@@ -426,7 +435,7 @@ public class SocialMedia extends AppCompatActivity {
 
             }
 
-            Toast.makeText(getApplicationContext(), "Kindly install the Twitter App to enable Twitter Post Sharing !", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),"Kindly install the Twitter App to enable Twitter Post Sharing !",Toast.LENGTH_LONG).show();
 
         }
 

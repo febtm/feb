@@ -31,7 +31,7 @@ public class FCMNotMessaging extends FirebaseMessagingService {
 
             try {
 
-                if (isAppInBackground(this)) {
+                if(isAppInBackground(this)) {
 
                     JSONObject json = new JSONObject(remoteMessage.getData().toString());
                     sendPushNotification(json);
@@ -40,7 +40,7 @@ public class FCMNotMessaging extends FirebaseMessagingService {
 
             } catch (Exception e) {
 
-                Toast.makeText(this, "Exception: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Exception: " + e.getMessage(), Toast.LENGTH_LONG).show() ;
 
             }
         }
@@ -62,11 +62,11 @@ public class FCMNotMessaging extends FirebaseMessagingService {
 
         } catch (JSONException e) {
 
-            Toast.makeText(this, "Json Exception: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Json Exception: " + e.getMessage(), Toast.LENGTH_LONG).show() ;
 
         } catch (Exception e) {
 
-            Toast.makeText(this, "Exception: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Exception: " + e.getMessage(), Toast.LENGTH_LONG).show() ;
 
         }
     }

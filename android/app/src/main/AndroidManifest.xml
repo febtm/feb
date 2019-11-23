@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
     package="fmt.febe">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -10,7 +11,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -21,7 +22,6 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <uses-permission android:name="android.permission.CAMERA" />
-
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
@@ -43,7 +43,7 @@
             android:exported="false">
 
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>
 
         </service>
@@ -53,14 +53,14 @@
             android:exported="false">
 
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
 
         </service>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/fb_app_id" />
+            android:value="@string/fb_app_id"/>
 
         <activity
             android:name="com.facebook.FacebookActivity"
@@ -73,19 +73,17 @@
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
 
         </activity>
 
         <provider
-            android:name="com.facebook.FacebookContentProvider"
             android:authorities="com.facebook.app.FacebookContentProvider168830133748079"
-            android:exported="false" />
+            android:name="com.facebook.FacebookContentProvider"
+            android:exported="false"/>
 
         <receiver android:name=".helper.ANRAlReceiver" />
 
@@ -109,23 +107,19 @@
             <intent-filter>
 
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data
-                    android:host="www.google.com"
-                    android:scheme="https" />
+                <data android:scheme="https"
+                    android:host="www.google.com" />
 
-                <data
+                <data android:scheme="https"
                     android:host="www.facebook.com"
-                    android:pathPrefix="/fmt.feb"
-                    android:scheme="https" />
+                    android:pathPrefix="/fmt.feb"/>
 
-                <data
+                <data android:scheme="https"
                     android:host="www.twitter.com"
-                    android:pathPrefix="/fmt_feb"
-                    android:scheme="https" />
+                    android:pathPrefix="/fmt_feb"/>
 
             </intent-filter>
 
@@ -162,7 +156,8 @@
 
         </activity>
 
-        <activity android:name=".Messenger">
+        <activity
+            android:name=".Messenger">
 
             <intent-filter>
                 <action android:name="fmt.febe.Messenger" />
@@ -171,7 +166,8 @@
 
         </activity>
 
-        <activity android:name=".MessengerItem">
+        <activity
+            android:name=".MessengerItem">
 
             <intent-filter>
                 <action android:name="fmt.febe.MessengerItem" />
@@ -180,7 +176,8 @@
 
         </activity>
 
-        <activity android:name=".Notifications">
+        <activity
+            android:name=".Notifications">
 
             <intent-filter>
                 <action android:name="fmt.febe.Notifications" />
@@ -195,17 +192,6 @@
 
             <intent-filter>
                 <action android:name="fmt.febe.SocialMedia" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-
-        </activity>
-
-        <activity
-            android:name=".HomeAssistant"
-            android:theme="@style/AppTheme">
-
-            <intent-filter>
-                <action android:name="fmt.febe.HomeAssistant" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
